@@ -12,6 +12,10 @@ const routes = [
 		caption: "Blank Page",
 	},
 	{
+		route: "MyProfile",
+		caption: "My Profile",
+	},
+	{
 		route: "Login",
 		caption: "Logout",
 	},
