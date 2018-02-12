@@ -8,6 +8,7 @@ const deviceWidth = Dimensions.get("window").width;
 import Login from "./container/LoginContainer";
 import Home from "./container/HomeContainer";
 import BlankPage from "./container/BlankPageContainer";
+import MyProfile from "./container/MyProfileContainer";
 import Sidebar from "./container/SidebarContainer";
 
 const Drawer = DrawerNavigator(
@@ -18,19 +19,20 @@ const Drawer = DrawerNavigator(
 		drawerWidth: deviceWidth - 50,
 		drawerPosition: "left",
 		contentComponent: props => <Sidebar {...props} />,
-	}
+	},
 );
 
 const App = StackNavigator(
 	{
 		Login: { screen: Login },
 		BlankPage: { screen: BlankPage },
+		MyProfile: { screen: MyProfile },
 		Drawer: { screen: Drawer },
 	},
 	{
 		initialRouteName: "Login",
 		headerMode: "none",
-	}
+	},
 );
 
 export default () => (
