@@ -1,7 +1,10 @@
-node_modules/
 artifacts/
 .expo/
-npm-debug.*
 .DS_Store
-**/__tests__/__snapshots__/
 .vscode
+.venv
+npm-debug.*
+**/node_modules/
+**/__tests__/__snapshots__/
+**/*.pyc
+**/__pycache__
