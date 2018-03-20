@@ -7,13 +7,25 @@ const routes = [
 		route: "Home",
 		caption: "Home",
 	},
-	{
+	/*{ USE AS A TEMPLATE FOR WHEN MAKING NEW PAGES DO NOT DELETE!!!!!
 		route: "BlankPage",
 		caption: "Blank Page",
-	},
+	},*/
 	{
 		route: "MyProfile",
 		caption: "My Profile",
+	},
+	{
+		route: "NewsPage",
+		caption: "The News",
+	},
+	{
+		route: "StocksPage",
+		caption: "Live Charts",
+	},
+	{
+		route: "AccountSetting",
+		caption: "Accounts"
 	},
 	{
 		route: "Login",
