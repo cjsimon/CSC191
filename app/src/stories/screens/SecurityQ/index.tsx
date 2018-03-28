@@ -1,6 +1,8 @@
 import * as React from "react";
-import { Container, Toast, Card, CardItem, Header, View,Item,Input, Title, Content, Text, Button, Icon, Left, Right, Body } from "native-base";
+import { StatusBar} from 'react-native';
+import { Container, Toast, Card, CardItem, Header, View,Item,Input, Title, Content, Text, Button, Icon, Body } from "native-base";
 import styles from "./styles";
+
 
 export interface Props {
 	navigation: any;
@@ -53,43 +55,51 @@ class SecurityQ extends React.Component<Props, State> {
 		userQ = [sampleQ[qid[0]],sampleQ[qid[1]],sampleQ[qid[2]]];
 	}
 	goLoginSuc(){
-		Toast.show({
-			text: "Thank you "+this.props.username()+"!\n"+"Please Login with your Password.",
-			duration: 2000,
-			position: "top",
-			textStyle: { textAlign: "center" },
-		});
-		this.props.accountValid();
-		this.props.navigation.navigate("Login")
+		if(answersSQ[0] != "" && answersSQ[1] != "" && answersSQ[2] != "")
+		{
+			Toast.show({
+				text: "Thank you "+this.props.username()+"!\n"+"Please Login with your Password.",
+				duration: 2000,
+				position: "top",
+				textStyle: { textAlign: "center" },
+			});
+			this.props.accountValid();
+			this.props.navigation.navigate("Login")
+		}
+		else
+		{
+			Toast.show({
+				text: "Please put an answer for all questions",
+				duration: 2000,
+				position: "top",
+				textStyle: { textAlign: "center" },
+			});
+		}
 	}
 	goLoginFail(){
 		this.props.navigation.goBack();
 
 	}
 	render() {
-		const param = this.props.navigation.state.params;
+		//const param = this.props.navigation.state.params;
 		this.setupQ();
 
 		return (
 			<Container style={styles.container}>
-				<Header>
-					<Left>
-						<Button transparent onPress={() => this.props.navigation.goBack()}>
-							<Icon name="ios-arrow-back" />
-						</Button>
-					</Left>
-
-					<Body  style={{ flex: 3 }}>
-						<Title>{param ? param.name.item : "Security Questions"}</Title>
+			<Header searchBar style={{backgroundColor: 'black',height: 100}}>
+			<StatusBar barStyle="light-content"/>
+				<Button transparent onPress={() =>this.props.navigation.goBack()}>
+					<Icon name="ios-arrow-back" style={{color: "white"}}/>
+				</Button>
+					<Body>
+					<Title> <Text style={{color: "white"}}>Security Questions </Text></Title>
 					</Body>
-
-					<Right />
-				</Header>
+			</Header>
+			<Content scrollEnabled={false} style={{backgroundColor: 'black'}}>
 				<Card>
-				<CardItem>
-					<Text>{userQ[0]}</Text>
-				</CardItem>
-				<CardItem>
+					<CardItem>
+						<Text>{userQ[0]}</Text>
+					</CardItem>
 					<Item>
 						<Input
 							onChangeText={text => {answersSQ[0] = text}}
@@ -99,11 +109,11 @@ class SecurityQ extends React.Component<Props, State> {
 							maxLength = {2222}
 						/>
 					</Item>
-				</CardItem>
-				<CardItem>
-					<Text>{userQ[1]}</Text>
-				</CardItem>
-				<CardItem>
+				</Card>
+				<Card>
+					<CardItem>
+						<Text>{userQ[1]}</Text>
+					</CardItem>
 					<Item>
 						<Input
 							onChangeText={text => {answersSQ[1] = text}}
@@ -113,11 +123,11 @@ class SecurityQ extends React.Component<Props, State> {
 							maxLength = {2222}
 						/>
 					</Item>
-				</CardItem>
-				<CardItem>
-					<Text>{userQ[2]}</Text>
-				</CardItem>
-				<CardItem>
+				</Card>
+				<Card>
+					<CardItem>
+						<Text>{userQ[2]}</Text>
+					</CardItem>
 					<Item>
 						<Input
 							onChangeText={text => {answersSQ[2] = text}}
@@ -127,16 +137,14 @@ class SecurityQ extends React.Component<Props, State> {
 							maxLength = {2222}
 						/>
 					</Item>
-				</CardItem>
 				</Card>
-				<Content>
 					<View padder style={[{bottom: 0},{left: 0}]}>
-						<Button block onPress={() => this.goLoginSuc()}>
+						<Button rounded block success onPress={() => this.goLoginSuc()}>
 							<Text> Create Account </Text>
 						</Button>
 					</View>
 					<View padder style={[{bottom: 0},{left: 0}]}>
-						<Button block  onPress={() => this.goLoginFail()}>
+						<Button rounded block success onPress={() => this.goLoginFail()}>
 							<Text> Cancel </Text>
 						</Button>
 					</View>

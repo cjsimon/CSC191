@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Platform } from "react-native";
-import { Container, Toast, View, Form, Header, Input, Item, Title, Content, Text, Button, Icon, Left, Body } from "native-base";
+import { Platform, StatusBar, Image } from "react-native";
+import { Container, Toast, View, Label, Header, Input, Item, Title, Content, Text, Button, Body } from "native-base";
 
 import styles from "./styles";
 export interface Props {
@@ -12,7 +12,7 @@ class ForgotPage extends React.Component<Props, State> {
 
 	sendEmail(){
 		Toast.show({
-			text: "Check your email for password",
+			text: "Check your email temporary for password",
 			duration: 2000,
 			position: "top",
 			textStyle: { textAlign: "center" },
@@ -25,42 +25,39 @@ class ForgotPage extends React.Component<Props, State> {
 		something = "";
 		return (
 			<Container style={styles.container}>
-				<Header style={{ height: 200 }}>
-				<Left>
-					<Button transparent onPress={() => this.props.navigation.goBack()}>
-						<Icon name="ios-arrow-back" />
-					</Button>
-				</Left>
-				<Body >
-					<Icon name="plane" style={{ fontSize: 104 }} />
-					<Title>Forgot Password?</Title>
+			<Header style={{ height: 250, backgroundColor: "black" }}>
+			<StatusBar barStyle="light-content"/>
+				<Body style={{backgroundColor: "black"}}>
+				<Image
+						source={{ uri: "http://jetstox.com/wp-content/uploads/2018/03/Investing-With-Intelligence-5.png" }}
+						style={{ width: 375, height: 75, backgroundColor: 'black' }}
+					/>
 					<View padder>
 						<Text style={{ color: Platform.OS === "ios" ? "#000" : "#FFF" }} />
 					</View>
+					<Title> <Text style={{color: "white", fontSize: 25}}> Forgot Password </Text> </Title>
 				</Body>
-				</Header>
-				<Form>
-					<Item>
-					<Icon name="mail"/>
-					<Input
-						onChangeText={text => { something = text}}
-						defaultValue = {something}
-						placeholder = "Email"
-						editable = {true}
-						maxLength = {2222}
-					/>
-					</Item>
-				</Form>
+			</Header>
 
-				<Content>
+				<Content style={{ height: 200, backgroundColor: "black" }} scrollEnabled={false}>
+				<Item stackedLabel>
+				<Label style={{color: "lightgreen"}}>Email</Label>
+				<Input
+				style={{color: "lightgreen"}}
+					onChangeText={text => {something = text}}
+					editable = {true}
+					maxLength = {2222}
+					defaultValue = {something}
+				/>
+				</Item>
 				<View padder>
-					<Button block onPress={() => this.sendEmail()}>
+					<Button rounded block success  onPress={() => this.sendEmail()}>
 						<Text> Submit </Text>
 					</Button>
 				</View>
 
 				<View padder style={[{bottom: 10},{left: 0}]}>
-					<Button block onPress={() => {this.props.navigation.goBack()}}>
+					<Button rounded block success onPress={() => {this.props.navigation.goBack()}}>
 						<Text> Cancel </Text>
 					</Button>
 				</View>

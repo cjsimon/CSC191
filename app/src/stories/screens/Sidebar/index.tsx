@@ -25,7 +25,7 @@ const routes = [
 	},
 	{
 		route: "AccountSetting",
-		caption: "Accounts"
+		caption: "Account Settings"
 	},
 	{
 		route: "Login",
@@ -45,7 +45,7 @@ export default class Sidebar extends React.Component<Props, State> {
 	render() {
 		return (
 			<Container>
-				<Content>
+				<Content style={{backgroundColor: "black"}}>
 					<List
 						style={{ marginTop: 40 }}
 						dataArray={routes}
@@ -59,7 +59,7 @@ export default class Sidebar extends React.Component<Props, State> {
 											: this.props.navigation.navigate(data.route);
 									}}
 								>
-									<Text>{data.caption}</Text>
+									<Text style={{color: "lightgreen"}}>{data.caption}</Text>
 								</ListItem>
 							);
 						}}

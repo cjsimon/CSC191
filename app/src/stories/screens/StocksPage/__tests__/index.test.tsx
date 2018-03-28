@@ -4,8 +4,13 @@ import MyProfile from "../index";
 import renderer from "react-test-renderer";
 
 const navigation = { state: jest.fn() };
+const bodyCont = { state: jest.fn() };
+const changeType = jest.fn();
+const changeName = jest.fn();
+
 
 it("renders correctly", () => {
-	const tree = renderer.create(<MyProfile navigation={navigation} />).toJSON();
+	const tree = renderer.create(<MyProfile navigation={navigation} bodyCont={bodyCont}
+		changeType={changeType} changeName={changeName}/>).toJSON();
 	expect(tree).toMatchSnapshot();
 });

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Item,Icon, Input, Toast } from "native-base";
+import { Form, Item, Input, Toast, Label } from "native-base";
 import { Field, reduxForm} from "redux-form";
 import CreatePage from "../../stories/screens/CreatePage";
 export interface Props {
@@ -7,6 +7,7 @@ export interface Props {
 	navigation: any;
 }
 export var userInfo = ["","","","",""];
+var tmpPass = "";
 export interface State {}
 class CreatePageForm extends React.Component<Props, State> {
 	textInput: any;
@@ -32,6 +33,7 @@ class CreatePageForm extends React.Component<Props, State> {
 		userInfo[2] = ""
 		userInfo[3] = ""
 		userInfo[4] = ""
+		tmpPass = ""
 	}
 	validUsername() {
 		var ans = "";
@@ -54,7 +56,7 @@ class CreatePageForm extends React.Component<Props, State> {
 	}
 	validPassword(){
 		var ans = "";
-		if(userInfo[2] == "")
+		if(userInfo[2] == "" && tmpPass == userInfo[2])
 		{
 			ans += "Please Enter a valid Password\n"
 			return ans;
@@ -70,7 +72,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter a valid Phonenumber\n"
 			return ans;
 		}
-		if(!/\(\d\d\d\)-\d\d\d-\d\d\d\d/.test(userInfo[3]))
+		if(!/\(\d\d\d\)-\d\d\d-\d\d\d\d/.test(userInfo[3]) && !/\d\d\d\d\d\d\d\d\d\d/.test(userInfo[3]))
 			ans += "Please Enter a valid Digit and/or (***)-***-**** format\n"
 		return ans;
 	}
@@ -81,12 +83,11 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter a valid Birthday\n";
 			return ans;
 		}
-		if(!/\d\d\/\d\d\/\d\d\d\d/.test(userInfo[4]))
+		if(!/\d\d\/\d\d\/\d\d\d\d/.test(userInfo[4]) && !/\d\d\d\d\d\d\d\d/.test(userInfo[4]))
 			ans += "Please Enter a valid Digit and/or mm/dd/yyyy format\n"
 		return ans;
 	}
-	isValid()
-	{
+	isValid() {
 		var ans = ""
 		ans += this.validUsername();
 		ans += this.validEmail();
@@ -106,11 +107,11 @@ class CreatePageForm extends React.Component<Props, State> {
 	}
 	renderUsername(){
 		return (
-			<Item>
-			<Icon active name="person" />
+			<Item stackedLabel>
+			<Label style={{color: "lightgreen"}}>Username</Label>
 			<Input
+			  style={{color: "lightgreen"}}
 				onChangeText={text => {userInfo[0] = text}}
-				placeholder ="Username"
 				defaultValue = {userInfo[0]}
 				editable = {true}
 				maxLength = {2222}
@@ -120,11 +121,11 @@ class CreatePageForm extends React.Component<Props, State> {
 	}
 	renderEmail(){
 		return (
-			<Item>
-			<Icon active name="mail" />
+			<Item stackedLabel>
+			<Label style={{color: "lightgreen"}}>Email</Label>
 			<Input
+				style={{color: "lightgreen"}}
 				onChangeText={text => {userInfo[1] = text}}
-				placeholder ="Email"
 				defaultValue = {userInfo[1]}
 				editable = {true}
 				maxLength = {2222}
@@ -134,12 +135,28 @@ class CreatePageForm extends React.Component<Props, State> {
 	}
 	renderPassword(){
 		return(
-			<Item>
-			<Icon active name="unlock" />
+			<Item stackedLabel>
+			<Label style={{color: "lightgreen"}}>Password</Label>
 			<Input
+				style={{color: "lightgreen"}}
 				onChangeText={text => {userInfo[2] = text}}
-				placeholder = "Password"
 				defaultValue = {userInfo[2]}
+				editable = {true}
+				secureTextEntry = {true}
+				maxLength = {2222}
+			/>
+			</Item>
+
+		)
+	}
+	renderConfirmPassword() {
+		return(
+			<Item stackedLabel>
+			<Label style={{color: "lightgreen"}}>Confirm Password</Label>
+			<Input
+				style={{color: "lightgreen"}}
+				onChangeText={text => {tmpPass = text}}
+				defaultValue = {tmpPass}
 				editable = {true}
 				secureTextEntry = {true}
 				maxLength = {2222}
@@ -149,11 +166,13 @@ class CreatePageForm extends React.Component<Props, State> {
 	}
 	renderPhone(){
 		return (
-			<Item>
+			<Item stackedLabel>
+			<Label style={{color: "lightgreen"}}>Phone Number</Label>
 			<Input
+				style={{color: "lightgreen"}}
 				onChangeText={text => {userInfo[3] = text}}
 				defaultValue = {userInfo[3]}
-				placeholder = "Phonenumber enter (***)-***-****"
+				placeholder = "(***)-***-****"
 				editable = {true}
 				maxLength = {2222}
 			/>
@@ -162,12 +181,14 @@ class CreatePageForm extends React.Component<Props, State> {
 	}
 	renderBirth(){
 		return (
-			<Item>
+			<Item stackedLabel>
+			<Label style={{color: "lightgreen"}}>Date of Birth</Label>
 			<Input
+				style={{color: "lightgreen"}}
 				onChangeText={text => {userInfo[4] = text}}
 				defaultValue = {userInfo[4]}
-				placeholder = "Birthday enter mm/dd/yyyy"
 				editable = {true}
+				placeholder = "mm/dd/yyyy"
 				maxLength = {2222}
 			/>
 			</Item>
@@ -180,6 +201,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			<Field name="username" component={this.renderUsername} validate={[]}/>
 			<Field name="email" component={this.renderEmail} validate={[]}/>
 			<Field name="password" component={this.renderPassword} validate={[]}/>
+			<Field name="password" component={this.renderConfirmPassword} validate={[]}/>
 			<Field name="phonenumber" component={this.renderPhone} validate={[]}/>
 			<Field name="birthday" component={this.renderBirth} validate={[]}/>
 			</Form>

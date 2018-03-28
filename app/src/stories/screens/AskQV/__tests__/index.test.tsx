@@ -4,9 +4,11 @@ import AskQV from "../index";
 import renderer from "react-test-renderer";
 
 const navigation = { state: jest.fn() };
+const askForm = jest.fn();
 const validAns = jest.fn();
 
 it("renders correctly", () => {
-	const tree = renderer.create(<AskQV navigation={navigation} validAns={validAns}/>).toJSON();
+	const tree = renderer.create(<AskQV navigation={navigation} validAns={validAns}
+		askForm={askForm}/>).toJSON();
 	expect(tree).toMatchSnapshot();
 });

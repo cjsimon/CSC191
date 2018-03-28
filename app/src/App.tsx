@@ -16,8 +16,22 @@ import SecurityQ from "./container/SecurityQContainer";
 import AskQV from "./container/AskQVContainer";
 import AccountSetting from "./container/AccountSettingContainer";
 import NewsPage from "./container/NewsPageContainer";
+import Portfolio from "./container/PortfolioContainer";
+import Friends from "./container/FriendsContainer";
+import Messager from "./container/MessagerContainer";
+import Share from "./container/ShareContainer"
+import History from "./container/HistoryContainer"
+import Purchase from "./container/PurchaseContainer"
+import LeaderBoard from "./container/LeaderBoardContainer"
+import Notification from "./container/NotificationContainer"
+import ManageAccount from "./container/ManageAccountContainer"
+import ProfileVis from "./container/ProfileVisContainer"
+import ManageBlock from "./container/ManageBlockContainer"
 // NEED TO COMMENT IT OUT BEFORE BUILD UP
 import Sidebar from "./container/SidebarContainer";
+import SocialSidebar from "./container/SocialSidebarContainer"
+import StockSidebar from "./container/StockSidebarContainer"
+import NewsSidebar from "./container/NewsSidebarContainer"
 
 
 const Drawer = DrawerNavigator(
@@ -31,20 +45,70 @@ const Drawer = DrawerNavigator(
 		contentComponent: props => <Sidebar {...props} />,
 	},
 );
+const SocialDrawer = DrawerNavigator(
+	{
+		MyProfile: { screen: MyProfile },
+		Home: {screen: Home},
+	},
+	{
+		drawerWidth: deviceWidth - 50,
+		drawerPosition: "right",
+		// NEED TO COMMENT IT OUT BEFORE BUILD UP
+		contentComponent: props => <SocialSidebar {...props} />,
+	},
+);
+const NewsDrawer = DrawerNavigator(
+	{
+		NewsPage: {screen: NewsPage},
+		Home: {screen: Home},
+	},
+	{
+		drawerWidth: deviceWidth - 50,
+		drawerPosition: "right",
+		// NEED TO COMMENT IT OUT BEFORE BUILD UP
+		contentComponent: props => <NewsSidebar {...props} />,
+	}
+)
+const StocksDrawer = DrawerNavigator(
+	{
+		StocksPage: {screen: StocksPage},
+		Home: {screen: Home},
+	},
+	{
+		drawerWidth: deviceWidth - 50,
+		drawerPosition: "right",
+		// NEED TO COMMENT IT OUT BEFORE BUILD UP
+		contentComponent: props => <StockSidebar {...props} />,
+	}
+)
+
+//const Social = DrawerNavigator()
 
 const App = StackNavigator(
 	{
 		Login: { screen: Login },
 		BlankPage: { screen: BlankPage },
-		MyProfile: { screen: MyProfile },
+		//MyProfile: { screen: MyProfile },
+		SocialDrawer: {screen: SocialDrawer},
 		Drawer: { screen: Drawer },
 		CreatePage: {screen: CreatePage},
-		StocksPage: {screen: StocksPage},
+		StocksDrawer: {screen: StocksDrawer},
 		ForgotPage: {screen: ForgotPage},
 		SecurityQ: {screen: SecurityQ},
 		AskQV: {screen: AskQV},
 		AccountSetting: {screen: AccountSetting},
-		NewsPage: {screen: NewsPage},
+		NewsDrawer: {screen: NewsDrawer},
+		Portfolio: {screen: Portfolio},
+		Friends: {screen: Friends},
+		Messager: {screen: Messager},
+		Share: {screen: Share},
+		History: {screen: History},
+		Purchase: {screen: Purchase},
+		LeaderBoard: {screen: LeaderBoard},
+		Notification: {screen: Notification},
+		ManageAccount: {screen: ManageAccount},
+		ProfileVis: {screen: ProfileVis},
+		ManageBlock: {screen: ManageBlock},
 	},
 	{
 		initialRouteName: "Login",
