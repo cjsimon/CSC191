@@ -9,6 +9,7 @@ import {
   Body,
   Right,
   Card,
+  Text,
 } from "native-base";
 import {StatusBar} from 'react-native';
 
@@ -44,7 +45,7 @@ class Home extends React.Component<Props, State> {
             </Button>
           </Left>
           <Body>
-    				<Title /*style={{color: "white"}}*/>Home</Title>
+    				<Title><Text  style={{color: "white"}}>Home</Text></Title>
     			</Body>
           <Right />
         </Header>

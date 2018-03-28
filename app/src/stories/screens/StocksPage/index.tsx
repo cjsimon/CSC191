@@ -2,7 +2,7 @@ import * as React from "react";
 import { StatusBar, WebView } from 'react-native';
 import { Container, Header, Title,  Button, Icon, Body, Footer,
 	Text, FooterTab} from "native-base";
-import { NavigationActions } from "react-navigation";
+//import { NavigationActions } from "react-navigation";
 
 
 import styles from "./styles";
@@ -16,31 +16,11 @@ export interface State {}
 
 class StocksPage extends React.Component<Props, State> {
 	render() {
-		//const param = this.props.navigation.state.params;
-		//style={[{ height: 100 },{backgroundColor: 'black'}]} Header
-		//style={{color: "white"} TITLE
-		//onPress={() =>this.props.navigation.dispatch(NavigationActions.back('Home'))} BUTTON
-		/*
-		{this.props.bodyCont}
-
-		<Button onPress={this.props.changeType()}><Text>SUP BOI</Text></Button>
-		<Input
-			onChangeText={text => {holder = text}}
-			placeholder = {"Username"}
-			editable = {true}
-			maxLength = {2222}
-		/>
-
-		<WebView
-			source={{uri: 'https://www.tradingview.com/chart/?symbol=NASDAQ:AAPL'}}
-			style={{marginTop: 20}}
-		/>
-		*/
 		return (
 			<Container style={styles.container}>
 			<Header style={{backgroundColor: 'black', height: 100}}>
 			<StatusBar barStyle="light-content"/>
-				<Button transparent onPress={() => this.props.navigation.dispatch(NavigationActions.back('Home'))}>
+				<Button transparent /*onPress={() => this.props.navigation.dispatch(NavigationActions.back('Home'))}*/>
 					<Icon name="ios-arrow-back" style={{color: "white"}}/>
 				</Button>
 					<Body>

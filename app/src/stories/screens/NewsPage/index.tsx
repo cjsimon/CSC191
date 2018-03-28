@@ -1,7 +1,7 @@
 import * as React from "react";
 import { WebView, StatusBar} from 'react-native';
 import { Container, Header, Title, Footer, FooterTab, Text, Button, Icon, Body } from "native-base";
-import { NavigationActions } from "react-navigation";
+//import { NavigationActions } from "react-navigation";
 
 import styles from "./styles";
 export interface Props {
@@ -18,7 +18,7 @@ class NewsPage extends React.Component<Props, State> {
 			<Container style={styles.container}>
 				<Header style={{backgroundColor: 'black', height: 100}}>
 				<StatusBar barStyle="light-content"/>
-					<Button transparent onPress={() => this.props.navigation.dispatch(NavigationActions.back('Home'))}>
+					<Button transparent /*onPress={() => this.props.navigation.dispatch(NavigationActions.back('Home'))}*/>
 						<Icon name="ios-arrow-back" style={{color: "white"}}/>
 					</Button>
 						<Body>

@@ -13,7 +13,7 @@ export default class SecurityQContainer extends React.Component<Props, State> {
 	}
 	accountIsCreated() {
 
-		fetch("http://localhost:3000/users", {
+		fetch("http://localhost:5000/api/v1/demo/", {
 			method: 'POST',
 			headers :
 			{'Accept': 'application/json',
