@@ -26,7 +26,10 @@ import ManageAccount from "./container/ManageAccountContainer"
 import ProfileVis from "./container/ProfileVisContainer"
 import ManageBlock from "./container/ManageBlockContainer"
 // NEED TO COMMENT IT OUT BEFORE BUILD UP
-import Sidebar from "./container/SidebarContainer";
+//import Sidebar from "./container/SidebarContainer";
+//import SocialSidebar from "./container/SocialSidebarContainer"
+//import StockSidebar from "./container/StockSidebarContainer"
+//import NewsSidebar from "./container/NewsSidebarContainer"
 
 
 const Drawer = DrawerNavigator(
@@ -37,7 +40,7 @@ const Drawer = DrawerNavigator(
 		drawerWidth: deviceWidth - 50,
 		drawerPosition: "left",
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		contentComponent: props => <Sidebar {...props} />,
+		//contentComponent: props => <Sidebar {...props} />,
 	},
 );
 const PortfolioDrawer = DrawerNavigator(
@@ -48,7 +51,7 @@ const PortfolioDrawer = DrawerNavigator(
 		drawerWidth: deviceWidth - 50,
 		drawerPosition: "right",
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		contentComponent: props => <Sidebar {...props} />,
+		//contentComponent: props => <SocialSidebar {...props} />,
 	},
 );
 const TwitsDrawer = DrawerNavigator(
@@ -59,8 +62,20 @@ const TwitsDrawer = DrawerNavigator(
 		drawerWidth: deviceWidth - 50,
 		drawerPosition: "right",
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		contentComponent: props => <Sidebar {...props} />,
+		//contentComponent: props => <NewsSidebar {...props} />,
+	}
+)
+const StocksDrawer = DrawerNavigator(
+	{
+		StocksPage: {screen: StocksPage},
+		Home: {screen: Home},
 	},
+	{
+		drawerWidth: deviceWidth - 50,
+		drawerPosition: "right",
+		// NEED TO COMMENT IT OUT BEFORE BUILD UP
+		//contentComponent: props => <StockSidebar {...props} />,
+	}
 )
 
 //const Social = DrawerNavigator()

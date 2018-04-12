@@ -24,7 +24,7 @@
   },
   "main": "node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "npm run build && concurrently -r 'npm run watch' 'react-native-scripts start'",
+    "start": "npm run build && concurrently -r \"npm run watch\" \"react-native-scripts start\"",
     "eject": "react-native-scripts eject",
     "test": "yarn jest && tslint src/**/*.ts && eslint .",
     "watch": "npm run build -- -w",
