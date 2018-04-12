@@ -1,10 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Home from "../../stories/screens/Home";
-import { Text ,Button, Title } from "native-base";
+import { Text , Title} from "native-base";
 import datas from "./data";
 import { fetchList } from "./actions";
-import {ScrollView,WebView} from 'react-native';
+import {ScrollView, WebView} from 'react-native';
 //import {userStuff} from "../../container/LoginContainer";
 
 export interface Props {
@@ -17,7 +17,7 @@ export interface State {}
 
 //export var theUserInfo = userStuff;
 
-var pointCode = 'FB'
+//var pointCode = 'FB'
 class HomeContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		this.props.fetchList(datas);
@@ -25,30 +25,23 @@ class HomeContainer extends React.Component<Props, State> {
 	goHome() {
 		this.forceUpdate();
 	}
-	setCode(code) {
+	/*setCode(code) {
 		pointCode = code;
 		this.forceUpdate();
-	}
+	}*/
 	render() {
 		var form = (
-		<ScrollView horizontal
-		showsHorizontalScrollIndicator={false}
-		snapToInterval={5} >
-		<Button transparent success onPress={() => this.setCode('FB')}><Text>Facebook</Text></Button>
-		<Button transparent success onPress={() => this.setCode('AAPL')}><Text>Apple</Text></Button>
-		<Button transparent success onPress={() => this.setCode('GOOGL')}><Text>Google</Text></Button>
-		<Button transparent success onPress={() => this.setCode('INTC')}><Text>Intel</Text></Button>
-		<Button transparent success onPress={() => this.setCode('HPQ')}><Text>HP</Text></Button>
-		<Button transparent success onPress={() => this.setCode('MSFT')}><Text>Microsoft</Text></Button>
-		</ScrollView>
+		<ScrollView></ScrollView>
 		)
+		// OLDLINK
 		var form2 = (
-			<WebView
-				source={{uri: 'https://www.trucharts.com/Chart.aspx?Provider=DB&Code='+pointCode+'&Type=2&Skin=Black&Size=500&RT=0&Start=20170624&End=20180224&Layout=2Line;Default;Price;HisDate&Cycle=DAY1'}}
-				style={{marginTop: 0}}
-				scrollEnabled={false}
-			/>
+		<WebView
+			source={{uri: 'http://athena.ecs.csus.edu/~wongdy/RatingForTopGainer.html'}}
+			style={{marginTop: 0}}
+			scrollEnabled={false}
+		/>
 		)
+
 		var form3 = (
 			<Title> <Text style={{fontSize: 25, color: "lightgreen"}}> Welcome </Text> </Title>
 		)

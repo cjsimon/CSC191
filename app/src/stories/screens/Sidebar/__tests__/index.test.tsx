@@ -4,8 +4,9 @@ import Sidebar from "../index";
 import renderer from "react-test-renderer";
 
 const navigation = { navigate: jest.fn() };
+const userStuff = jest.fn();
 
 it("renders correctly", () => {
-	const tree = renderer.create(<Sidebar navigation={navigation} />).toJSON();
+	const tree = renderer.create(<Sidebar userStuff={userStuff} navigation={navigation} />).toJSON();
 	expect(tree).toMatchSnapshot();
 });

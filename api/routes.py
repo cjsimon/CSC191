@@ -13,6 +13,7 @@ def process_request():
 @app.route('/api/v1/demo/')
 def sql_demo():
     # TODO: Add sql query demo
+    print (content)
     return jsonify([{'id': 1,
                      'username': 'Admin',
                      'email': 'Admin12345@gmail.com',

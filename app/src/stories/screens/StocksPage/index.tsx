@@ -1,7 +1,6 @@
 import * as React from "react";
 import { StatusBar, WebView } from 'react-native';
-import { Container, Header, Title,  Button, Icon, Body, Footer,
-	Text, FooterTab} from "native-base";
+import { Container, Header, Title,  Button, Icon, Body, Footer, Text, FooterTab} from "native-base";
 //import { NavigationActions } from "react-navigation";
 
 

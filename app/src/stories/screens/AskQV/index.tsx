@@ -43,7 +43,7 @@ class AskQV extends React.Component<Props, State> {
 					</Card>
 					<View padder style={[{bottom: 0},{left: 0}]}>
 						<Button rounded block success onPress={() => this.props.validAns(something)}>
-							<Text> Create Account </Text>
+							<Text> Submit </Text>
 						</Button>
 					</View>
 					<View padder style={[{bottom: 0},{left: 0}]}>

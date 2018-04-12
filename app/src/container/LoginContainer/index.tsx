@@ -17,15 +17,6 @@ export interface State {}
 class LoginForm extends React.Component<Props, State> {
 	textInput: any;
 
-	guestLogin() {
-		this.props.navigation.navigate("Drawer");
-		Toast.show({
-			text: "Welcome Guest.\n Please Consider Creating an account.\n Info will not be saved.",
-			duration: 2000,
-			position: "top",
-			textStyle: { textAlign: "center" },
-		});
-	}
   accountCreate() {
 			this.props.navigation.navigate("CreatePage");
 	}
@@ -45,8 +36,27 @@ class LoginForm extends React.Component<Props, State> {
 			</Item>
 		);
 	}
+	navigateToQuestions() {
+		this.props.navigation.navigate("AskQV");
+	}
+	passable(navigate) {
+		if(passable)
+		{
+			navigate("Drawer");
+			passable = false;
+		}
+		else
+		{
+			Toast.show({
+				text: "Enter Valid Username and/or Password!",
+				duration: 2000,
+				position: "top",
+				textStyle: { textAlign: "center" },
+			});
+		}
+	}
 	login() {
-		fetch("http://localhost:5000/api/v1/demo/")
+		/*fetch("http://localhost:5000/api/v1/demo/")
 	  .then(function(response) {
 			//alert(response)
 			return response.json();
@@ -60,26 +70,36 @@ class LoginForm extends React.Component<Props, State> {
 					passable = true;
 				}
 			}
-		})
-
-		if(passable)
-		{
-			this.props.navigation.navigate("AskQV");
-		}
-		else
-		{
-			Toast.show({
-				text: "Enter Valid Username and/or Password!",
-				duration: 2000,
-				position: "top",
-				textStyle: { textAlign: "center" },
-			});
-		}
-
-
-	}
-	sup() {
-		alert("SUP BOI")
+		})*/
+		//const {navigate} = this.props.navigation;
+		fetch("http://localhost:3000/users")
+	  .then(function(response) {
+			return response.json();
+	  }).then(function(data) {
+			for(var i=0; i<data.length; i++)
+			{
+				if(userInfo[0] == data[i].username && userInfo[2] == data[i].password)
+				{
+					userStuff = data[i];
+					passable = true;
+				}
+			}
+		})/*.then( (response) => {
+				if(passable)
+				{
+					navigate("AskQV");
+					passable = false;
+				}
+				else
+				{
+					Toast.show({
+						text: "Enter Valid Username and/or Password!",
+						duration: 2000,
+						position: "top",
+						textStyle: { textAlign: "center" },
+					});
+				}
+    });*/
 	}
 	renderUsername(){
 		if(accountCreate)
@@ -155,7 +175,7 @@ class LoginForm extends React.Component<Props, State> {
 				</Item>
 			</Form>
 		);
-		return <Login loginForm={form} guestLogin={() => this.guestLogin()}
+		return <Login loginForm={form}
 		goCreate={() => this.accountCreate()}
 		onLogin={() => this.login()} goBlank={() =>this.goBlank()} />;
 	}

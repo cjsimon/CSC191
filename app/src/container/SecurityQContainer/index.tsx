@@ -13,13 +13,13 @@ export default class SecurityQContainer extends React.Component<Props, State> {
 	}
 	accountIsCreated() {
 
-		fetch("http://localhost:5000/api/v1/demo/", {
+		/*fetch("http://localhost:5000/api/v1/demo/", {
 			method: 'POST',
 			headers :
 			{'Accept': 'application/json',
     	'Content-Type': 'application/json',
 			},
-			body:JSON.stringify({username: userInfo[0],
+			body: JSON.stringify({username: userInfo[0],
 			email: userInfo[1],
 			password: userInfo[2],
 			phone: userInfo[3],
@@ -32,7 +32,33 @@ export default class SecurityQContainer extends React.Component<Props, State> {
 		  a3: answersSQ[2]})
 		})
 		accountCreate = true;
-	}
+		alert("works")
+	}*/
+
+	//const {navigate} = this.props.navigation;
+	fetch("http://localhost:3000/users", {
+		method: 'POST',
+		headers :
+		{
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({username: userInfo[0],
+		email: userInfo[1],
+		password: userInfo[2],
+		phone: userInfo[3],
+		bday: userInfo[4],
+		q1: userQ[0],
+		a1: answersSQ[0],
+		q2: userQ[1],
+		a2: answersSQ[1],
+		q3: userQ[2],
+		a3: answersSQ[2]})
+	})
+	accountCreate = true;
+
+}
+
 	accountIsNot() {
 		accountCreate = false;
 	}

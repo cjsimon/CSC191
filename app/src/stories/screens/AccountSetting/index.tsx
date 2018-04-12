@@ -73,22 +73,6 @@ class AccountSetting extends React.Component<Props, State> {
 							</CardItem>
 						</Card>
 
-					<Button transparent disabled success style={{backgroundColor: "black"}}>
-						<Text>Linked</Text>
-					</Button>
-						<Card style={{width: 350}}>
-							<CardItem style={{backgroundColor: "white"}}>
-									<Button full transparent >
-										<Text style={{color: "black"}}>Linked Stuff</Text>
-									</Button>
-							</CardItem>
-							<CardItem style={{backgroundColor: "white"}}>
-									<Button full transparent >
-										<Icon name="add" style={{color: "black"}}/>
-									</Button>
-							</CardItem>
-						</Card>
-
 						<View padder>
 							<Text style={{ color: Platform.OS === "ios" ? "#000" : "#FFF" }} />
 						</View>
@@ -100,6 +84,30 @@ class AccountSetting extends React.Component<Props, State> {
 		);
 	}
 }
+
+
+
+
+// THIS IS FOR LINKED stuff
+/*
+<Button transparent disabled success style={{backgroundColor: "black"}}>
+<Text>Linked</Text>
+</Button>
+<Card style={{width: 350}}>
+	<CardItem style={{backgroundColor: "white"}}>
+			<Button full transparent >
+				<Text style={{color: "black"}}>Linked Stuff</Text>
+			</Button>
+	</CardItem>
+	<CardItem style={{backgroundColor: "white"}}>
+			<Button full transparent >
+				<Icon name="add" style={{color: "black"}}/>
+			</Button>
+	</CardItem>
+</Card>
+*/
+
+
 
 /* Old stuff from wireframe
 <Card>

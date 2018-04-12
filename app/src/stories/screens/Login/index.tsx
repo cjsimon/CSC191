@@ -8,7 +8,6 @@ export interface Props {
 	goCreate: Function;
 	onLogin: Function;
 	goBlank: Function;
-	guestLogin: Function;
 }
 
 //const deviceHeight = Dimensions.get("window").height;

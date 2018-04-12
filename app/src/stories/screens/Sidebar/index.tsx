@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, Container, List, ListItem, Content } from "native-base";
+import { Text, Container, List, ListItem, Content} from "native-base";
 import { NavigationActions } from "react-navigation";
 
 const routes = [
@@ -7,25 +7,17 @@ const routes = [
 		route: "Home",
 		caption: "Home",
 	},
-	/*{ USE AS A TEMPLATE FOR WHEN MAKING NEW PAGES DO NOT DELETE!!!!!
-		route: "BlankPage",
-		caption: "Blank Page",
-	},*/
-	{
-		route: "MyProfile",
-		caption: "My Profile",
-	},
-	{
-		route: "NewsPage",
-		caption: "The News",
-	},
-	{
-		route: "StocksPage",
-		caption: "Live Charts",
-	},
 	{
 		route: "AccountSetting",
 		caption: "Account Settings"
+	},
+	{
+		route: "BlankPage",
+		caption: "Refer Page",
+	},
+	{
+		route: "BlankPage",
+		caption: "Terms And Conditions",
 	},
 	{
 		route: "Login",
@@ -35,6 +27,7 @@ const routes = [
 
 export interface Props {
 	navigation: any;
+	userStuff: any;
 }
 export interface State {}
 const resetAction = NavigationActions.reset({
@@ -46,6 +39,7 @@ export default class Sidebar extends React.Component<Props, State> {
 		return (
 			<Container>
 				<Content style={{backgroundColor: "black"}}>
+					{this.props.userStuff}
 					<List
 						style={{ marginTop: 40 }}
 						dataArray={routes}

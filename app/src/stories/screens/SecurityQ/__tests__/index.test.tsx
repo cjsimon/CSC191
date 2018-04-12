@@ -3,7 +3,7 @@ import SecurityQ from "../index";
 // Note: test renderer must be required after react-native.
 import renderer from "react-test-renderer";
 
-const navigation = jest.fn();
+const navigation = { state: jest.fn() };
 const username = jest.fn();
 const accountValid = jest.fn();
 const accountNot = jest.fn();

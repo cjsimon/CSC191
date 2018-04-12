@@ -14,12 +14,6 @@ export default class AskQVContainer extends React.Component<Props, State> {
 	validAns(ans){
 		if(ans == qa[1]) {
 			this.props.navigation.navigate("Drawer");
-			Toast.show({
-				text: "Welcome "+userStuff.username,
-				duration: 2000,
-				position: "top",
-				textStyle: { textAlign: "center" },
-			});
 
 		}
 		else

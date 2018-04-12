@@ -63,6 +63,7 @@ class SecurityQ extends React.Component<Props, State> {
 				position: "top",
 				textStyle: { textAlign: "center" },
 			});
+
 			this.props.accountValid();
 			this.props.navigation.navigate("Login")
 		}

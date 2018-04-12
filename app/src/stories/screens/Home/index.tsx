@@ -2,16 +2,17 @@ import * as React from "react";
 import {
   Container,
   Header,
-  Title,
   Button,
   Icon,
-  Left,
-  Body,
   Right,
-  Card,
   Text,
+  Footer,
+  FooterTab,
+  Item,
+  Input,
 } from "native-base";
 import {StatusBar} from 'react-native';
+
 
 import styles from "./styles";
 
@@ -32,26 +33,44 @@ class Home extends React.Component<Props, State> {
   render() {
     return (
       <Container style={styles.container}>
-        <Header searchBar style={{ height: 100, backgroundColor: 'black'}}>
-        <StatusBar barStyle="light-content"/>
-          <Left>
-            <Button transparent>
-              <Icon
-                active
-                name="menu"
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-                style={{color: "white"}}
-              />
-            </Button>
-          </Left>
-          <Body>
-    				<Title><Text  style={{color: "white"}}>Home</Text></Title>
-    			</Body>
-          <Right />
-        </Header>
-        {this.props.showform3}
-        <Card>{this.props.showform2}</Card>
-        {this.props.showform}
+      <Header searchBar rounded style={{height: 100, backgroundColor: "black"}}>
+        <StatusBar barStyle="light-content" />
+        <Button transparent>
+          <Icon
+            active
+            name="menu"
+            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            style={{color: "white"}}
+          />
+        </Button>
+         <Item style={{backgroundColor: "white"}}>
+           <Icon name="ios-search" style={{color: "black"}}/>
+           <Input placeholder="Search" /*onChangeText={text => {textHolder = text}}*//>
+         </Item>
+         <Right>
+   			<Button transparent >
+   				<Text style={{color: "white"}}>Cancel</Text>
+   			</Button>
+   			</Right>
+     </Header>
+        {this.props.showform2}
+
+        <Footer>
+					<FooterTab style={{backgroundColor: "black"}}>
+						<Button vertical onPress={() => this.props.navigation.navigate("PortfolioDrawer")}>
+							<Icon name="person" style={{color: "white"}}/>
+							<Text>Portfolio</Text>
+						</Button>
+						<Button vertical>
+							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+							<Text>Home</Text>
+						</Button>
+						<Button vertical onPress={() => this.props.navigation.navigate("TwitsDrawer")}>
+							<Icon name="chatbubbles" style={{color: "white", fontWeight: "bold"}}/>
+							<Text>Stock Twits</Text>
+						</Button>
+					</FooterTab>
+				</Footer>
 
       </Container>
     );
