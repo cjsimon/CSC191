@@ -71,7 +71,7 @@ class LoginForm extends React.Component<Props, State> {
 				}
 			}
 		})*/
-		//const {navigate} = this.props.navigation;
+		const {navigate} = this.props.navigation;
 		fetch("http://localhost:3000/users")
 	  .then(function(response) {
 			return response.json();
@@ -84,7 +84,7 @@ class LoginForm extends React.Component<Props, State> {
 					passable = true;
 				}
 			}
-		})/*.then( (response) => {
+		}).then( () => {
 				if(passable)
 				{
 					navigate("AskQV");
@@ -99,7 +99,7 @@ class LoginForm extends React.Component<Props, State> {
 						textStyle: { textAlign: "center" },
 					});
 				}
-    });*/
+    });
 	}
 	renderUsername(){
 		if(accountCreate)

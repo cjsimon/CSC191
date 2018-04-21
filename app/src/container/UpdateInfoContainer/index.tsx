@@ -1,50 +1,18 @@
 import * as React from "react";
+import UpdateInfo from "../../stories/screens/UpdateInfo";
+import {userStuff} from "../../container/LoginContainer";
 import { Form, Item, Input, Toast, Label } from "native-base";
 import { Field, reduxForm} from "redux-form";
-import CreatePage from "../../stories/screens/CreatePage";
+
 export interface Props {
-	valid: boolean;
 	navigation: any;
 }
-export var userInfo = ["","","","",""];
-var tmpPass = "";
 export interface State {}
-class CreatePageForm extends React.Component<Props, State> {
-	textInput: any;
-	onCreate(){
-		var ans = this.isValid();
-		const {navigate} = this.props.navigation;
-		fetch("http://localhost:3000/users")
-		.then(function(response) {
-			return response.json();
-		}).then(function(data) {
-			for(var i=0; i<data.length; i++)
-			{
-				if(userInfo[0] == data[i].username)
-				{
-					ans += "This User Exists. Please Enter a Valid Username\n"
-				}
-				if(userInfo[1] == data[i].email)
-				{
-					ans += "This Email Exists. Please Enter a Valid Email\n"
-				}
-			}
-		}).then(function() {
-			if(ans == "")
-			{
-				navigate("SecurityQ")
-			}
-			else
-			{
-				Toast.show({
-					text: ans,
-					duration: 2000,
-					position: "top",
-					textStyle: { textAlign: "center" },
-				});
-			}
-		})
-	}
+
+export var userInfo = ["","","","",""];
+var tmpPass;
+var passable = false;
+class UpdateInfoForm extends React.Component<Props, State> {
 	initalUser(){
 		userInfo[0] = ""
 		userInfo[1] = ""
@@ -83,38 +51,116 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter at least 8 characters that contain at least a number and symbol\n"
 		return ans
 	}
-	validPhone() {
-		var ans = "";
-		if(userInfo[3] == "")
-		{
-			ans += "Please Enter a valid Phonenumber\n"
-			return ans;
-		}
-		if(!/\(\d\d\d\)-\d\d\d-\d\d\d\d/.test(userInfo[3]) && !/\d\d\d\d\d\d\d\d\d\d/.test(userInfo[3]))
-			ans += "Please Enter a valid Digit and/or (***)-***-**** format\n"
-		return ans;
-	}
-	validBday(){
-		var ans = "";
-		if(userInfo[4] == "")
-		{
-			ans += "Please Enter a valid Birthday\n";
-			return ans;
-		}
-		if(!/\d\d\/\d\d\/\d\d\d\d/.test(userInfo[4]) && !/\d\d\d\d\d\d\d\d/.test(userInfo[4]))
-			ans += "Please Enter a valid Digit and/or mm/dd/yyyy format\n"
-		return ans;
-	}
 	isValid() {
 		var ans = ""
 		ans += this.validUsername();
 		ans += this.validEmail();
 		ans += this.validPassword();
-		ans += this.validPhone();
-		ans += this.validBday();
 		return ans;
 	}
-	offCreate(){
+	onCreate() {
+		var ans = this.isValid();
+		var tmpId = -1
+		var ans = this.isValid();
+		const {navigate} = this.props.navigation;
+		fetch("http://localhost:3000/users")
+		.then(function(response) {
+			return response.json();
+		}).then(function(data) {
+			for(var i=0; i<data.length; i++)
+			{
+				if(userInfo[0] == data[i].username && userStuff.username != data[i].username)
+				{
+					ans += "This User Exists. Please Enter a Valid Username\n"
+				}
+
+				if(userInfo[1] == data[i].email && userStuff.username != data[i].username)
+				{
+					ans += "This Email Exists. Please Enter a Valid Email\n"
+				}
+			}
+		}).then(function() {
+			if(ans == "")
+			{
+				fetch("http://localhost:3000/users")
+			  .then(function(response) {
+					return response.json();
+			  }).then(function(data) {
+					for(var i=0; i<data.length; i++)
+					{
+						if(userStuff.username == data[i].username && userStuff.password == data[i].password
+							&& userStuff.email == data[i].email)
+						{
+							tmpId = data[i].id;
+							passable = true;
+							fetch("http://localhost:3000/users/" + tmpId, {
+								method: 'delete'
+							}).then(response =>
+								response.json().then(json => {
+									return json;
+								})
+							)
+						}
+					}
+				}).then( () => {
+						if(passable)
+						{
+							passable = false;
+							userStuff.username = userInfo[0];
+							userStuff.email = userInfo[1];
+							userStuff.password = userInfo[2];
+							navigate("Drawer");
+							fetch("http://localhost:3000/users/", {
+								method: 'POST',
+								headers :
+								{
+								'Accept': 'application/json',
+								'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+								username: userInfo[0],
+								email: userInfo[1],
+								password: userInfo[2],
+								phone: userStuff.phone,
+								bday: userStuff.bday,
+								q1: userStuff.q1,
+								a1: userStuff.a1,
+								q2: userStuff.q2,
+								a2: userStuff.a2,
+								q3: userStuff.q3,
+								a3: userStuff.a3,
+								id: tmpId})
+							})
+							Toast.show({
+								text: "Thank you for updating "+userStuff.username,
+								duration: 2000,
+								position: "top",
+								textStyle: { textAlign: "center" },
+							});
+						}
+						else
+						{
+							Toast.show({
+								text: "Enter Valid Username and/or Password!",
+								duration: 2000,
+								position: "top",
+								textStyle: { textAlign: "center" },
+							});
+						}
+		    });
+			}
+			else
+			{
+				Toast.show({
+					text: ans,
+					duration: 2000,
+					position: "top",
+					textStyle: { textAlign: "center" },
+				});
+			}
+		})
+	}
+	offCreate() {
 		Toast.show({
 			text: "Account isn't created",
 			duration: 2000,
@@ -182,36 +228,6 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
-	renderPhone(){
-		return (
-			<Item stackedLabel>
-			<Label style={{color: "lightgreen"}}>Phone Number</Label>
-			<Input
-				style={{color: "lightgreen"}}
-				onChangeText={text => {userInfo[3] = text}}
-				defaultValue = {userInfo[3]}
-				placeholder = "(***)-***-****"
-				editable = {true}
-				maxLength = {2222}
-			/>
-			</Item>
-		)
-	}
-	renderBirth(){
-		return (
-			<Item stackedLabel>
-			<Label style={{color: "lightgreen"}}>Date of Birth</Label>
-			<Input
-				style={{color: "lightgreen"}}
-				onChangeText={text => {userInfo[4] = text}}
-				defaultValue = {userInfo[4]}
-				editable = {true}
-				placeholder = "mm/dd/yyyy"
-				maxLength = {2222}
-			/>
-			</Item>
-		)
-	}
 	render() {
 		this.initalUser();
 		const form = (
@@ -220,15 +236,13 @@ class CreatePageForm extends React.Component<Props, State> {
 			<Field name="email" component={this.renderEmail} validate={[]}/>
 			<Field name="password" component={this.renderPassword} validate={[]}/>
 			<Field name="password" component={this.renderConfirmPassword} validate={[]}/>
-			<Field name="phonenumber" component={this.renderPhone} validate={[]}/>
-			<Field name="birthday" component={this.renderBirth} validate={[]}/>
 			</Form>
 		);
-		return <CreatePage showCreate={form} navigation={this.props.navigation} onCreate={() => this.onCreate()}
+		return <UpdateInfo showCreate={form} navigation={this.props.navigation} onCreate={() => this.onCreate()}
 		offCreate={() => this.offCreate()}/>;
 	}
 }
-const CreatePageContainer = reduxForm({
-	form: 'createpage'
-})(CreatePageForm);
-export default CreatePageContainer;
+const UpdateInfoContainer = reduxForm({
+	form: 'updateinfo'
+})(UpdateInfoForm);
+export default UpdateInfoContainer;

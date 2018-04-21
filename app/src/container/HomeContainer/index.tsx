@@ -1,10 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Home from "../../stories/screens/Home";
-import { Text , Title} from "native-base";
+import { Text , Button, Icon, Item, Input} from "native-base";
 import datas from "./data";
 import { fetchList } from "./actions";
-import {ScrollView, WebView} from 'react-native';
+import { WebView} from 'react-native';
 //import {userStuff} from "../../container/LoginContainer";
 
 export interface Props {
@@ -13,11 +13,13 @@ export interface Props {
 	data: Object;
 }
 export interface State {}
-//var tmp = "asdf"
 
-//export var theUserInfo = userStuff;
+var url = "http://athena.ecs.csus.edu/~wongdy/RatingForTopGainer.html"
 
-//var pointCode = 'FB'
+// TOY WITH THE LINK
+//var url = "https://trucharts.com/FilteredStocks.aspx?ConditionId=221444,221445,221446"
+var textHolder = "";
+var sw = false
 class HomeContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		this.props.fetchList(datas);
@@ -25,38 +27,53 @@ class HomeContainer extends React.Component<Props, State> {
 	goHome() {
 		this.forceUpdate();
 	}
-	/*setCode(code) {
-		pointCode = code;
+	refresh() {
+		if(sw)
+		{
+			url = "http://athena.ecs.csus.edu/~wongdy/RatingForTopGainer.html"
+		}
+		else
+		{
+			url = "http://athena.ecs.csus.edu/~wongdy/RatingForTopGainer1.html"
+		}
+		sw = !sw
+		textHolder = ""
 		this.forceUpdate();
-	}*/
+
+	}
+	update() {
+		url = "https://www.tradingview.com/symbols/"+textHolder;
+		this.forceUpdate();
+	}
 	render() {
 		var form = (
-		<ScrollView></ScrollView>
+			<Item style={{backgroundColor: "white"}}>
+				 <Icon name="ios-search" style={{color: "black"}}/>
+				 <Input placeholder="Enter Stock Ticker" onChangeText={text => {textHolder = text}}/>
+			</Item>
 		)
-		// OLDLINK
 		var form2 = (
 		<WebView
-			source={{uri: 'http://athena.ecs.csus.edu/~wongdy/RatingForTopGainer.html'}}
+			source={{uri: url}}
 			style={{marginTop: 0}}
 			scrollEnabled={false}
+			scalesPageToFit={true}
 		/>
 		)
-
 		var form3 = (
-			<Title> <Text style={{fontSize: 25, color: "lightgreen"}}> Welcome </Text> </Title>
+			<Button vertical onPress={() => this.refresh()}>
+				<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+				<Text>Home</Text>
+			</Button>
 		)
-		return <Home showform={form} showform3={form3} showform2={form2} navigation={this.props.navigation} goHome={() => this.goHome()} list={this.props.data} />;
+		var form4 = (
+			<Button transparent onPress={() => this.update()}>
+				<Text style={{color: "white"}}>Submit</Text>
+			</Button>
+		)
+		return <Home showform={form} showform3={form3} showform2={form2} showform4={form4} navigation={this.props.navigation} goHome={() => this.goHome()} list={this.props.data} />;
 	}
 }
-/*
-<Button transparent onPress={() => this.setCode(pointCode,'FB')}><Text>FB</Text></Button>
-<Button transparent onPress={() => this.setCode(pointCode,'AAPL')}><Text>AAPL</Text></Button>
-<Button transparent onPress={() => this.setCode(pointCode,'GOOGL')}><Text>GOOGL</Text></Button>
-
-*/
-
-
-
 
 function bindAction(dispatch) {
 	return {

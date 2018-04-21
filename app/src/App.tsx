@@ -25,11 +25,11 @@ import Notification from "./container/NotificationContainer"
 import ManageAccount from "./container/ManageAccountContainer"
 import ProfileVis from "./container/ProfileVisContainer"
 import ManageBlock from "./container/ManageBlockContainer"
+import AskQV2 from "./container/AskQV2Container";
+import UpdateInfo from "./container/UpdateInfoContainer";
+import ReferPage from "./container/ReferPageContainer"
 // NEED TO COMMENT IT OUT BEFORE BUILD UP
-//import Sidebar from "./container/SidebarContainer";
-//import SocialSidebar from "./container/SocialSidebarContainer"
-//import StockSidebar from "./container/StockSidebarContainer"
-//import NewsSidebar from "./container/NewsSidebarContainer"
+import Sidebar from "./container/SidebarContainer";
 
 
 const Drawer = DrawerNavigator(
@@ -40,7 +40,7 @@ const Drawer = DrawerNavigator(
 		drawerWidth: deviceWidth - 50,
 		drawerPosition: "left",
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		//contentComponent: props => <Sidebar {...props} />,
+		contentComponent: props => <Sidebar {...props} />,
 	},
 );
 const PortfolioDrawer = DrawerNavigator(
@@ -49,9 +49,9 @@ const PortfolioDrawer = DrawerNavigator(
 	},
 	{
 		drawerWidth: deviceWidth - 50,
-		drawerPosition: "right",
+		drawerPosition: "left",
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		//contentComponent: props => <SocialSidebar {...props} />,
+		contentComponent: props => <Sidebar {...props} />,
 	},
 );
 const TwitsDrawer = DrawerNavigator(
@@ -60,21 +60,9 @@ const TwitsDrawer = DrawerNavigator(
 	},
 	{
 		drawerWidth: deviceWidth - 50,
-		drawerPosition: "right",
+		drawerPosition: "left",
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		//contentComponent: props => <NewsSidebar {...props} />,
-	}
-)
-const StocksDrawer = DrawerNavigator(
-	{
-		StocksPage: {screen: StocksPage},
-		Home: {screen: Home},
-	},
-	{
-		drawerWidth: deviceWidth - 50,
-		drawerPosition: "right",
-		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		//contentComponent: props => <StockSidebar {...props} />,
+		contentComponent: props => <Sidebar {...props} />,
 	}
 )
 
@@ -86,16 +74,12 @@ const App = StackNavigator(
 		BlankPage: { screen: BlankPage },
 		TwitsDrawer: {screen: TwitsDrawer},
 		PortfolioDrawer: {screen: PortfolioDrawer},
-		//MyProfile: { screen: MyProfile },
-		//SocialDrawer: {screen: SocialDrawer},
 		Drawer: { screen: Drawer },
 		CreatePage: {screen: CreatePage},
-		//StocksDrawer: {screen: StocksDrawer},
 		ForgotPage: {screen: ForgotPage},
 		SecurityQ: {screen: SecurityQ},
 		AskQV: {screen: AskQV},
 		AccountSetting: {screen: AccountSetting},
-		//NewsDrawer: {screen: NewsDrawer},
 		Portfolio: {screen: Portfolio},
 		Friends: {screen: Friends},
 		Messager: {screen: Messager},
@@ -107,6 +91,9 @@ const App = StackNavigator(
 		ManageAccount: {screen: ManageAccount},
 		ProfileVis: {screen: ProfileVis},
 		ManageBlock: {screen: ManageBlock},
+		AskQV2: {screen: AskQV2},
+		ReferPage: {screen: ReferPage},
+		UpdateInfo: {screen: UpdateInfo},
 	},
 	{
 		initialRouteName: "Login",

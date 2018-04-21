@@ -4,12 +4,9 @@ import {
   Header,
   Button,
   Icon,
-  Right,
   Text,
   Footer,
   FooterTab,
-  Item,
-  Input,
 } from "native-base";
 import {StatusBar} from 'react-native';
 
@@ -24,6 +21,7 @@ export interface Props {
   showform: any;
   showform2: any;
   showform3: any;
+  showform4: any;
   list: any;
 }
 //searchBar style={[{ height: 100 },{backgroundColor: 'black'}]} Header
@@ -43,15 +41,8 @@ class Home extends React.Component<Props, State> {
             style={{color: "white"}}
           />
         </Button>
-         <Item style={{backgroundColor: "white"}}>
-           <Icon name="ios-search" style={{color: "black"}}/>
-           <Input placeholder="Search" /*onChangeText={text => {textHolder = text}}*//>
-         </Item>
-         <Right>
-   			<Button transparent >
-   				<Text style={{color: "white"}}>Cancel</Text>
-   			</Button>
-   			</Right>
+        {this.props.showform}
+        {this.props.showform4}
      </Header>
         {this.props.showform2}
 
@@ -61,10 +52,7 @@ class Home extends React.Component<Props, State> {
 							<Icon name="person" style={{color: "white"}}/>
 							<Text>Portfolio</Text>
 						</Button>
-						<Button vertical>
-							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-							<Text>Home</Text>
-						</Button>
+            {this.props.showform3}
 						<Button vertical onPress={() => this.props.navigation.navigate("TwitsDrawer")}>
 							<Icon name="chatbubbles" style={{color: "white", fontWeight: "bold"}}/>
 							<Text>Stock Twits</Text>

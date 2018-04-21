@@ -7,10 +7,11 @@ export interface Props {
 	navigation: any;
 	userCont: any;
 	header: any;
+	form2: any;
 }
 export interface State {}
 class MyProfile extends React.Component<Props, State> {
-	
+
 	render() {
 		return (
 			<Container style={styles.container}>
@@ -26,10 +27,7 @@ class MyProfile extends React.Component<Props, State> {
 							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
 							<Text>Home</Text>
 						</Button>
-						<Button vertical>
-							<Icon name="chatbubbles" style={{color: "white", fontWeight: "bold"}}/>
-							<Text>Stock Twits</Text>
-						</Button>
+						{this.props.form2}
 					</FooterTab>
 				</Footer>
 			</Container>

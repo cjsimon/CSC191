@@ -12,7 +12,7 @@ const routes = [
 		caption: "Account Settings"
 	},
 	{
-		route: "BlankPage",
+		route: "ReferPage",
 		caption: "Refer Page",
 	},
 	{

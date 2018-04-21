@@ -5,41 +5,68 @@ import {StatusBar,ScrollView} from 'react-native';
 import styles from "./styles";
 export interface Props {
 	navigation: any;
+	seacrchForm: any;
 }
 export interface State {}
 class Portfolio extends React.Component<Props, State> {
 	render() {
-		//const param = this.props.navigation.state.params;
 		return (
 			<Container style={styles.container}>
-			<Header searchBar style={{ height: 100, backgroundColor: 'black'}}>
 			<StatusBar barStyle="light-content"/>
-				<Left />
+			<Header searchBar style={{ height: 100, backgroundColor: 'black'}}>
+				<Left>
+				<Button transparent>
+					<Icon
+						active
+						name="menu"
+						onPress={() => this.props.navigation.navigate("DrawerOpen")}
+						style={{color: "white"}}
+					/>
+				</Button>
+				</Left>
 				<Body>
-					<Title><Text  style={{color: "white"}}>Portfolio</Text></Title>
+					<Title><Text style={{color: "white"}}>Portfolio</Text></Title>
 				</Body>
-				<Right>
-					<Button transparent>
-						<Icon
-							active
-							name="menu"
-							onPress={() => this.props.navigation.navigate("DrawerOpen")}
-							style={{color: "white"}}
-						/>
-					</Button>
-				</Right>
-
+				<Right />
 			</Header>
 
-				<Content padder>
+				<Content padder style={{backgroundColor: 'black'}}>
 				<ScrollView>
+
+				<Card style={{height: 300, backgroundColor:"white"}}>
+					<CardItem>
+						<Right />
+						<Header><Title>ACCOUNT VALUE</Title></Header>
+						<Left />
+					</CardItem>
+						<Body>
+						<Text> ASDFASDFASDF </Text>
+						</Body>
+					<Footer>
+					<Left />
+					<Left>
+					<Button success>
+						<Text> Buy </Text>
+					</Button>
+					</Left>
+					<Right>
+					<Button danger>
+						<Text> Sell </Text>
+					</Button>
+					</Right>
+					<Right />
+					</Footer>
+				</Card>
+
+				{this.props.seacrchForm}
+				<Title><Text style={{color: "lightgreen"}}>Portfolio</Text></Title>
 				<Card style={{height: 75, backgroundColor:"grey"}}>
 					<CardItem style={{backgroundColor:"grey"}}>
 						<Left>
 							<Text> FaceBook {"\n"} FB </Text>
 						</Left>
 						<Body>
-							<Text> Graph Stuff </Text>
+							<Text> Number of Shares </Text>
 						</Body>
 						<Right>
 							<Text> More stuff </Text>
@@ -53,7 +80,7 @@ class Portfolio extends React.Component<Props, State> {
 						<Text> Apple {"\n"} AAPL </Text>
 					</Left>
 					<Body>
-						<Text> Graph Stuff </Text>
+						<Text> Number of Shares </Text>
 					</Body>
 					<Right>
 						<Text> More stuff </Text>
@@ -67,7 +94,7 @@ class Portfolio extends React.Component<Props, State> {
 						<Text> Google {"\n"} GOOGL </Text>
 					</Left>
 					<Body>
-						<Text> Graph Stuff </Text>
+						<Text> Number of Shares </Text>
 					</Body>
 					<Right>
 						<Text> More stuff </Text>
@@ -81,7 +108,7 @@ class Portfolio extends React.Component<Props, State> {
 						<Text> Intel {"\n"} INTL </Text>
 					</Left>
 					<Body>
-						<Text> Graph Stuff </Text>
+						<Text> Number of Shares </Text>
 					</Body>
 					<Right>
 						<Text> More stuff </Text>
@@ -95,7 +122,7 @@ class Portfolio extends React.Component<Props, State> {
 						<Text> HP {"\n"} HP </Text>
 					</Left>
 					<Body>
-						<Text> Graph Stuff </Text>
+						<Text> Number of Shares </Text>
 					</Body>
 					<Right>
 						<Text> More stuff </Text>
@@ -109,7 +136,94 @@ class Portfolio extends React.Component<Props, State> {
 						<Text> Microsoft {"\n"} MSFT </Text>
 					</Left>
 					<Body>
-						<Text> Graph Stuff </Text>
+						<Text> Number of Shares </Text>
+					</Body>
+					<Right>
+						<Text> More stuff </Text>
+						<Icon name="arrow-down" style={{color: "red"}}/>
+					</Right>
+				</CardItem>
+				</Card>
+
+				<Text>{"\n"}</Text>
+				<Title><Text style={{color: "lightgreen"}}>Trading History</Text></Title>
+				<Card style={{height: 75, backgroundColor:"grey"}}>
+					<CardItem style={{backgroundColor:"grey"}}>
+						<Left>
+							<Text> FaceBook {"\n"} FB </Text>
+						</Left>
+						<Body>
+							<Text> Number of Shares </Text>
+						</Body>
+						<Right>
+							<Text> More stuff </Text>
+							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+						</Right>
+					</CardItem>
+				</Card>
+				<Card style={{height: 75, backgroundColor:"grey"}}>
+				<CardItem style={{backgroundColor:"grey"}}>
+					<Left>
+						<Text> Apple {"\n"} AAPL </Text>
+					</Left>
+					<Body>
+						<Text> Number of Shares </Text>
+					</Body>
+					<Right>
+						<Text> More stuff </Text>
+						<Icon name="arrow-down" style={{color: "red"}}/>
+					</Right>
+				</CardItem>
+				</Card>
+				<Card style={{height: 75, backgroundColor:"grey"}}>
+				<CardItem style={{backgroundColor:"grey"}}>
+					<Left>
+						<Text> Google {"\n"} GOOGL </Text>
+					</Left>
+					<Body>
+						<Text> Number of Shares </Text>
+					</Body>
+					<Right>
+						<Text> More stuff </Text>
+						<Icon name="arrow-down" style={{color: "red"}}/>
+					</Right>
+				</CardItem>
+				</Card>
+				<Card style={{height: 75, backgroundColor:"grey"}}>
+				<CardItem style={{backgroundColor:"grey"}}>
+					<Left>
+						<Text> Intel {"\n"} INTL </Text>
+					</Left>
+					<Body>
+						<Text> Number of Shares </Text>
+					</Body>
+					<Right>
+						<Text> More stuff </Text>
+						<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+					</Right>
+				</CardItem>
+				</Card>
+				<Card style={{height: 75, backgroundColor:"grey"}}>
+				<CardItem style={{backgroundColor:"grey"}}>
+					<Left>
+						<Text> HP {"\n"} HP </Text>
+					</Left>
+					<Body>
+						<Text> Number of Shares </Text>
+					</Body>
+					<Right>
+						<Text> More stuff </Text>
+						<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+					</Right>
+				</CardItem>
+				</Card>
+				<Card style={{height: 75, backgroundColor:"grey"}}>
+				<CardItem style={{backgroundColor:"grey"}}>
+					<Left>
+						<Text> Microsoft {"\n"} MSFT </Text>
+					</Left>
+					<Body>
+						<Text> Number of Shares </Text>
 					</Body>
 					<Right>
 						<Text> More stuff </Text>

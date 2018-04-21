@@ -14,38 +14,19 @@ var textHolder = "";
 //var isDefault = true;
 export default class MyProfileContainer extends React.Component<Props, State> {
 
-	/*showCode() {
-		if(isDefault) {
-			code = "https://stocktwits.com/search?q=" + textHolder;
-			isDefault = false;
-		}
-		else {
-			code = "https://stocktwits.com/stream/"
-			isDefault = true;
-			textHolder = "";
-		}
-		//this.forceUpdate();
-	}*/
-	showSearch() {
-		code = "https://stocktwits.com/search?q=" + textHolder;
-		this.forceUpdate();
-	}
-	showDef() {
+	refresh() {
 		code = "https://stocktwits.com"
 		textHolder = "";
 		this.forceUpdate();
 	}
-	renderButton1() {
+	showSearch() {
+		code = "https://stocktwits.com/search?q=" + textHolder;
+		this.forceUpdate();
+	}
+	renderButton() {
 			return (
 			<Button transparent onPress={() => this.showSearch()}>
 				<Text style={{color: "white"}}>Submit</Text>
-			</Button>
-		)
-	}
-	renderButton2() {
-		return (
-			<Button transparent onPress={() => this.showDef()}>
-				<Text style={{color: "white"}}>Cancel</Text>
 			</Button>
 		)
 	}
@@ -63,13 +44,26 @@ export default class MyProfileContainer extends React.Component<Props, State> {
 		var form = (
 			<Header searchBar rounded style={{height: 100, backgroundColor: "black"}}>
 				<StatusBar barStyle="light-content" />
+				<Button transparent>
+          <Icon
+            active
+            name="menu"
+            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            style={{color: "white"}}
+          />
+        </Button>
 				 <Item style={{backgroundColor: "white"}}>
 					 <Icon name="ios-search" style={{color: "black"}}/>
 					 <Input placeholder="Search" onChangeText={text => {textHolder = text}}/>
 				 </Item>
-				 {this.renderButton1()}
-				 {this.renderButton2()}
+				 {this.renderButton()}
 		 </Header>
+		)
+		var form2 = (
+			<Button vertical onPress={() => this.refresh()}>
+				<Icon name="chatbubbles" style={{color: "white", fontWeight: "bold"}}/>
+				<Text>Stock Twits</Text>
+			</Button>
 		)
 		var header = (
 			<WebView
@@ -78,6 +72,6 @@ export default class MyProfileContainer extends React.Component<Props, State> {
 				scrollEnabled={false}
 			/>
 		)
-		return <MyProfile navigation={this.props.navigation} header={header} userCont={form} />;
+		return <MyProfile navigation={this.props.navigation} header={header} userCont={form} form2={form2}/>;
 	}
 }
