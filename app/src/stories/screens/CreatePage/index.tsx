@@ -18,7 +18,7 @@ class CreatePage extends React.Component<Props, State> {
 		//const param = this.props.navigation.state.params;
 		return (
 			<Container style={styles.container}>
-			<Header style={{ height: 250, backgroundColor: "black" }}>
+			<Header style={{ height: 210, backgroundColor: "black" }}>
 			<StatusBar barStyle="light-content"/>
 				<Body style={{backgroundColor: "black"}}>
 				<Image
@@ -36,7 +36,7 @@ class CreatePage extends React.Component<Props, State> {
 				{this.props.showCreate}
 					<View padder style={[{bottom: 0},{left: 0}]}>
 						<Button full rounded success onPress={() => this.props.onCreate()}>
-							<Text> Create Account </Text>
+							<Text> Next Step </Text>
 						</Button>
 					</View>
 					<View padder style={[{bottom: 0},{left: 0}]}>

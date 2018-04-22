@@ -20,7 +20,7 @@ class Login extends React.Component<Props, State> {
 	render() {
 		return (
 			<Container>
-				<Header style={{ height: 250, backgroundColor: "black" }}>
+				<Header style={{height: 210, backgroundColor: "black" }}>
 				<StatusBar barStyle="light-content"/>
 					<Body style={{backgroundColor: "black"}}>
 					<Image

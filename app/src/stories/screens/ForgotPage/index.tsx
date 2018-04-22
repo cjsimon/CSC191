@@ -25,11 +25,11 @@ class ForgotPage extends React.Component<Props, State> {
 		something = "";
 		return (
 			<Container style={styles.container}>
-			<Header style={{ height: 250, backgroundColor: "black" }}>
+			<Header style={{ height: 210, backgroundColor: "black" }}>
 			<StatusBar barStyle="light-content"/>
 				<Body style={{backgroundColor: "black"}}>
 				<Image
-						source={{ uri: "http://jetstox.com/wp-content/uploads/2018/03/Investing-With-Intelligence-5.png" }}
+						source={{ uri: "http://jetstox.com/wp-content/uploads/2018/03/JETSTOXWEBLOGO-1.png" }}
 						style={{ width: 375, height: 75, backgroundColor: 'black' }}
 					/>
 					<View padder>

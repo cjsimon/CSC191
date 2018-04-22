@@ -13,7 +13,7 @@ const routes = [
 	},
 	{
 		route: "ReferPage",
-		caption: "Refer Page",
+		caption: "Refer A Friend",
 	},
 	{
 		route: "BlankPage",
