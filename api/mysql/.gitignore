@@ -1,0 +1,4 @@
+# Ignore the contents of the data directory
+# and only keep the directory
+data/*
+!data/.gitkeep

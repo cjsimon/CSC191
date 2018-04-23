@@ -1,0 +1,7 @@
+# App
+npm-debug.*
+**/node_modules/
+**/__tests__/__snapshots__/
+artifacts/
+.expo/
+.jest/
