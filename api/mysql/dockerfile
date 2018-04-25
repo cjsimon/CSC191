@@ -1,0 +1,12 @@
+FROM mysql:5.7
+
+ENV MYSQL_USER=jetstox
+ENV MYSQL_PASSWORD=1234
+ENV MYSQL_ROOT_PASSWORD=1234
+ENV MYSQL_DATABASE=jetstox
+
+VOLUME /var/lib/mysql
+
+EXPOSE 3306
+
+COPY jetstox.sql /docker-entrypoint-initdb.d/

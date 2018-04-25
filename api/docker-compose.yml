@@ -1,0 +1,10 @@
+version: '3'
+services:
+  mysql:
+    container_name: jetstox_mysql
+    image: jetstox_mysql_image
+    build: ./mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
