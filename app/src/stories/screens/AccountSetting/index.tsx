@@ -44,23 +44,14 @@ class AccountSetting extends React.Component<Props, State> {
 									<Text style={{color: "black"}}> Privacy Policy </Text>
 								</Button>
 							</CardItem>
+							<CardItem style={{backgroundColor: "white"}}>
+									<Button full transparent >
+										<Text style={{color: "black"}}>Connect Brokerage Account</Text>
+									</Button>
+							</CardItem>
 						</Card>
 
-						<Button transparent disabled success style={{backgroundColor: "black"}}>
-						<Text>Linked</Text>
-						</Button>
-						<Card style={{width: 350}}>
-							<CardItem style={{backgroundColor: "white"}}>
-									<Button full transparent >
-										<Text style={{color: "black"}}>Linked Stuff</Text>
-									</Button>
-							</CardItem>
-							<CardItem style={{backgroundColor: "white"}}>
-									<Button full transparent >
-										<Icon name="add" style={{color: "black"}}/>
-									</Button>
-							</CardItem>
-						</Card>
+
 
 						<View padder>
 							<Text style={{ color: Platform.OS === "ios" ? "#000" : "#FFF" }} />
@@ -73,5 +64,22 @@ class AccountSetting extends React.Component<Props, State> {
 		);
 	}
 }
+/*
+<Button transparent disabled success style={{backgroundColor: "black"}}>
+<Text>Linked Info</Text>
+</Button>
+<Card style={{width: 350}}>
+	<CardItem style={{backgroundColor: "white"}}>
+			<Button full transparent >
+				<Text style={{color: "black"}}>Connect Brokerage Account</Text>
+			</Button>
+	</CardItem>
+	<CardItem style={{backgroundColor: "white"}}>
+			<Button full transparent >
+				<Icon name="add" style={{color: "black"}}/>
+			</Button>
+	</CardItem>
+</Card>
+*/
 
 export default AccountSetting;

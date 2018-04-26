@@ -9,7 +9,7 @@ const styles: any = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: "#FBFAFA",
+		backgroundColor: "black",
 	},
 	shadow: {
 		flex: 1,

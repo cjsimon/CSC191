@@ -76,7 +76,7 @@ class LoginForm extends React.Component<Props, State> {
 	  .then(function(response) {
 			return response.json();
 	  }).then(function(data) {
-			for(var i=0; i<data.length; i++)
+			for(var i=0; i<data.length; i++) // MIGHT NEED TO CHANGE WITH THE BACKEND
 			{
 				if(userInfo[0] == data[i].username && userInfo[2] == data[i].password)
 				{

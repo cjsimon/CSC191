@@ -25,7 +25,7 @@ class AskQV2 extends React.Component<Props, State> {
 					<Title> <Text style={{color: "white"}}>Security Question</Text> </Title>
 					</Body>
 			</Header>
-				<Content style={{top: 150, backgroundColor: 'black'}} scrollEnabled={false}>
+			<Content style={{top: 150, backgroundColor: 'black'}} scrollEnabled={false}>
 					<Card>
 					{this.props.askForm}
 					<CardItem>
