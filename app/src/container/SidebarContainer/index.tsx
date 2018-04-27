@@ -13,6 +13,6 @@ export interface State {}
 export default class SidebarContainer extends React.Component<Props, State> {
 	render() {
 		const form = (<Text style={{color: "white", marginTop: 40}}> {userStuff.username} </Text>)
-		return <Sidebar userStuff={form}navigation={this.props.navigation} />;
+		return <Sidebar userStuff={form} navigation={this.props.navigation} />;
 	}
 }

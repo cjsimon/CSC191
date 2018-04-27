@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StatusBar} from 'react-native';
-import { Container,View, Header, Card, CardItem, Title, Content, Text, Button, Icon, Body } from "native-base";
+import { Container,View, Header, Card, CardItem, Title, Content, Text,Right, Left, Button, Icon, Body } from "native-base";
 
 
 import styles from "./styles";
@@ -18,12 +18,15 @@ class AskQV2 extends React.Component<Props, State> {
 			<Container style={styles.container}>
 			<Header searchBar style={{backgroundColor: 'black', height: 100}}>
 			<StatusBar barStyle="light-content"/>
+				<Left>
 				<Button transparent onPress={() =>this.props.navigation.goBack()}>
 					<Icon name="ios-arrow-back" style={{color: "white"}}/>
 				</Button>
+				</Left>
 					<Body>
 					<Title> <Text style={{color: "white"}}>Security Question</Text> </Title>
 					</Body>
+				<Right/>
 			</Header>
 			<Content style={{top: 150, backgroundColor: 'black'}} scrollEnabled={false}>
 					<Card>

@@ -13,7 +13,7 @@ export default (variables = variable) => {
 		".success": {
 			backgroundColor: variables.brandSuccess,
 		},
-		backgroundColor: "rgba(0,0,0,0)",
+		backgroundColor: "rgba(144,238,144,100)",
 		borderRadius: platform === "ios" ? 5 : 0,
 		flexDirection: "row",
 		justifyContent: "space-between",
@@ -21,7 +21,7 @@ export default (variables = variable) => {
 		padding: 10,
 		minHeight: 50,
 		"NativeBase.Text": {
-			color: "#fff",
+			color: "#000",
 			flex: 1,
 		},
 		"NativeBase.Button": {
@@ -29,7 +29,7 @@ export default (variables = variable) => {
 			height: 30,
 			elevation: 0,
 			"NativeBase.Text": {
-				fontSize: 14,
+				fontSize: 20,
 			},
 		},
 	};

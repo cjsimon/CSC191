@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 
+
 import Login from "./container/LoginContainer";
 import Home from "./container/HomeContainer";
 import BlankPage from "./container/BlankPageContainer";
@@ -15,7 +16,6 @@ import SecurityQ from "./container/SecurityQContainer";
 import AskQV from "./container/AskQVContainer";
 import AccountSetting from "./container/AccountSettingContainer";
 import Portfolio from "./container/PortfolioContainer";
-import Friends from "./container/FriendsContainer";
 import Messager from "./container/MessagerContainer";
 import Share from "./container/ShareContainer"
 import History from "./container/HistoryContainer"
@@ -27,7 +27,8 @@ import ProfileVis from "./container/ProfileVisContainer"
 import ManageBlock from "./container/ManageBlockContainer"
 import AskQV2 from "./container/AskQV2Container";
 import UpdateInfo from "./container/UpdateInfoContainer";
-import ReferPage from "./container/ReferPageContainer"
+import ReferPage from "./container/ReferPageContainer";
+import TruChart from "./container/TruChartContainer"
 // NEED TO COMMENT IT OUT BEFORE BUILD UP
 import Sidebar from "./container/SidebarContainer";
 
@@ -71,6 +72,7 @@ const TwitsDrawer = DrawerNavigator(
 const App = StackNavigator(
 	{
 		Login: { screen: Login },
+		TruChart: {screen: TruChart},
 		BlankPage: { screen: BlankPage },
 		TwitsDrawer: {screen: TwitsDrawer},
 		PortfolioDrawer: {screen: PortfolioDrawer},
@@ -81,7 +83,6 @@ const App = StackNavigator(
 		AskQV: {screen: AskQV},
 		AccountSetting: {screen: AccountSetting},
 		Portfolio: {screen: Portfolio},
-		Friends: {screen: Friends},
 		Messager: {screen: Messager},
 		Share: {screen: Share},
 		History: {screen: History},

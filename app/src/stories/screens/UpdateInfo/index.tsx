@@ -32,7 +32,7 @@ class UpdateInfo extends React.Component<Props, State> {
 					<View padder>
 						<Text style={{ color: Platform.OS === "ios" ? "#000" : "#FFF" }} />
 					</View>
-					<Title> <Text style={{color: "white", fontSize: 25}}> Updated Info </Text> </Title>
+					<Title> <Text style={{color: "white", fontSize: 25}}> Updating Info </Text> </Title>
 				</Body>
 			</Header>
 			{this.props.showCreate}

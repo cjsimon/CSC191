@@ -5,7 +5,9 @@ import {StatusBar,ScrollView} from 'react-native';
 import styles from "./styles";
 export interface Props {
 	navigation: any;
-	seacrchForm: any;
+	searchForm: any;
+	renderHistory: any;
+	renderPortfolio: any;
 }
 export interface State {}
 class Portfolio extends React.Component<Props, State> {
@@ -58,179 +60,14 @@ class Portfolio extends React.Component<Props, State> {
 					</Footer>
 				</Card>
 
-				{this.props.seacrchForm}
+				{this.props.searchForm}
 				<Title><Text style={{color: "lightgreen"}}>Portfolio</Text></Title>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-					<CardItem style={{backgroundColor:"grey"}}>
-						<Left>
-							<Text> FaceBook {"\n"} FB </Text>
-						</Left>
-						<Body>
-							<Text> Number of Shares </Text>
-						</Body>
-						<Right>
-							<Text> More stuff </Text>
-							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-						</Right>
-					</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Apple {"\n"} AAPL </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-down" style={{color: "red"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Google {"\n"} GOOGL </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-down" style={{color: "red"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Intel {"\n"} INTL </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> HP {"\n"} HP </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Microsoft {"\n"} MSFT </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-down" style={{color: "red"}}/>
-					</Right>
-				</CardItem>
-				</Card>
+				{this.props.renderPortfolio}
+
 
 				<Text>{"\n"}</Text>
 				<Title><Text style={{color: "lightgreen"}}>Trading History</Text></Title>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-					<CardItem style={{backgroundColor:"grey"}}>
-						<Left>
-							<Text> FaceBook {"\n"} FB </Text>
-						</Left>
-						<Body>
-							<Text> Number of Shares </Text>
-						</Body>
-						<Right>
-							<Text> More stuff </Text>
-							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-						</Right>
-					</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Apple {"\n"} AAPL </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-down" style={{color: "red"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Google {"\n"} GOOGL </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-down" style={{color: "red"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Intel {"\n"} INTL </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> HP {"\n"} HP </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-up" style={{color: "lightgreen"}}/>
-					</Right>
-				</CardItem>
-				</Card>
-				<Card style={{height: 75, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> Microsoft {"\n"} MSFT </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> More stuff </Text>
-						<Icon name="arrow-down" style={{color: "red"}}/>
-					</Right>
-				</CardItem>
-				</Card>
+				{this.props.renderHistory}
 
 				</ScrollView>
 				</Content>
