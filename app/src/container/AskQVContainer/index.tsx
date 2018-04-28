@@ -12,6 +12,8 @@ var qa = ["",""]
 export default class AskQVContainer extends React.Component<Props, State> {
 
 	validAns(ans){
+		//FETCH WILL BE IN THERE
+		// POST ANSWER TO GET IF ANSWER IS CORRECT
 		if(ans == qa[1]) {
 			this.props.navigation.navigate("Drawer");
 

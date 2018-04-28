@@ -58,17 +58,6 @@ class Login extends React.Component<Props, State> {
 				</KeyboardAwareScrollView>
 			</Container>
 		);
-		//THIS WAS IN FOOTER BUT I REMOVED IT FOR GUEST BUTTON OPTION
-
-		/*
-		http://jetstox.com/wp-content/uploads/2018/03/Investing-With-Intelligence-5.png
-		<Button block onPress={() => this.props.guestLogin()}>
-			<Text> Use as Guest </Text>
-		</Button>
-
-		<Icon name="jet" style={{fontSize: 104, color: "lightgreen"}}/>
-		<Title style={{color: "lightgreen"}}>Welcome to JetStoxs</Title>
-		*/
 	}
 }
 

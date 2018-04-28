@@ -64,25 +64,6 @@ class Home extends React.Component<Props, State> {
     );
   }
 }
-/*
-<WebView
-  source={{uri: url}}
-  style={{marginTop: 0}}
-/>
-<ScrollView horizontal
-showsHorizontalScrollIndicator={false}
-snapToInterval={5} >
-<Button transparent onPress={() => this.setCode(pointCode,'FB')}><Text>FB</Text></Button>
-<Button transparent onPress={() => this.setCode(pointCode,'AAPL')}><Text>AAPL</Text></Button>
-<Button transparent onPress={() => this.setCode(pointCode,'GOOGL')}><Text>GOOGL</Text></Button>
-</ScrollView>
-
-
-
-<Button transparent style={{fontSize: 50}}> <Text> FB </Text></Button>
-<Button transparent style={{fontSize: 50}}><Text> AAPL </Text></Button>
-<Button transparent style={{fontSize: 50}}><Text> GOOGL </Text></Button>
-*/
 
 
 export default Home;

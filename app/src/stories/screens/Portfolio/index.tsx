@@ -11,6 +11,7 @@ export interface Props {
 }
 export interface State {}
 class Portfolio extends React.Component<Props, State> {
+	// CHANGE THE ACCOUNT MONITOR STUFF
 	render() {
 		return (
 			<Container style={styles.container}>
@@ -34,7 +35,6 @@ class Portfolio extends React.Component<Props, State> {
 
 				<Content padder style={{backgroundColor: 'black'}}>
 				<ScrollView>
-
 				<Card style={{height: 300, backgroundColor:"white"}}>
 					<CardItem>
 						<Right />

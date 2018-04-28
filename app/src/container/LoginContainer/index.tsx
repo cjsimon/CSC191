@@ -59,6 +59,8 @@ class LoginForm extends React.Component<Props, State> {
 	login() {
 
 		const {navigate} = this.props.navigation;
+		// JUST READ FROM THE DATABASE POST REQUEST TO THE BACKEND TO DETERMINE TRUE OR FALSE IF VALID LOGIN
+		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
 		fetch("http://localhost:5000/api/v1/user/")
 	  .then(function(response) {
 			return response.json();
@@ -74,6 +76,8 @@ class LoginForm extends React.Component<Props, State> {
 		}).then( () => {
 				if(passable)
 				{
+					// MAGIC HAND WAVE MIGHT NOT BE THERE
+					// RETURNS LIST OF STOCKS AND AMMOUNTS
 					fetch("http://localhost:5000/api/v1/stock/").then(function(response) {
 						return response.json();
 				  }).then(function(data) {

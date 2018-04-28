@@ -74,7 +74,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 	}
 	getHist(num) {
 		if(num==0)
-			return
+			return 0
 		return (
 			<Content>
 			<Button onPress={() => this.goTruChart("FB")} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
@@ -118,7 +118,6 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 		})*/
 		var form = this.renderButton();
 		var form2 = this.getPort(stockInfo.length);
-		var i = 0;
 		var form3 = this.getHist(1)
 		const something = this.props.navigation;
 		return <Portfolio navigation={something} renderHistory = {form3} renderPortfolio = {form2} searchForm={form}/>;

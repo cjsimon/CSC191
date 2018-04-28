@@ -21,6 +21,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		userInfo[4] = ""
 		tmpPass = ""
 	}
+
 	validUsername() {
 		var ans = "";
 		if(userInfo[0] == "")
@@ -29,6 +30,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		}
 		return ans;
 	}
+
 	validEmail() {
 		var ans = "";
 		if(userInfo[1] == "")
@@ -40,6 +42,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 			ans += "Please Enter a '.' and/or '@' for valid Email\n"
 		return ans;
 	}
+
 	validPassword(){
 		var ans = "";
 		if(userInfo[2] == "" && tmpPass == userInfo[2])
@@ -51,6 +54,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 			ans += "Please Enter at least 8 characters that contain at least a number and symbol\n"
 		return ans
 	}
+
 	isValid() {
 		var ans = ""
 		ans += this.validUsername();
@@ -58,11 +62,14 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		ans += this.validPassword();
 		return ans;
 	}
+
 	onCreate() {
 		var ans = this.isValid();
 		var tmpId = -1
 		var ans = this.isValid();
 		const {navigate} = this.props.navigation;
+		// KILL IT WITH FIRE aka
+		// POST EVERYTHING REPLACE IN DB AND RETURN STRING IN JSON WITH RESULTS
 		fetch("http://localhost:3000/users")
 		.then(function(response) {
 			return response.json();
@@ -149,6 +156,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 						}
 		    });
 			}
+
 			else
 			{
 				Toast.show({
@@ -160,6 +168,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 			}
 		})
 	}
+
 	offCreate() {
 		Toast.show({
 			text: "Account isn't created",
@@ -169,6 +178,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		})
 		this.props.navigation.goBack();
 	}
+
 	renderUsername(){
 		return (
 			<Item stackedLabel>
@@ -183,6 +193,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	renderEmail(){
 		return (
 			<Item stackedLabel>
@@ -197,6 +208,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	renderPassword(){
 		return(
 			<Item stackedLabel>
@@ -213,6 +225,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 
 		)
 	}
+
 	renderConfirmPassword() {
 		return(
 			<Item stackedLabel>
@@ -228,6 +241,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	render() {
 		this.initalUser();
 		const form = (
@@ -241,6 +255,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		return <UpdateInfo showCreate={form} navigation={this.props.navigation} onCreate={() => this.onCreate()}
 		offCreate={() => this.offCreate()}/>;
 	}
+
 }
 const UpdateInfoContainer = reduxForm({
 	form: 'updateinfo'

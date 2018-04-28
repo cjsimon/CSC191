@@ -14,6 +14,8 @@ class CreatePageForm extends React.Component<Props, State> {
 	onCreate(){
 		var ans = this.isValid();
 		const {navigate} = this.props.navigation;
+		// needs to send front end data validated and sent to fetch for determined to be entered or error
+		// post user/pass return json string 
 		fetch("http://localhost:3000/users")
 		.then(function(response) {
 			return response.json();
@@ -45,6 +47,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			}
 		})
 	}
+
 	initalUser(){
 		userInfo[0] = ""
 		userInfo[1] = ""
