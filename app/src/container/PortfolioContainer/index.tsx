@@ -8,6 +8,14 @@ export interface Props {
 }
 export interface State {}
 
+var stockInfo = []
+
+export function setStock(newname) {
+	stockInfo.push(newname);
+
+}
+
+
 export default class PortfolioContainer extends React.Component<Props, State> {
 	textInput: any;
 	renderButton() {
@@ -28,34 +36,46 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 		setStockCode(target);
 		this.props.navigation.navigate("TruChart")
 	}
-	render() {
-		var form2
-		fetch("http://localhost:5000/api/v1/stock/")
-	  .then(function(response) {
-			return response.json();
-	  }).then(function(data) {
-			form2 = (
-				<Content>
-				<Button onPress={() => this.goTruChart("FB")} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
-				<CardItem style={{backgroundColor:"grey"}}>
-					<Left>
-						<Text> {data[0].name} </Text>
-					</Left>
-					<Body>
-						<Text> Number of Shares </Text>
-					</Body>
-					<Right>
-						<Text> {data[0].change} </Text>
-						<Text> {data[0].changeP} </Text>
-					</Right>
-				</CardItem>
-				</Button>
-				</Content>)
-				alert(data[0].name)
+	renderArrow(value) {
+		if(parseFloat(value) > 0) {
+			return (<Icon name="arrow-up" style={{color: "lightgreen"}}/>)
+		}
+		else if(parseFloat(value) < 0) {
+			return (<Icon name="arrow-down" style={{color: "red"}}/>)
+		}
+		else {
+			return <Text> NULL </Text>
+		}
 
-		})
-		var form = this.renderButton();
-		var form3 = (
+	}
+	getPort(num) {
+		if(num == 0)
+			return;
+		return (
+			<Content>
+			<Button onPress={() => this.goTruChart(stockInfo[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
+			<CardItem style={{backgroundColor:"grey"}}>
+				<Left>
+					<Text> {stockInfo[num-1][1] + "\n" + stockInfo[num-1][0] } </Text>
+				</Left>
+				<Body>
+					<Text> SHARES </Text>
+				</Body>
+				<Right>
+					<Text> {parseFloat(stockInfo[num-1][2]).toFixed(2)} </Text>
+					<Text> {parseFloat(stockInfo[num-1][3]).toFixed(2)} </Text>
+					{this.renderArrow(stockInfo[num-1][3])}
+				</Right>
+			</CardItem>
+			</Button>
+			{this.getPort(num-1)}
+			</Content>
+		)
+	}
+	getHist(num) {
+		if(num==0)
+			return
+		return (
 			<Content>
 			<Button onPress={() => this.goTruChart("FB")} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
@@ -87,24 +107,20 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			</Button>
 			</Content>
 		)
+	}
+	render() {
+		/*fetch("http://localhost:5000/api/v1/stock/")
+	  .then(function(response) {
+			return response.json();
+	  }).then(function(data) {
+				alert(data[0].name)
+
+		})*/
+		var form = this.renderButton();
+		var form2 = this.getPort(stockInfo.length);
+		var i = 0;
+		var form3 = this.getHist(1)
 		const something = this.props.navigation;
 		return <Portfolio navigation={something} renderHistory = {form3} renderPortfolio = {form2} searchForm={form}/>;
 	}
 }
-
-/*
-<Button onPress={() => this.goTruChart("MSFT")} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
-<CardItem style={{backgroundColor:"grey"}}>
-	<Left>
-		<Text> Microsoft {"\n"} MSFT </Text>
-	</Left>
-	<Body>
-		<Text> Number of Shares </Text>
-	</Body>
-	<Right>
-		<Text> More stuff </Text>
-		<Icon name="arrow-down" style={{color: "red"}}/>
-	</Right>
-</CardItem>
-</Button>
-*/

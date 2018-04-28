@@ -4,6 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import Login from "../../stories/screens/Login";
 import {userInfo} from "../../container/CreatePageContainer";
 import {accountCreate} from "../../container/SecurityQContainer";
+import {setStock} from "../../container/PortfolioContainer"
 
 
 export interface Props {
@@ -56,23 +57,9 @@ class LoginForm extends React.Component<Props, State> {
 		}
 	}
 	login() {
-		/*fetch("http://localhost:5000/api/v1/demo/")
-	  .then(function(response) {
-			//alert(response)
-			return response.json();
-	  }).then(function(data) {
-			for(var i=0; i<data.length; i++)
-			{
-				if(userInfo[0] == data[i].username && userInfo[2] == data[i].password)
-				{
-					userStuff = data[i];
-					//alert(userStuff.username)
-					passable = true;
-				}
-			}
-		})*/
+
 		const {navigate} = this.props.navigation;
-		fetch("http://localhost:3000/users")
+		fetch("http://localhost:5000/api/v1/user/")
 	  .then(function(response) {
 			return response.json();
 	  }).then(function(data) {
@@ -87,8 +74,19 @@ class LoginForm extends React.Component<Props, State> {
 		}).then( () => {
 				if(passable)
 				{
-					navigate("AskQV");
-					passable = false;
+					fetch("http://localhost:5000/api/v1/stock/").then(function(response) {
+						return response.json();
+				  }).then(function(data) {
+						var i=0;
+						var tmp;
+						for(i=0; i<data.length; i++)
+						{
+							tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + ""]
+							setStock(tmp)
+						}
+						navigate("AskQV");
+						passable = false;
+					})
 				}
 				else
 				{
