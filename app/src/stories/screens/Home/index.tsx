@@ -2,61 +2,68 @@ import * as React from "react";
 import {
   Container,
   Header,
-  Title,
-  Content,
-  Text,
   Button,
   Icon,
-  Left,
-  Body,
-  Right,
-  List,
-  ListItem
+  Text,
+  Footer,
+  FooterTab,
 } from "native-base";
+import {StatusBar} from 'react-native';
+
 
 import styles from "./styles";
+
+export interface State {}
+
 export interface Props {
   navigation: any;
+  goHome: Function;
+  showform: any;
+  showform2: any;
+  showform3: any;
+  showform4: any;
   list: any;
 }
-export interface State {}
+//searchBar style={[{ height: 100 },{backgroundColor: 'black'}]} Header
+//style={{color: "white"}} Title
+
 class Home extends React.Component<Props, State> {
   render() {
     return (
       <Container style={styles.container}>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon
-                active
-                name="menu"
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Home</Title>
-          </Body>
-          <Right />
-        </Header>
-        <Content>
-          <List>
-            {this.props.list.map((item, i) => (
-              <ListItem
-                key={i}
-                onPress={() =>
-                  this.props.navigation.navigate("BlankPage", {
-                    name: { item }
-                  })}
-              >
-                <Text>{item}</Text>
-              </ListItem>
-            ))}
-          </List>
-        </Content>
+      <Header searchBar rounded style={{height: 100, backgroundColor: "black"}}>
+        <StatusBar barStyle="light-content" />
+        <Button transparent>
+          <Icon
+            active
+            name="menu"
+            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            style={{color: "white"}}
+          />
+        </Button>
+        {this.props.showform}
+        {this.props.showform4}
+     </Header>
+        {this.props.showform2}
+
+        <Footer>
+					<FooterTab style={{backgroundColor: "black"}}>
+						<Button vertical onPress={() => this.props.navigation.navigate("PortfolioDrawer")}>
+							<Icon name="person" style={{color: "white"}}/>
+							<Text>Portfolio</Text>
+						</Button>
+            {this.props.showform3}
+						<Button vertical onPress={() => this.props.navigation.navigate("TwitsDrawer")}>
+							<Icon name="chatbubbles" style={{color: "white", fontWeight: "bold"}}/>
+							<Text>Stock Twits</Text>
+						</Button>
+					</FooterTab>
+				</Footer>
+
       </Container>
     );
   }
 }
+
 
 export default Home;

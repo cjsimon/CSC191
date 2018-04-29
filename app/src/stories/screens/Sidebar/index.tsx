@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, Container, List, ListItem, Content } from "native-base";
+import { Text, Container, List, ListItem, Content} from "native-base";
 import { NavigationActions } from "react-navigation";
 
 const routes = [
@@ -8,12 +8,16 @@ const routes = [
 		caption: "Home",
 	},
 	{
-		route: "BlankPage",
-		caption: "Blank Page",
+		route: "AccountSetting",
+		caption: "Account Settings"
 	},
 	{
-		route: "MyProfile",
-		caption: "My Profile",
+		route: "ReferPage",
+		caption: "Refer A Friend",
+	},
+	{
+		route: "BlankPage",
+		caption: "Terms And Conditions",
 	},
 	{
 		route: "Login",
@@ -23,6 +27,7 @@ const routes = [
 
 export interface Props {
 	navigation: any;
+	userStuff: any;
 }
 export interface State {}
 const resetAction = NavigationActions.reset({
@@ -33,7 +38,8 @@ export default class Sidebar extends React.Component<Props, State> {
 	render() {
 		return (
 			<Container>
-				<Content>
+				<Content style={{backgroundColor: "black"}}>
+					{this.props.userStuff}
 					<List
 						style={{ marginTop: 40 }}
 						dataArray={routes}
@@ -47,7 +53,7 @@ export default class Sidebar extends React.Component<Props, State> {
 											: this.props.navigation.navigate(data.route);
 									}}
 								>
-									<Text>{data.caption}</Text>
+									<Text style={{color: "lightgreen"}}>{data.caption}</Text>
 								</ListItem>
 							);
 						}}

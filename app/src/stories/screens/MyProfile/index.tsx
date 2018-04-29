@@ -1,33 +1,35 @@
 import * as React from "react";
-import { Container, Header, Title, Content, Text, Button, Icon, Left, Right, Body } from "native-base";
+//import { StatusBar } from 'react-native';
+import { Container, Footer, FooterTab, Text, Button, Icon } from "native-base";
 
 import styles from "./styles";
 export interface Props {
 	navigation: any;
+	userCont: any;
+	header: any;
+	form2: any;
 }
 export interface State {}
 class MyProfile extends React.Component<Props, State> {
+
 	render() {
-		const param = this.props.navigation.state.params;
 		return (
 			<Container style={styles.container}>
-				<Header>
-					<Left>
-						<Button transparent onPress={() => this.props.navigation.goBack()}>
-							<Icon name="ios-arrow-back" />
+			{this.props.userCont}
+			{this.props.header}
+				<Footer>
+					<FooterTab style={{backgroundColor: "black"}}>
+						<Button vertical onPress={() => this.props.navigation.navigate('PortfolioDrawer')}>
+							<Icon name="person" style={{color: "white"}}/>
+							<Text>Portfolio</Text>
 						</Button>
-					</Left>
-
-					<Body style={{ flex: 3 }}>
-						<Title>{param ? param.name.item : "MyProfile Page"}</Title>
-					</Body>
-
-					<Right />
-				</Header>
-
-				<Content padder>
-					<Text>{param !== undefined ? param.name.item : "My Profile . . ."}</Text>
-				</Content>
+						<Button vertical onPress={() => this.props.navigation.navigate('Drawer')}>
+							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+							<Text>Home</Text>
+						</Button>
+						{this.props.form2}
+					</FooterTab>
+				</Footer>
 			</Container>
 		);
 	}
