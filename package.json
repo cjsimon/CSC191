@@ -2,10 +2,6 @@
   "name": "jetstox",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "app",
-    "api"
-  ],
   "repository": "https://github.com/TanveerBariana/Jetstox.git",
   "author": "Jetstox",
   "license": "MIT",
