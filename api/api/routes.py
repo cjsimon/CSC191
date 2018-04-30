@@ -3,6 +3,7 @@ import requests
 from flask import Blueprint, url_for, request, jsonify
 
 import http.client
+import random
 
 class Routes:
     api = Blueprint('api', __name__)
@@ -11,12 +12,102 @@ class Routes:
         global db # self cannot be passed in blueprint route definitions
         db = database
 
+    @api.route('/api/v1/UserAccountApplicationVerification', methods = ['POST'])
+    def process_user_account_request():
+        data = request.get_json()
+        email = data['email']
+        #SQL QUERY HERE
+        #SELECT email FROM users WHERE users.email = [email]
+        #save the amount of results into rows
+
+        resp = ""
+        if rows != 0:
+            resp = "This Email Exists. Please Enter a Valid Email\n"
+        response = [{
+            'response': resp
+        }]
+        return jsonify(response=response), 200
+
+    @api.route('/api/v1/AccountCreation', methods = ['POST'])
+    def process_account_creation():
+        data = request.get_json() #stores all relevant info
+        #username
+        #email
+        #password
+        #phone
+        #bday
+        #q1
+        #a1
+        #q2
+        #a2
+        #q3
+        #a3
+
+        #SQL QUERY HERE
+        #INSERT INTO users info from data
+        return jsonify(response=response), 204
+
+    @api.route('/api/v1/Login')
+    def process_login():
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
+
+        #SQL QUERY HERE
+        #SELECT email FROM users WHERE users.email=email AND users.password=password
+        #save the amount of results into rows
+
+        resp = False
+        if rows != 0:
+            resp = True
+        response = [{
+            'response': resp
+        }]
+        return jsonify(response=response), 200
+
+    @api.route('/api/v1/Update')
+    def process_update_request():
+        data = request.get_json()
+        oldemail = data['oldemail']
+        email = data['email']
+        password = data['password']
+        username = data['username']
+
+        resp = ""
+        replace = False
+        
+        if oldemail == email:
+            replace = True
+        else:
+            #SQL QUERY HERE
+            #SELECT email FROM users WHERE users.email=email AND users.password=password
+            #save the amount of results into rows
+            if rows != 0:
+                resp = "This Email Exists. Please Enter a Valid Email\n"
+            else:
+                replace = True
+        if replace:
+            #SQL QUERY HERE
+            #replace email and password where the entery.email=email
+
+        response = [{
+            'response': resp
+        }]
+        return jsonify(response=response), 200
+
     @api.route('/api/v1/')
     def process_request():
         response = [{
             'key': 'value'
         }]
-        return jsonify(response=response), 200
+        return jsonify(response=response), 204
+
+    @api.route('/api/v1/')
+    def process_request():
+        response = [{
+            'key': 'value'
+        }]
+        return jsonify(response=response), 204
 
     @api.route('/api/v1/user/')
     def sql_demo():

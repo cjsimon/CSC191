@@ -11,15 +11,15 @@ export interface State {}
 
 export var userInfo = ["","","","",""];
 var tmpPass;
-var passable = false;
+//var passable = false;
 class UpdateInfoForm extends React.Component<Props, State> {
 	initalUser(){
-		userInfo[0] = ""
-		userInfo[1] = ""
-		userInfo[2] = ""
-		userInfo[3] = ""
-		userInfo[4] = ""
-		tmpPass = ""
+		userInfo[0] = "";
+		userInfo[1] = "";
+		userInfo[2] = "";
+		userInfo[3] = "";
+		userInfo[4] = "";
+		tmpPass = "";
 	}
 
 	validUsername() {
@@ -65,15 +65,25 @@ class UpdateInfoForm extends React.Component<Props, State> {
 
 	onCreate() {
 		var ans = this.isValid();
-		var tmpId = -1
+		//var tmpId = -1
 		var ans = this.isValid();
-		const {navigate} = this.props.navigation;
+		//const {navigate} = this.props.navigation;
 		// KILL IT WITH FIRE aka
 		// POST EVERYTHING REPLACE IN DB AND RETURN STRING IN JSON WITH RESULTS
-		fetch("http://localhost:3000/users")
-		.then(function(response) {
+		fetch("http://162.229.170.225:13337/api/v1/Update", {
+			method: 'POST',
+			headers :
+			{
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				username: userInfo[0],
+				email: userInfo[1],
+				oldemail: userStuff.email,
+				password: userInfo[2]})
+		}).then(function(response){
 			return response.json();
-		}).then(function(data) {
+		})/*.then(function(data) {
 			for(var i=0; i<data.length; i++)
 			{
 				if(userInfo[0] == data[i].username && userStuff.username != data[i].username)
@@ -86,10 +96,14 @@ class UpdateInfoForm extends React.Component<Props, State> {
 					ans += "This Email Exists. Please Enter a Valid Email\n"
 				}
 			}
-		}).then(function() {
-			if(ans == "")
-			{
-				fetch("http://localhost:3000/users")
+		})*/.then(function(data) {
+			ans = data[0].response;
+			if(ans == ""){
+				userStuff.username = userInfo[0];
+				userStuff.email = userInfo[1];
+				userStuff.password = userInfo[2];
+				/*
+				fetch("http://162.229.170.225:13337/api/v1/Update")
 			  .then(function(response) {
 					return response.json();
 			  }).then(function(data) {
@@ -110,8 +124,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 						}
 					}
 				}).then( () => {
-						if(passable)
-						{
+						if(passable){
 							passable = false;
 							userStuff.username = userInfo[0];
 							userStuff.email = userInfo[1];
@@ -125,18 +138,18 @@ class UpdateInfoForm extends React.Component<Props, State> {
 								'Content-Type': 'application/json',
 								},
 								body: JSON.stringify({
-								username: userInfo[0],
-								email: userInfo[1],
-								password: userInfo[2],
-								phone: userStuff.phone,
-								bday: userStuff.bday,
-								q1: userStuff.q1,
-								a1: userStuff.a1,
-								q2: userStuff.q2,
-								a2: userStuff.a2,
-								q3: userStuff.q3,
-								a3: userStuff.a3,
-								id: tmpId})
+									username: userInfo[0],
+									email: userInfo[1],
+									password: userInfo[2],
+									phone: userStuff.phone,
+									bday: userStuff.bday,
+									q1: userStuff.q1,
+									a1: userStuff.a1,
+									q2: userStuff.q2,
+									a2: userStuff.a2,
+									q3: userStuff.q3,
+									a3: userStuff.a3,
+									id: tmpId})
 							})
 							Toast.show({
 								text: "Thank you for updating "+userStuff.username,
@@ -144,9 +157,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 								position: "top",
 								textStyle: { textAlign: "center" },
 							});
-						}
-						else
-						{
+						}else{
 							Toast.show({
 								text: "Enter Valid Username and/or Password!",
 								duration: 2000,
@@ -155,10 +166,8 @@ class UpdateInfoForm extends React.Component<Props, State> {
 							});
 						}
 		    });
-			}
-
-			else
-			{
+				*/
+			}else{
 				Toast.show({
 					text: ans,
 					duration: 2000,
@@ -255,7 +264,6 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		return <UpdateInfo showCreate={form} navigation={this.props.navigation} onCreate={() => this.onCreate()}
 		offCreate={() => this.offCreate()}/>;
 	}
-
 }
 const UpdateInfoContainer = reduxForm({
 	form: 'updateinfo'

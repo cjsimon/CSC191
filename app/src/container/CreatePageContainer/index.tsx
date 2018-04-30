@@ -15,11 +15,16 @@ class CreatePageForm extends React.Component<Props, State> {
 		var ans = this.isValid();
 		const {navigate} = this.props.navigation;
 		// needs to send front end data validated and sent to fetch for determined to be entered or error
-		// post user/pass return json string 
-		fetch("http://localhost:3000/users")
-		.then(function(response) {
+		// post user/pass return json string
+		fetch("http://162.229.170.225:13337/api/v1/UserAccountApplicationVerification", {
+			body: JSON.stringify({email: userInfo[1]}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		}).then(function(response) {
 			return response.json();
-		}).then(function(data) {
+		})/*.then(function(data) {
 			for(var i=0; i<data.length; i++)
 			{
 				if(userInfo[0] == data[i].username)
@@ -31,7 +36,8 @@ class CreatePageForm extends React.Component<Props, State> {
 					ans += "This Email Exists. Please Enter a Valid Email\n"
 				}
 			}
-		}).then(function() {
+		})*/.then(function(data) {
+			ans = data[0].response;
 			if(ans == "")
 			{
 				navigate("SecurityQ")
@@ -56,6 +62,7 @@ class CreatePageForm extends React.Component<Props, State> {
 		userInfo[4] = ""
 		tmpPass = ""
 	}
+
 	validUsername() {
 		var ans = "";
 		if(userInfo[0] == "")
@@ -64,6 +71,7 @@ class CreatePageForm extends React.Component<Props, State> {
 		}
 		return ans;
 	}
+
 	validEmail() {
 		var ans = "";
 		if(userInfo[1] == "")
@@ -75,6 +83,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter a '.' and/or '@' for valid Email\n"
 		return ans;
 	}
+
 	validPassword(){
 		var ans = "";
 		if(userInfo[2] == "" && tmpPass == userInfo[2])
@@ -86,6 +95,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter at least 8 characters that contain at least a number and symbol\n"
 		return ans
 	}
+
 	validPhone() {
 		var ans = "";
 		if(userInfo[3] == "")
@@ -97,6 +107,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter a valid Digit and/or (***)-***-**** format\n"
 		return ans;
 	}
+
 	validBday(){
 		var ans = "";
 		if(userInfo[4] == "")
@@ -108,6 +119,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			ans += "Please Enter a valid Digit and/or mm/dd/yyyy format\n"
 		return ans;
 	}
+
 	isValid() {
 		var ans = ""
 		ans += this.validUsername();
@@ -117,6 +129,7 @@ class CreatePageForm extends React.Component<Props, State> {
 		ans += this.validBday();
 		return ans;
 	}
+
 	offCreate(){
 		Toast.show({
 			text: "Account isn't created",
@@ -126,6 +139,7 @@ class CreatePageForm extends React.Component<Props, State> {
 		})
 		this.props.navigation.goBack();
 	}
+
 	renderUsername(){
 		return (
 			<Item stackedLabel>
@@ -140,6 +154,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	renderEmail(){
 		return (
 			<Item stackedLabel>
@@ -154,6 +169,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	renderPassword(){
 		return(
 			<Item stackedLabel>
@@ -170,6 +186,7 @@ class CreatePageForm extends React.Component<Props, State> {
 
 		)
 	}
+
 	renderConfirmPassword() {
 		return(
 			<Item stackedLabel>
@@ -185,6 +202,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	renderPhone(){
 		return (
 			<Item stackedLabel>
@@ -200,6 +218,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+
 	renderBirth(){
 		return (
 			<Item stackedLabel>
@@ -215,6 +234,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
+	
 	render() {
 		this.initalUser();
 		const form = (

@@ -21,9 +21,11 @@ class LoginForm extends React.Component<Props, State> {
   accountCreate() {
 			this.props.navigation.navigate("CreatePage");
 	}
+
 	goBlank(){
 		this.props.navigation.navigate("ForgotPage");
 	}
+
 	renderInput({ input, meta: { touched, error } }) {
 		return (
 			<Item error={error && touched}>
@@ -37,9 +39,11 @@ class LoginForm extends React.Component<Props, State> {
 			</Item>
 		);
 	}
+
 	navigateToQuestions() {
 		this.props.navigation.navigate("AskQV");
 	}
+
 	passable(navigate) {
 		if(passable)
 		{
@@ -56,15 +60,22 @@ class LoginForm extends React.Component<Props, State> {
 			});
 		}
 	}
-	login() {
 
+	login() {
 		const {navigate} = this.props.navigation;
 		// JUST READ FROM THE DATABASE POST REQUEST TO THE BACKEND TO DETERMINE TRUE OR FALSE IF VALID LOGIN
 		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
-		fetch("http://localhost:5000/api/v1/user/")
-	  .then(function(response) {
+		fetch("http://162.229.170.225:13337/api/v1/Login", {
+			method: 'POST',
+			headers :
+			{
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({email: userInfo[1],
+				password: userInfo[2]})
+		}).then(function(response) {
 			return response.json();
-	  }).then(function(data) {
+	  })/*.then(function(data) {
 			for(var i=0; i<data.length; i++) // MIGHT NEED TO CHANGE WITH THE BACKEND
 			{
 				if(userInfo[0] == data[i].username && userInfo[2] == data[i].password)
@@ -73,7 +84,8 @@ class LoginForm extends React.Component<Props, State> {
 					passable = true;
 				}
 			}
-		}).then( () => {
+		})*/.then(function(data){
+				passable = data[0].response;
 				if(passable)
 				{
 					// MAGIC HAND WAVE MIGHT NOT BE THERE
@@ -103,6 +115,7 @@ class LoginForm extends React.Component<Props, State> {
 				}
     });
 	}
+
 	renderUsername(){
 		if(accountCreate)
 		{
