@@ -9,7 +9,7 @@ export interface State {}
 var stockInfo = []
 var testShare = 0;
 export function setSellStockInfo(targ) {
-	stockInfo = [targ.code,targ.name,targ.current,targ.high,targ.low,targ.open,targ.closed,targ.preclosed]
+	stockInfo = [targ.code,targ.name,targ.current,targ.high,targ.low,targ.open,targ.closed,targ.preclosed,targ.change,targ.changeP,targ.shares]
 }
 
 
@@ -43,6 +43,15 @@ export default class SellPageContainer extends React.Component<Props, State> {
 	incr(select) {
 		if(select)
 		{
+			if(testShare >= stockInfo[10])
+			{
+				Toast.show({
+					text: "You have no more stocks to sell.",
+					duration: 2000,
+					position: "top",
+					textStyle: { textAlign: "center" },
+				});
+			}
 			testShare += 1
 		}
 		else if(!select && testShare > 0)

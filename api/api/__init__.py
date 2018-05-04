@@ -9,7 +9,7 @@ def create_app(env, create_tables):
     app = Flask(__name__)
     env_config = get_environment_config(env)
     app.config.from_object(env_config)
-
+    
     # Create a db instance with a scoped session and base
     # Bind it to the app
     db = Database(app, create_tables)
