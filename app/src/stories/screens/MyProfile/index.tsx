@@ -1,6 +1,7 @@
 import * as React from "react";
 //import { StatusBar } from 'react-native';
 import { Container, Footer, FooterTab, Text, Button, Icon } from "native-base";
+import {Image} from "react-native"
 
 import styles from "./styles";
 export interface Props {
@@ -24,7 +25,10 @@ class MyProfile extends React.Component<Props, State> {
 							<Text>Portfolio</Text>
 						</Button>
 						<Button vertical onPress={() => this.props.navigation.navigate('Drawer')}>
-							<Icon name="arrow-up" style={{color: "lightgreen"}}/>
+							<Image
+								style={{width: 40, height: 20}}
+								source={{uri: "http://jetstox.com/wp-content/uploads/2018/02/Investing-With-Intelligence-2.png"}}
+							/>
 							<Text>Home</Text>
 						</Button>
 						{this.props.form2}

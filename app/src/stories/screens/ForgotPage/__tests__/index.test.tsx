@@ -4,8 +4,9 @@ import ForgotPage from "../index";
 import renderer from "react-test-renderer";
 
 const navigation = { state: jest.fn() };
+const emailSend = jest.fn()
 
 it("renders correctly", () => {
-	const tree = renderer.create(<ForgotPage navigation={navigation} />).toJSON();
+	const tree = renderer.create(<ForgotPage emailSend={emailSend} navigation={navigation} />).toJSON();
 	expect(tree).toMatchSnapshot();
 });

@@ -6,7 +6,6 @@ import {userInfo} from "../../container/CreatePageContainer";
 import {accountCreate} from "../../container/SecurityQContainer";
 import {setStock} from "../../container/PortfolioContainer"
 
-
 export interface Props {
 	navigation: any;
 	valid: boolean;
@@ -78,14 +77,14 @@ class LoginForm extends React.Component<Props, State> {
 				{
 					// MAGIC HAND WAVE MIGHT NOT BE THERE
 					// RETURNS LIST OF STOCKS AND AMMOUNTS
-					fetch("http://localhost:5000/api/v1/stock/").then(function(response) {
+					fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
 						return response.json();
 				  }).then(function(data) {
 						var i=0;
 						var tmp;
 						for(i=0; i<data.length; i++)
 						{
-							tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + ""]
+							tmp = [data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
 							setStock(tmp)
 						}
 						navigate("AskQV");
@@ -156,6 +155,7 @@ class LoginForm extends React.Component<Props, State> {
 	}
 
 	render() {
+
 		const form = (
 			<Form>
 				<Field name={userInfo[0]} component={this.renderUsername} validate={[]} /* {[email, required]} *//>
