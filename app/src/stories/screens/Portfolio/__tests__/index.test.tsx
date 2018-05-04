@@ -7,10 +7,12 @@ const navigation = { state: jest.fn() };
 const renderHistory = jest.fn();
 const renderPortfolio = jest.fn();
 const searchForm = jest.fn();
+const monitor = jest.fn();
 
 it("renders correctly", () => {
 	const tree = renderer.create(<Portfolio
 		navigation={navigation}
+		monitor={monitor}
 		renderHistory = {renderHistory}
 		renderPortfolio = {renderPortfolio}
 		searchForm={searchForm}/>).toJSON();

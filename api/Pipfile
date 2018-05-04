@@ -1,16 +1,11 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [dev-packages]
 
-
-
 [packages]
-
 pylint = "*"
 requests = "*"
 flask = "*"
@@ -18,3 +13,4 @@ flask-sqlalchemy = "*"
 mysql-connector = "==2.1.4"
 flask-sqlalchemy-session = "*"
 tendo = "*"
+flask-cache = "*"

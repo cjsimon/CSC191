@@ -4,8 +4,9 @@ import ReferPage from "../index";
 import renderer from "react-test-renderer";
 
 const navigation = { state: jest.fn() };
+const sendEmail = jest.fn()
 
 it("renders correctly", () => {
-	const tree = renderer.create(<ReferPage navigation={navigation} />).toJSON();
+	const tree = renderer.create(<ReferPage sendEmail={sendEmail} navigation={navigation} />).toJSON();
 	expect(tree).toMatchSnapshot();
 });

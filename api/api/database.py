@@ -35,8 +35,8 @@ class Database():
         # Create a db session using the flask builtin session handler
         self.session = flask_scoped_session(
             sessionmaker(
-                autocommit=False,
-                autoflush=False,
+                autocommit=True,
+                autoflush=True,
                 bind=self.engine))
         self.Base = declarative_base()
         self.Base.query = self.session.query_property()

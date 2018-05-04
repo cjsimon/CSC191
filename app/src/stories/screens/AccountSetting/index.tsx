@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Platform,StatusBar} from "react-native";
-import { Container, Card, CardItem, Header, Title, View, Content, Text, Button, Icon, Body } from "native-base";
+import { Container, Card, CardItem, Header, Toast, Title, View, Content, Text, Button, Icon, Body } from "native-base";
 
 import styles from "./styles";
 export interface Props {
@@ -9,6 +9,15 @@ export interface Props {
 export interface State {}
 
 class AccountSetting extends React.Component<Props, State> {
+	toBeContinued() {
+		Toast.show({
+			text: "Current In Progress. Stay tunned in for future updates",
+			duration: 2000,
+			position: "top",
+			textStyle: { textAlign: "center" },
+		});
+	}
+
 	render() {
 		return (
 			<Container style={styles.container}>
@@ -39,13 +48,8 @@ class AccountSetting extends React.Component<Props, State> {
 										<Text style={{color: "black"}}> Notification Settings </Text>
 									</Button>
 							</CardItem>
-							<CardItem  style={{backgroundColor: "white"}}>
-								<Button full transparent onPress={() => this.props.navigation.navigate("BlankPage")}>
-									<Text style={{color: "black"}}> Privacy Policy </Text>
-								</Button>
-							</CardItem>
 							<CardItem style={{backgroundColor: "white"}}>
-									<Button full transparent >
+									<Button full transparent onPress={() => this.toBeContinued()}>
 										<Text style={{color: "black"}}>Connect Brokerage Account</Text>
 									</Button>
 							</CardItem>

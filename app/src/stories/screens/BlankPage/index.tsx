@@ -24,13 +24,15 @@ class BlankPage extends React.Component<Props, State> {
 
 					<Right />
 				</Header>
-
-				<Content padder>
+			<Content padder>
 					<Text>{param !== undefined ? param.name.item : "Create Something Awesome . . ."}</Text>
 				</Content>
 			</Container>
 		);
 	}
 }
+/*
+The information provided should not be relied upon as investment advice or recommendations, does not constitute a solicitation to buy or sell securities and should not be considered legal, investment or tax advice as it does not take into account the specific objectives, financial situation or particular needs of any specific person. Diversification does not ensure a profit or protect against a loss in a declining market. There is no guarantee that any particular asset allocation or mix of funds will meet your investment objectives or provide you with a given level of income. Forecasts or projections of investment outcomes in investment plans are estimates only, based upon numerous assumptions about future capital markets returns and economic factors. As estimates, they are imprecise and hypothetical in nature, do not reflect actual investment results, and are not guarantees of future results. Investing entails risk including the possible loss of principal and there is no assurance that the investment will provide positive performance over any period of time.
+*/
 
 export default BlankPage;

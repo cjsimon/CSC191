@@ -3,6 +3,7 @@ import sys
 from tendo import singleton
 from api import argparser, create_app
 
+
 def main():
     args = argparser.get_args()
 
@@ -12,7 +13,7 @@ def main():
 
     port = int(os.environ.get("PORT", args.port))
     app = create_app(args.env, args.create)
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0',debug=True, port=port)
 
 if __name__ == "__main__":
     main()
