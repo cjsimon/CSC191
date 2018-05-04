@@ -15,24 +15,23 @@ export default class ForgotPageContainer extends React.Component<Props, State> {
 			textStyle: { textAlign: "center" },
 		});
 		fetch("http://localhost:5000/api/v1/email1", {
-			method: 'POST',
-			headers :
-			{
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
+			method: "POST",
+			headers: {
+				"Accept": "application/json",
+				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({"email":target})
-		})
+			body: JSON.stringify({ "email": target }),
+		});
 	}
 	render() {
-		var something = ""
+		let something = "";
 		const form1 = (
 			<Content style={{ height: 200, backgroundColor: "black" }} scrollEnabled={false}>
 			<Item stackedLabel>
 			<Label style={{color: "lightgreen"}}>Email</Label>
 			<Input
 			style={{color: "lightgreen"}}
-				onChangeText={text => {something = text}}
+				onChangeText={text => { something = text; }}
 				editable = {true}
 				maxLength = {2222}
 				defaultValue = {something}
@@ -44,13 +43,13 @@ export default class ForgotPageContainer extends React.Component<Props, State> {
 				</Button>
 			</View>
 
-			<View padder style={[{bottom: 10},{left: 0}]}>
+			<View padder style={[{ bottom: 10 }, { left: 0 }]}>
 				<Button rounded block success onPress={() => {this.props.navigation.goBack()}}>
 					<Text> Cancel </Text>
 				</Button>
 			</View>
 			</Content>
-		)
+		);
 		return <ForgotPage emailSend={form1} navigation={this.props.navigation} />;
 	}
 }

@@ -17,10 +17,10 @@ export interface State {}
 class LoginForm extends React.Component<Props, State> {
 	textInput: any;
 
-  accountCreate() {
+	accountCreate() {
 			this.props.navigation.navigate("CreatePage");
 	}
-	goBlank(){
+	goBlank() {
 		this.props.navigation.navigate("ForgotPage");
 	}
 	renderInput({ input, meta: { touched, error } }) {
@@ -40,13 +40,10 @@ class LoginForm extends React.Component<Props, State> {
 		this.props.navigation.navigate("AskQV");
 	}
 	passable(navigate) {
-		if(passable)
-		{
+		if (passable) {
 			navigate("Drawer");
 			passable = false;
-		}
-		else
-		{
+		} else {
 			Toast.show({
 				text: "Enter Valid Username and/or Password!",
 				duration: 2000,
@@ -56,92 +53,97 @@ class LoginForm extends React.Component<Props, State> {
 		}
 	}
 	login() {
-
 		const {navigate} = this.props.navigation;
-		// JUST READ FROM THE DATABASE POST REQUEST TO THE BACKEND TO DETERMINE TRUE OR FALSE IF VALID LOGIN
-		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
-		fetch("http://localhost:5000/api/v1/user/")
-	  .then(function(response) {
+
+		fetch("http://localhost:3000/user", {
+			method: "POST",
+			headers: {
+				"Accept": "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				username: userInfo[0],
+				password: userInfo[2],
+			}),
+		}).then(function(response) {
 			return response.json();
-	  }).then(function(data) {
-			for(var i=0; i<data.length; i++) // MIGHT NEED TO CHANGE WITH THE BACKEND
-			{
-				if(userInfo[0] == data[i].username && userInfo[2] == data[i].password)
-				{
+		}).then(function(data) {
+			// MIGHT NEED TO CHANGE WITH THE BACKEND
+			for (let i = 0; i < data.length; i++) {
+				if (userInfo[0] === data[i].username && userInfo[2] === data[i].password) {
 					userStuff = data[i];
 					passable = true;
 				}
 			}
-		}).then( () => {
-				if(passable)
-				{
-					// MAGIC HAND WAVE MIGHT NOT BE THERE
-					// RETURNS LIST OF STOCKS AND AMMOUNTS
-					fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
-						return response.json();
-				  }).then(function(data) {
-						var i=0;
-						var tmp;
-						for(i=0; i<data.length; i++)
-						{
-							tmp = [data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
-							setStock(tmp)
-						}
-						navigate("AskQV");
-						passable = false;
-					})
-				}
-				else
-				{
-					Toast.show({
-						text: "Enter Valid Username and/or Password!",
-						duration: 2000,
-						position: "top",
-						textStyle: { textAlign: "center" },
-					});
-				}
-    });
+		}).then(() => {
+			if (passable) {
+				// MAGIC HAND WAVE MIGHT NOT BE THERE
+				// RETURNS LIST OF STOCKS AND AMMOUNTS
+				fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
+					return response.json();
+				}).then(function(data) {
+					let i = 0;
+					let tmp;
+					for (i = 0; i < data.length; i++) {
+						tmp = [
+							data[i].code       + "",
+							data[i].name       + "",
+							data[i].change     + "",
+							data[i].changeP    + "",
+							data[i].TodayPrice + "",
+							data[i].shares,
+						];
+						setStock(tmp);
+					}
+					navigate("AskQV");
+					passable = false;
+				});
+			} else {
+				Toast.show({
+					text: "Enter Valid Username and/or Password!",
+					duration: 2000,
+					position: "top",
+					textStyle: { textAlign: "center" },
+				});
+			}
+		});
 	}
 	renderUsername(){
-		if(accountCreate)
-		{
+		if (accountCreate) {
 			return (
 				<Item stackedLabel>
 				<Label style={{color: "lightgreen"}}>Username</Label>
 				<Input
 				style={{color: "lightgreen"}}
-					onChangeText={text => {userInfo[0] = text}}
-					editable = {true}
-					maxLength = {2222}
-					defaultValue = {accountCreate === true ? userInfo[0]:""}
+					onChangeText = {text => { userInfo[0] = text; }}
+					editable     = {true}
+					maxLength    = {2222}
+					defaultValue = {accountCreate === true ? userInfo[0] : ""}
 				/>
 				</Item>
-			)
-		}
-		else
-		{
+			);
+		} else {
 			return (
 				<Item stackedLabel>
 				<Label style={{color: "lightgreen"}}>Username</Label>
-				<Input
-				style={{color: "lightgreen"}}
-					onChangeText={text => {userInfo[0] = text}}
-					editable = {true}
-					maxLength = {2222}
+				<Input style={{color: "lightgreen"}}
+					onChangeText= {text => { userInfo[0] = text }}
+					editable    = {true}
+					maxLength   = {2222}
 				/>
 				</Item>
-			)
+			);
 		}
 	}
 
-	renderPassword(){
+	renderPassword() {
 		return(
 			<Item stackedLabel>
 			<Label style={{color: "lightgreen"}}>Password</Label>
 			<Item style={{borderBottomWidth: 0}}>
 			<Input
 				style={{color: "lightgreen"}}
-				onChangeText={text => {userInfo[2] = text}}
+				onChangeText={text => { userInfo[2] = text; }}
 				editable = {true}
 				secureTextEntry = {true}
 				maxLength = {2222}
@@ -165,7 +167,7 @@ class LoginForm extends React.Component<Props, State> {
 				<Item style={{borderBottomWidth: 0}}>
 				<Input
 					style={{color: "lightgreen"}}
-					onChangeText={text => {userInfo[2] = text}}
+					onChangeText={text => { userInfo[2] = text; }}
 					editable = {true}
 					secureTextEntry = {true}
 					maxLength = {2222}
@@ -182,7 +184,9 @@ class LoginForm extends React.Component<Props, State> {
 		onLogin={() => this.login()} goBlank={() =>this.goBlank()} />;
 	}
 }
-const LoginContainer = reduxForm({
-	form: "login",
-})(LoginForm);
+const LoginContainer = reduxForm(
+	{
+		form: "login",
+	},
+)(LoginForm);
 export default LoginContainer;
