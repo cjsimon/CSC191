@@ -55,7 +55,7 @@ class LoginForm extends React.Component<Props, State> {
 	login() {
 		const {navigate} = this.props.navigation;
 
-		fetch("http://localhost:3000/user", {
+		fetch("http://localhost:5000/user", {
 			method: "POST",
 			headers: {
 				"Accept": "application/json",

@@ -70,7 +70,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		const {navigate} = this.props.navigation;
 		// KILL IT WITH FIRE aka
 		// POST EVERYTHING REPLACE IN DB AND RETURN STRING IN JSON WITH RESULTS
-		fetch("http://localhost:3000/users")
+		fetch("http://localhost:5000/users")
 		.then(function(response) {
 			return response.json();
 		}).then(function(data) {
@@ -89,7 +89,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 		}).then(function() {
 			if(ans == "")
 			{
-				fetch("http://localhost:3000/users")
+				fetch("http://localhost:5000/users")
 			  .then(function(response) {
 					return response.json();
 			  }).then(function(data) {
@@ -100,7 +100,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 						{
 							tmpId = data[i].id;
 							passable = true;
-							fetch("http://localhost:3000/users/" + tmpId, {
+							fetch("http://localhost:5000/users/" + tmpId, {
 								method: 'delete'
 							}).then(response =>
 								response.json().then(json => {
@@ -117,7 +117,7 @@ class UpdateInfoForm extends React.Component<Props, State> {
 							userStuff.email = userInfo[1];
 							userStuff.password = userInfo[2];
 							navigate("Drawer");
-							fetch("http://localhost:3000/users/", {
+							fetch("http://localhost:5000/users/", {
 								method: 'POST',
 								headers :
 								{

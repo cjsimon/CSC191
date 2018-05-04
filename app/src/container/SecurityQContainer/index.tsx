@@ -16,7 +16,7 @@ export default class SecurityQContainer extends React.Component<Props, State> {
 	// JUST PUT IT IN SILLY WILLY AKA
 	// POST EVERY MOTHER FUCKING THING INTO THE DATABASE!!!!
 	// aka POST EVERYTHING AND ENTER IN DATABASE
-	fetch("http://localhost:3000/users", {
+	fetch("http://localhost:5000/users", {
 		method: 'POST',
 		headers :
 		{

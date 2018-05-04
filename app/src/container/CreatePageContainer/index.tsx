@@ -14,7 +14,7 @@ class CreatePageForm extends React.Component<Props, State> {
 	onCreate() {
 		let ans = this.isValid();
 		const {navigate} = this.props.navigation;
-		fetch("http://localhost:3000/users")
+		fetch("http://localhost:5000/users")
 			.then(function(response) {
 				return response.json();
 			}).then(function(data) {
