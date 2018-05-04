@@ -14,37 +14,40 @@ class Routes:
         db = database
 
     # TODO
-    @api.route('/users/', methods=['POST'])
+    @api.route('/users', methods=['POST'])
     def users():
         if request.method == 'POST':
             # Get the given POST data
             given_username = request.form['username']
             given_password = request.form['password']
 
-            # Execute a query
-
+            """
+            Execute a query
+            """
+            # Prepare the raw sql statement
+            statement = \
+                """
+                SELECT `email`, `password`
+                FROM Users
+                WHERE `email` = '{0}' AND `password` = '{1}'
+                """
             # Automatically commit stashed changes
             # to the database if any changes exist
             # as indicated in the flask session
             # @see database.py
-            result = db.session.execute( # Prepare the sql string with the repalcement paramaters provided
-                text( # Prepare the raw sql statement
-                    """
-                    SELECT `username` AS u, `email` AS e
-                    FROM Users
-                    WHERE u = :username AND e = :email
-                    """
-                ),
-                username = given_username,
-                password = given_password
-            ).execution_options(None)
 
-            # TODO: Test this. Don't know if that's right
-            # Parse the database result type into json
+
+            result_proxy = db.session.execute( # Prepare the sql string with the repalcement paramaters provided
+                statement.format(
+                    given_username, # {0}
+                    given_password  # {1}
+                )
+            )
+
             return jsonify([
                 {
-                    'username': result["username"],
-                    'password': result["password"]
+                    'username': #get username from resultproxy? Can someone look it up?
+                    'password': #get username from resultproxy
                 }
             ])
 
