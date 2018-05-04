@@ -1,6 +1,6 @@
 import * as React from "react";
 import SellPage from "../../stories/screens/SellPage";
-import {Text, Content, Button, Left, Right, Body} from "native-base"
+import {Text, Content, Button, Left, Right, Body, Toast} from "native-base"
 import {updateStock,setStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
 export interface Props {
 	navigation: any;
@@ -8,13 +8,14 @@ export interface Props {
 export interface State {}
 var stockInfo = []
 var testShare = 0;
+var index = -1;
 export function setSellStockInfo(targ) {
 	stockInfo = [targ.code,targ.name,targ.current,targ.high,targ.low,targ.open,targ.closed,targ.preclosed,targ.change,targ.changeP,targ.shares]
 }
 
 
 export default class SellPageContainer extends React.Component<Props, State> {
-	/*goBackUpdate() {
+	goBackUpdate() {
 		if(index != -1)
 			updateStock(testShare,index)
 		else
@@ -24,7 +25,7 @@ export default class SellPageContainer extends React.Component<Props, State> {
 		updateGenAmm((testShare*parseFloat(stockInfo[2])).toFixed(2),true)
 		this.props.navigation.navigate("Portfolio")
 		testShare = 0
-	}*/
+	}
 	renderTitle() {
 		return <Text> {stockInfo[0] + " --- " + stockInfo[1]} </Text>
 	}
@@ -41,6 +42,7 @@ export default class SellPageContainer extends React.Component<Props, State> {
 		return <Text> High price: ${parseFloat(stockInfo[3]).toFixed(2) + "\n"} Low price: ${parseFloat(stockInfo[4]).toFixed(2)} </Text>
 	}
 	incr(select) {
+		alert(stockInfo[10])
 		if(select)
 		{
 			if(testShare >= stockInfo[10])
