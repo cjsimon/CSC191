@@ -33,7 +33,7 @@ import BuyPage from "./container/BuyPageContainer"
 import SellPage from "./container/SellPageContainer"
 // NEED TO COMMENT IT OUT BEFORE BUILD UP
 import Sidebar from "./container/SidebarContainer";
-import TruFilter from "./container/TruFilterContainer";
+//import TruFilter from "./container/TruFilterContainer";
 
 
 const Drawer = DrawerNavigator(
@@ -47,7 +47,7 @@ const Drawer = DrawerNavigator(
 		contentComponent: props => <Sidebar {...props} />,
 	},
 );
-const TruDrawer = DrawerNavigator(
+/*const TruDrawer = DrawerNavigator(
 	{
 		TruChart: {screen: TruChart},
 	},
@@ -57,7 +57,7 @@ const TruDrawer = DrawerNavigator(
 		// NEED TO COMMENT IT OUT BEFORE BUILD UP
 		contentComponent: props => <TruFilter {...props} />,
 	}
-)
+)*/
 const PortfolioDrawer = DrawerNavigator(
 	{
 		Portfolio: {screen: Portfolio}
@@ -109,7 +109,6 @@ const App = StackNavigator(
 		AskQV2: {screen: AskQV2},
 		ReferPage: {screen: ReferPage},
 		UpdateInfo: {screen: UpdateInfo},
-		TruDrawer: {screen: TruDrawer},
 		BuyPage: {screen: BuyPage},
 		SellPage: {screen: SellPage},
 	},

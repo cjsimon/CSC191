@@ -239,10 +239,8 @@ class Routes:
                         'TodayPrice':   str(stuff["quotes"]["quote"][i]["open"]),
                         'shares':       rand
                     })
-                    rand = random.randint(1,1000)
                     i += 1
         else:
-            rand = 1
             tmp.append({
                 'name':         str(stuff["quotes"]["quote"]["description"]),
                 'change':       str(stuff["quotes"]["quote"]["change"]),

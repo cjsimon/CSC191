@@ -31,16 +31,6 @@ export default class MyProfileContainer extends React.Component<Props, State> {
 		)
 	}
 	render() {
-		/* MIGHT USE ACCORDING TO ROBERT
-		<Button transparent>
-			<Icon
-				active
-				name="menu"
-				onPress={() => this.props.navigation.navigate("DrawerOpen")}
-				style={{color: "white"}}
-			/>
-		</Button>
-		*/
 		var form = (
 			<Header searchBar rounded style={{height: 100, backgroundColor: "black"}}>
 				<StatusBar barStyle="light-content" />
@@ -69,7 +59,7 @@ export default class MyProfileContainer extends React.Component<Props, State> {
 			<WebView
 				source={{uri: code}}
 				style={{marginTop: 0}}
-				scrollEnabled={false}
+				scrollEnabled={true}
 			/>
 		)
 		return <MyProfile navigation={this.props.navigation} header={header} userCont={form} form2={form2}/>;

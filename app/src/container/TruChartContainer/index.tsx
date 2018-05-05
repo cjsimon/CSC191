@@ -3,6 +3,8 @@ import TruChart from "../../stories/screens/TruChart";
 import {WebView} from 'react-native';
 import {Title, Text, Button, FooterTab } from "native-base";
 import {stockCode,setCode,typeGraph,startDate,endDate,areaSI,cycle} from "../../container/TruFilterContainer"
+/*import {setStockInfo,setIndex} from "../../container/BuyPageContainer"
+import {setSellStockInfo,setSellIndex} from "../../container/SellPageContainer"*/
 export interface Props {
 	navigation: any;
 }
@@ -19,14 +21,124 @@ export default class TruChartContainer extends React.Component<Props, State> {
 	openIt() {
 		/*this.props.navigation.navigate("DrawerOpen")*/
 	}
+	/*validBuy() {
+		var doesExist = false;
+		var index = 0;
+		for(var i=0; i<stockInfo.length; i++)
+		{
+			if(stockInfo[i][0] == textInput)
+			{
+				doesExist = true
+				index = i
+			}
+		}
+		if(textInput != "")
+		{
+			const {navigate} = this.props.navigation;
+			fetch("http://localhost:5000/api/v1/stock/", {
+				method: 'POST',
+				headers :
+				{
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({"code":textInput})
+			}).then(function(response) {
+				return response.json();
+			}).then(function(data) {
+				var tmp = data
+
+				if(tmp.valid == "True")
+				{
+					if(doesExist){
+						setIndex(index)
+					}
+					setStockInfo(tmp)
+					navigate("BuyPage")
+					textInput = ""
+				}
+				else {
+					Toast.show({
+						text: "Enter in a valid Stock Code",
+						duration: 2000,
+						position: "top",
+						textStyle: { textAlign: "center" },
+					});
+				}
+			})
+		}
+		else
+		{
+			Toast.show({
+				text: "Enter in Search for Valid Buy",
+				duration: 2000,
+				position: "top",
+				textStyle: { textAlign: "center" },
+			});
+		}
+	}
+	validSell() {
+		var doesExist = false;
+		var index = 0;
+		for(var i=0; i<stockInfo.length; i++)
+		{
+			if(stockInfo[i][0] == textInput)
+			{
+				doesExist = true
+				index = i
+			}
+		}
+		if(textInput != "" && doesExist)
+		{
+
+			const {navigate} = this.props.navigation;
+			fetch("http://localhost:5000/api/v1/stock/", {
+				method: 'POST',
+				headers :
+				{
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({"code":textInput})
+			}).then(function(response) {
+				return response.json();
+			}).then(function(data) {
+				var tmp = data
+
+				if(tmp.valid == "True")
+				{
+					setSellIndex(index)
+					setSellStockInfo(tmp,stockInfo[index][5])
+					navigate("SellPage")
+					textInput = ""
+				}
+				else {
+					Toast.show({
+						text: "Enter in a valid Stock Code",
+						duration: 2000,
+						position: "top",
+						textStyle: { textAlign: "center" },
+					});
+				}});
+		}
+		else
+		{
+			Toast.show({
+				text: "You do not own this stock or invalid. Please try another.",
+				duration: 2000,
+				position: "top",
+				textStyle: { textAlign: "center" },
+			});
+		}
+	}*/
 	renderStartButton() {
 		return (
 			<FooterTab style={{backgroundColor: "black"}}>
-			<Button vertical block onPress={() => this.forceUpdate()}>
-				<Text style={{color: "white"}}> Update Graph </Text>
+			<Button vertical success block onPress={() => this.props.navigation.navigate("BuyPage")}>
+				<Text style={{color: "white"}}> Buy Stock </Text>
 			</Button>
-			<Button vertical block  onPress={() => this.openIt()}>
-				<Text style={{color: "white"}}> Filter Options </Text>
+			<Button vertical block success onPress={() => this.props.navigation.navigate("SellPage")}>
+				<Text style={{color: "white"}}> Sell Stock </Text>
 			</Button>
 			</FooterTab>
 		)
