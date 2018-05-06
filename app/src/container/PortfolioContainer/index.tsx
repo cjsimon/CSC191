@@ -4,7 +4,7 @@ import { Toast, Text, Header, CardItem, Card, Title, Footer, Body, Button, Input
 import {StatusBar} from 'react-native';
 import {setStockCode} from "../../container/TruChartContainer"
 import {setStockInfo,setIndex} from "../../container/BuyPageContainer"
-import {setSellStockInfo} from "../../container/SellPageContainer"
+import {setSellStockInfo,setSellIndex} from "../../container/SellPageContainer"
 //import {userStuff} from "../../container/LoginContainer"asdfasdf
 
 export interface Props {
@@ -15,6 +15,8 @@ export interface State {}
 var stockInfo = []
 var stockHist = []
 
+var textInput = "";
+export var gen_ammount = 10000.00;
 
 export function setStock(newname) {
 	stockInfo.push(newname);
@@ -23,21 +25,28 @@ export function setHistory(newname) {
 	stockHist.push(newname)
 }
 export function updateStock(share,index) {
-	stockInfo[index][5] += share
-}
-export function updateGenAmm(targ,bo) {
-	if(bo)
+	if(stockInfo[index][5]-share == 0)
 	{
-		gen_ammount -= targ
+		stockInfo.splice(index, 1);
 	}
 	else
 	{
-		gen_ammount += targ
+		stockInfo[index][5] = stockInfo[index][5]-share
 	}
 }
+export function updateGenAmm(targ,bo) {
+	var tmp = gen_ammount
+	if(bo)
+	{
+		tmp -= parseFloat(targ)
+	}
+	else
+	{
+		tmp += parseFloat(targ)
+	}
+	gen_ammount = tmp
+}
 
-var textInput = ""
-export var gen_ammount = 10000;
 
 export default class PortfolioContainer extends React.Component<Props, State> {
 
@@ -101,11 +110,13 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 
 	validSell() {
 		var doesExist = false;
+		var index = 0;
 		for(var i=0; i<stockInfo.length; i++)
 		{
 			if(stockInfo[i][0] == textInput)
 			{
 				doesExist = true
+				index = i
 			}
 		}
 		if(textInput != "" && doesExist)
@@ -127,7 +138,8 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 
 				if(tmp.valid == "True")
 				{
-					setSellStockInfo(tmp)
+					setSellIndex(index)
+					setSellStockInfo(tmp,stockInfo[index][5])
 					navigate("SellPage")
 					textInput = ""
 				}
@@ -188,7 +200,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 				 </Button>
 				 </Left>
 				 <Right>
-				 <Button danger onPress={() => this.validSell()}>
+				 <Button success onPress={() => this.validSell()}>
 					 <Text> Sell </Text>
 				 </Button>
 				 </Right>
@@ -199,7 +211,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 	}
 	goTruChart(target) {
 		setStockCode(target);
-		this.props.navigation.navigate("TruDrawer")
+		this.props.navigation.navigate("TruChart")
 	}
 	renderArrow(value) {
 		if(parseFloat(value) > 0) {
@@ -247,9 +259,9 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 				<Left>
 					<Text> {stockHist[num-1][0]  +"\n$"+ stockHist[num-1][4]} </Text>
 				</Left>
-				<Body>
-					<Text> History SHARES </Text>
-				</Body>
+				<Title>
+					<Text> {stockHist[num-1][5] + " "+ stockHist[num-1][6]} </Text>
+				</Title>
 				<Right>
 					<Text> {parseFloat(stockHist[num-1][2]).toFixed(2)} </Text>
 					<Text> {parseFloat(stockHist[num-1][3]).toFixed(2)} </Text>
@@ -270,7 +282,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 					<Left />
 				</CardItem>
 					<Body>
-					<Text> ${(gen_ammount).toFixed(2)} </Text>
+					<Text> ${gen_ammount.toFixed(2)} </Text>
 					</Body>
 				<CardItem style={{ backgroundColor:"grey"}}>
 					<Right />
@@ -292,25 +304,34 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 		)
 	}
 	renderPort(){
-		return (<Content style={{backgroundColor:"black"}}>
-		<CardItem style={{backgroundColor:"black"}}>
-		<Button disabled block vertical transparent>
-			<Text style={{color: "white"}}>Portfolio</Text>
-		</Button>
-		</CardItem>
-		<CardItem style={{backgroundColor: 'black'}}>
-			<Button disabled vertical transparent>
-				<Text style={{color: "lightgreen",paddingRight: 65,paddingTop:0,paddingBottom:0}}>Stock</Text>
+		if(stockInfo.length == 0)
+		{
+			return (<Content style={{backgroundColor:"black"}}>
+			<Title><Text style={{color: "lightgreen"}}>No Transactions Yet {"\n"}</Text></Title>
+			</Content>)
+		}
+		else
+		{
+			return (<Content style={{backgroundColor:"black"}}>
+			<CardItem style={{backgroundColor:"black"}}>
+			<Button disabled block vertical transparent>
+				<Text style={{color: "white"}}>Portfolio</Text>
 			</Button>
-			<Button disabled vertical transparent>
-				<Text style={{color: "lightgreen",paddingTop:0,paddingBottom:0}}>Shares</Text>
-			</Button>
-			<Button disabled vertical transparent>
-				<Text style={{color: "lightgreen",paddingLeft: 50,paddingTop:0,paddingBottom:0}}>Percent</Text>
-			</Button>
-		</CardItem>
-		{this.getPort(stockInfo.length)}
-		</Content>)
+			</CardItem>
+			<CardItem style={{backgroundColor: 'black'}}>
+				<Button disabled vertical transparent>
+					<Text style={{color: "lightgreen",paddingRight: 65,paddingTop:0,paddingBottom:0}}>Stock</Text>
+				</Button>
+				<Button disabled vertical transparent>
+					<Text style={{color: "lightgreen",paddingTop:0,paddingBottom:0}}>Shares</Text>
+				</Button>
+				<Button disabled vertical transparent>
+					<Text style={{color: "lightgreen",paddingLeft: 50,paddingTop:0,paddingBottom:0}}>Percent</Text>
+				</Button>
+			</CardItem>
+			{this.getPort(stockInfo.length)}
+			</Content>)
+		}
 	}
 	renderHist(){
 		if(stockHist.length == 0)

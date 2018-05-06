@@ -26,9 +26,9 @@ class MyProfile extends React.Component<Props, State> {
 						</Button>
 						<Button vertical onPress={() => this.props.navigation.navigate('Drawer')}>
 							<Image
-								style={{width: 40, height: 20}}
-								source={{uri: "http://jetstox.com/wp-content/uploads/2018/02/Investing-With-Intelligence-2.png"}}
-							/>
+			          style={{width: 40, height: 20}}
+			          source={{uri: "http://www.jetstox.com/wp-content/uploads/2018/04/jetstoxicon-300x300.png"}}
+			        />
 							<Text>Home</Text>
 						</Button>
 						{this.props.form2}

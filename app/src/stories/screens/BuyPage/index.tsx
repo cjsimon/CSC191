@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Container, Header, Title, Button, Icon, Left, Right, Body } from "native-base";
+import {StatusBar} from "react-native";
+import { Container, Header, Title, Button, Icon, Text, Body } from "native-base";
 
 import styles from "./styles";
 export interface Props {
@@ -10,22 +11,17 @@ export interface Props {
 export interface State {}
 class SellPage extends React.Component<Props, State> {
 	render() {
-		const param = this.props.navigation.state.params;
 		return (
 			<Container style={styles.container}>
-				<Header>
-					<Left>
-						<Button transparent onPress={() => this.props.navigation.goBack()}>
-							<Icon name="ios-arrow-back" />
-						</Button>
-					</Left>
-
-					<Body style={{ flex: 3 }}>
-						<Title>{param ? param.name.item : "The Buy Page"}</Title>
+			<Header style={{backgroundColor: 'black', height: 100}}>
+			<StatusBar barStyle="light-content"/>
+				<Button transparent onPress={() => this.props.navigation.goBack()}>
+					<Icon name="ios-arrow-back" style={{color: "white"}}/>
+				</Button>
+					<Body>
+					<Title> <Text style={{color: "white"}}>Buy Page</Text> </Title>
 					</Body>
-
-					<Right />
-				</Header>
+			</Header>
 				{this.props.displayForm}
 				{this.props.controlForm}
 			</Container>

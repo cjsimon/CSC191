@@ -1,7 +1,7 @@
 import * as React from "react";
 import BuyPage from "../../stories/screens/BuyPage";
-import {Text, Content, Button, Left, Right, Body} from "native-base"
-import {updateStock,setStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
+import {Text, Content, Button, Left, Right, Body, Toast} from "native-base"
+import {updateStock,setStock,updateGenAmm,setHistory,gen_ammount} from "../../container/PortfolioContainer"
 export interface Props {
 	navigation: any;
 }
@@ -15,6 +15,7 @@ var index = -1;
 export function setStockInfo(targ) {
 	//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
 	stockInfo = [targ.code,targ.name,targ.current,targ.high,targ.low,targ.open,targ.closed,targ.preclosed,targ.change,targ.changeP,targ.shares]
+
 }
 export function setIndex(targ) {
 	index = targ
@@ -22,12 +23,15 @@ export function setIndex(targ) {
 
 export default class BuyPageContainer extends React.Component<Props, State> {
 	goBackUpdate() {
+		if(testShare != 0)
+		{
 		if(index != -1)
 			updateStock(testShare,index)
 		else
 			setStock([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
-			setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
 			//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
+		}
+		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+"","Bought\n"])
 		updateGenAmm((testShare*parseFloat(stockInfo[2])).toFixed(2),true)
 		this.props.navigation.navigate("Portfolio")
 		testShare = 0
@@ -48,9 +52,21 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 		return <Text> High price: ${parseFloat(stockInfo[3]).toFixed(2) + "\n"} Low price: ${parseFloat(stockInfo[4]).toFixed(2)} </Text>
 	}
 	incr(select) {
-		if(select)
+		if(select && gen_ammount > (testShare*parseFloat(stockInfo[2])))
 		{
-			testShare += 1
+			if(gen_ammount < ((testShare+1)*(parseFloat(stockInfo[2]))))
+			{
+				Toast.show({
+					text: "Balance has reached it's limit.",
+					duration: 2000,
+					position: "top",
+					textStyle: { textAlign: "center" },
+				});
+			}
+			else
+			{
+				testShare += 1
+			}
 		}
 		else if(!select && testShare > 0)
 		{

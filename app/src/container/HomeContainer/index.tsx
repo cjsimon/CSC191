@@ -58,7 +58,7 @@ class HomeContainer extends React.Component<Props, State> {
 		<WebView
 			source={{uri: url}}
 			style={{marginTop: 0}}
-			scrollEnabled={false}
+			scrollEnabled={true}
 			scalesPageToFit={true}
 		/>
 		)

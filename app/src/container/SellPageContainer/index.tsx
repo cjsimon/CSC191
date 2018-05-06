@@ -1,7 +1,7 @@
 import * as React from "react";
 import SellPage from "../../stories/screens/SellPage";
 import {Text, Content, Button, Left, Right, Body, Toast} from "native-base"
-import {updateStock,setStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
+import {updateStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
 export interface Props {
 	navigation: any;
 }
@@ -9,20 +9,21 @@ export interface State {}
 var stockInfo = []
 var testShare = 0;
 var index = -1;
-export function setSellStockInfo(targ) {
-	stockInfo = [targ.code,targ.name,targ.current,targ.high,targ.low,targ.open,targ.closed,targ.preclosed,targ.change,targ.changeP,targ.shares]
+export function setSellStockInfo(targ,shares) {
+	stockInfo = [targ.code,targ.name,targ.current,targ.high,targ.low,targ.open,targ.closed,targ.preclosed,targ.change,targ.changeP,shares]
+}
+export function setSellIndex(targ) {
+	index = targ
 }
 
 
 export default class SellPageContainer extends React.Component<Props, State> {
 	goBackUpdate() {
-		if(index != -1)
-			updateStock(testShare,index)
-		else
-			setStock([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
-			setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
+		updateStock(testShare,index)
+		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare,"Sold\n"])
 			//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
-		updateGenAmm((testShare*parseFloat(stockInfo[2])).toFixed(2),true)
+		var tmp = (testShare*parseFloat(stockInfo[2])).toFixed(2)
+		updateGenAmm(tmp,false)
 		this.props.navigation.navigate("Portfolio")
 		testShare = 0
 	}
@@ -42,7 +43,6 @@ export default class SellPageContainer extends React.Component<Props, State> {
 		return <Text> High price: ${parseFloat(stockInfo[3]).toFixed(2) + "\n"} Low price: ${parseFloat(stockInfo[4]).toFixed(2)} </Text>
 	}
 	incr(select) {
-		alert(stockInfo[10])
 		if(select)
 		{
 			if(testShare >= stockInfo[10])
@@ -54,7 +54,9 @@ export default class SellPageContainer extends React.Component<Props, State> {
 					textStyle: { textAlign: "center" },
 				});
 			}
-			testShare += 1
+			else {
+				testShare += 1
+			}
 		}
 		else if(!select && testShare > 0)
 		{
@@ -75,7 +77,7 @@ export default class SellPageContainer extends React.Component<Props, State> {
 		return <Button disabled transparent ><Text>{testShare}</Text></Button>
 	}
 	renderConfirm() {
-		return <Button onPress={() => this.props.navigation.goBack()}><Text>Confirm</Text></Button>
+		return <Button onPress={() => this.goBackUpdate()}><Text>Confirm</Text></Button>
 	}
 	renderDisplay() {
 		return (
