@@ -7,11 +7,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from .models import Models
 
 class Database():
-    app = None
-    db = None
-    engine = None
-    session = None
-    Base = None
+    app        = None
+    db         = None
+    engine     = None
+    session    = None
+    Base       = None
+    Models     = None
 
     def __init__(self, app, create_tables=False):
         '''
@@ -41,9 +42,13 @@ class Database():
         self.Base = declarative_base()
         self.Base.query = self.session.query_property()
 
+        # Store the instansiated modules for the database
+        # as a reference to them for use in routes.
+        # @see routes.py
+        #
         # Models must be imported here and before calling init_db()
         # so that they are registered properly on the metadata.
-        Models(self.Base).init_models()
+        self.Models = Models(self.Base).init_models()
 
         if create_tables:
             print('Creating tables...')
