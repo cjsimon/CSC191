@@ -9,4 +9,4 @@ VOLUME /var/lib/mysql
 
 EXPOSE 3306
 
-COPY jetstox.sql /docker-entrypoint-initdb.d/
+#COPY jetstox.sql /docker-entrypoint-initdb.d/

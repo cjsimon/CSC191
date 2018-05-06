@@ -3,15 +3,58 @@ import smtplib
 import http.client
 import random
 import requests
-from flask import Blueprint, url_for, request, jsonify
+from flask import Blueprint, url_for, request, jsonify, abort
 from sqlalchemy import text
-
 class Routes:
     api = Blueprint('api', __name__)
 
     def __init__(self, database):
         global db # self cannot be passed in blueprint route definitions
         db = database
+
+    @api.route('/users', methods=['GET', 'POST'])
+    def users():
+        if request.method == 'POST':
+            if request.headers['Content-Type'] == 'application/json':
+                # Get the given POST data
+                given_username = request.json["username"]
+                given_password = request.json["password"]
+
+                with db.engine.connect() as connection:
+                    """
+                    Execute a query.
+
+                    Automatically commit stashed changes
+                    to the database if any changes exist
+                    as indicated in the flask session
+                    @see database.py
+                    """
+
+                    # Prepare and execute the sql with the the provided repalcement paramaters
+                    results = connection.execute(
+                        text( # Prepare the raw sql statement
+                            """
+                            SELECT COUNT(*), Users.uid
+                            FROM `Users`, `User_Security`
+                            INNER JOIN Users AS U
+                                ON U.uid = User_Security.uid
+                            WHERE
+                                Users.username         = :username AND
+                                User_Security.password = :password
+                            GROUP BY Users.uid
+                            """
+                        ),
+                        username = given_username,
+                        password = given_password
+                    )
+
+                    # This part is not working
+                    for row in results:
+                        print(row['uid'])
+                    return results, 200
+
+            # POST request not made
+            abort(404)
 
     @api.route('/api/v1/UserAccountApplicationVerification', methods = ['POST'])
     def process_user_account_request():
@@ -21,12 +64,12 @@ class Routes:
         #SELECT email FROM users WHERE users.email = [email]
         #save the amount of results into rows
 
-        resp = ""
+        res = ""
         if rows != 0:
-            resp = "This Email Exists. Please Enter a Valid Email\n"
-        response = [{
-            'response': resp
-        }]
+            response = [{
+                'status': 'error',
+                'message': 'That email\'s already taken.\nPlease use another email.'
+            }]
         return jsonify(response=response), 200
 
     @api.route('/api/v1/AccountCreation', methods = ['POST'])
@@ -90,10 +133,9 @@ class Routes:
         if replace:
             #SQL QUERY HERE
             #replace email and password where the entery.email=email
-
-        response = [{
-            'response': resp
-        }]
+            response = [{
+                'response': resp
+            }]
         return jsonify(response=response), 200
 
     @api.route('/api/v1/')
