@@ -6,7 +6,6 @@ import styles from "./styles";
 export interface Props {
 	navigation: any;
 	displayForm: any;
-	controlForm: any;
 }
 export interface State {}
 class SellPage extends React.Component<Props, State> {
@@ -22,9 +21,7 @@ class SellPage extends React.Component<Props, State> {
 					<Title> <Text style={{color: "white"}}>Sell Page</Text> </Title>
 					</Body>
 			</Header>
-
 					{this.props.displayForm}
-					{this.props.controlForm}
 			</Container>
 		);
 	}

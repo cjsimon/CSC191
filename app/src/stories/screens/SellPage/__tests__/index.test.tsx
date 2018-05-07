@@ -5,8 +5,7 @@ import renderer from "react-test-renderer";
 
 const navigation = { state: jest.fn() };
 const displayForm = jest.fn()
-const controlForm = jest.fn()
 it("renders correctly", () => {
-	const tree = renderer.create(<SellPage displayForm={displayForm} controlForm={controlForm} navigation={navigation} />).toJSON();
+	const tree = renderer.create(<SellPage displayForm={displayForm} navigation={navigation} />).toJSON();
 	expect(tree).toMatchSnapshot();
 });

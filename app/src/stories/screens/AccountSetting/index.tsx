@@ -49,8 +49,8 @@ class AccountSetting extends React.Component<Props, State> {
 									</Button>
 							</CardItem>
 							<CardItem style={{backgroundColor: "white"}}>
-									<Button full transparent onPress={() => this.toBeContinued()}>
-										<Text style={{color: "black"}}>Privacy Policy</Text>
+									<Button full transparent onPress={() => this.props.navigation.navigate("BlankPage")}>
+										<Text style={{color: "black"}}>Terms and Condition</Text>
 									</Button>
 							</CardItem>
 							<CardItem style={{backgroundColor: "white"}}>

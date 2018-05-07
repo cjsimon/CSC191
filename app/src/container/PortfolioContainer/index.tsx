@@ -2,7 +2,7 @@ import * as React from "react";
 import Portfolio from "../../stories/screens/Portfolio";
 import { Toast, Text, Header, CardItem, Card, Title, Footer, Body, Button, Input, Item, Left, Right, Icon, Content} from "native-base";
 import {StatusBar} from 'react-native';
-import {setStockCode} from "../../container/TruChartContainer"
+import {setStockCode,setSellShare,TruSetIndex,setExists} from "../../container/TruChartContainer"
 import {setStockInfo,setIndex} from "../../container/BuyPageContainer"
 import {setSellStockInfo,setSellIndex} from "../../container/SellPageContainer"
 //import {userStuff} from "../../container/LoginContainer"asdfasdf
@@ -24,14 +24,17 @@ export function setStock(newname) {
 export function setHistory(newname) {
 	stockHist.push(newname)
 }
-export function updateStock(share,index) {
+export function updateStock(share,index,bors) {
 	if(stockInfo[index][5]-share == 0)
 	{
 		stockInfo.splice(index, 1);
 	}
 	else
 	{
-		stockInfo[index][5] = stockInfo[index][5]-share
+		if(bors)
+			stockInfo[index][5] = parseFloat(stockInfo[index][5])-share
+		else
+			stockInfo[index][5] = parseFloat(stockInfo[index][5])+share
 	}
 }
 export function updateGenAmm(targ,bo) {
@@ -209,8 +212,39 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			 </Content>
 		)
 	}
-	goTruChart(target) {
+	goTruChartPort(target) {
+		var index = -1;
+		for(var i=0; i<stockInfo.length; i++)
+		{
+			if(stockInfo[i][0] == target)
+			{
+				index = i
+				break
+			}
+		}
 		setStockCode(target);
+		setSellShare(stockInfo[index][5]);
+		TruSetIndex(index);
+		this.props.navigation.navigate("TruChart")
+	}
+	goTruChartHist(target) {
+		var index = -1;
+		for(var i=0; i<stockInfo.length; i++)
+		{
+			if(stockInfo[i][0] == target)
+			{
+				index = i
+				break
+			}
+		}
+		if(index == -1)
+			setExists(false)
+		else
+			setExists(true)
+		setStockCode(target);
+		if(index != -1)
+			setSellShare(stockHist[index][5]);
+		TruSetIndex(index);
 		this.props.navigation.navigate("TruChart")
 	}
 	renderArrow(value) {
@@ -230,7 +264,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			return (<Text>Empty</Text>);
 		return (
 			<Content>
-			<Button onPress={() => this.goTruChart(stockInfo[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
+			<Button onPress={() => this.goTruChartPort(stockInfo[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
 				<Left>
 					<Text> {stockInfo[num-1][0] + "\n$"+ stockInfo[num-1][4]} </Text>
@@ -254,7 +288,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			return (<Text>Empty</Text>);
 		return (
 			<Content>
-			<Button onPress={() => this.goTruChart(stockHist[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
+			<Button onPress={() => this.goTruChartHist(stockHist[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
 				<Left>
 					<Text> {stockHist[num-1][0]  +"\n$"+ stockHist[num-1][4]} </Text>

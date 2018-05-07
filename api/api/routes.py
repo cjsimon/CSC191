@@ -60,16 +60,27 @@ class Routes:
     def process_user_account_request():
         data = request.get_json()
         email = data['email']
-        #SQL QUERY HERE
-        #SELECT email FROM users WHERE users.email = [email]
+        #SQL QUERY HERE EMAIL
+        #SELECT email, username FROM users WHERE users.email = [email] AND users.username = email
         #save the amount of results into rows
 
+<<<<<<< Updated upstream
         res = ""
         if rows != 0:
             response = [{
                 'status': 'error',
                 'message': 'That email\'s already taken.\nPlease use another email.'
             }]
+=======
+
+        resp = ""
+        if rows != 0:
+            resp = "This Email Exists. Please Enter a Valid Email\n"
+
+        response = [{
+            'response': resp
+        }]
+>>>>>>> Stashed changes
         return jsonify(response=response), 200
 
     @api.route('/api/v1/AccountCreation', methods = ['POST'])
@@ -94,12 +105,13 @@ class Routes:
     @api.route('/api/v1/Login')
     def process_login():
         data = request.get_json()
-        email = data['email']
+        username = data['username']
         password = data['password']
 
         #SQL QUERY HERE
-        #SELECT email FROM users WHERE users.email=email AND users.password=password
+        #SELECT username FROM users WHERE users.username=username AND users.password=password
         #save the amount of results into rows
+
 
         resp = False
         if rows != 0:
@@ -131,11 +143,17 @@ class Routes:
             else:
                 replace = True
         if replace:
+            print("SOMETHING ")
             #SQL QUERY HERE
             #replace email and password where the entery.email=email
+<<<<<<< Updated upstream
             response = [{
                 'response': resp
             }]
+=======
+
+        response = [{'response': resp}]
+>>>>>>> Stashed changes
         return jsonify(response=response), 200
 
     @api.route('/api/v1/')
@@ -170,7 +188,7 @@ class Routes:
 
     # TODO
     @api.route('/api/v1/user/')
-    def sql_demo():
+    def userAdmin():
         # Inputs:
         # {
         #   'username':

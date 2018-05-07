@@ -1,6 +1,6 @@
 import * as React from "react";
 import BuyPage from "../../stories/screens/BuyPage";
-import {Text, Content, Button, Left, Right, Body, Toast} from "native-base"
+import {Text, Button,Content, Left, Right, Toast, Card, CardItem} from "native-base"
 import {updateStock,setStock,updateGenAmm,setHistory,gen_ammount} from "../../container/PortfolioContainer"
 export interface Props {
 	navigation: any;
@@ -25,10 +25,12 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 	goBackUpdate() {
 		if(testShare != 0)
 		{
-		if(index != -1)
-			updateStock(testShare,index)
-		else
-			setStock([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
+			if(index != -1)
+			{
+				updateStock(testShare,index,false)
+			}
+			else
+				setStock([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
 			//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
 		}
 		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+"","Bought\n"])
@@ -37,19 +39,10 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 		testShare = 0
 	}
 	renderTitle() {
-		return <Text> {stockInfo[0] + " --- " + stockInfo[1]} </Text>
+		return <Text style={{fontSize: 25}}> {stockInfo[0] + " --- " + stockInfo[1]} </Text>
 	}
 	renderCurrent() {
-		return <Text> Current Price: ${parseFloat(stockInfo[2]).toFixed(2)} </Text>
-	}
-	renderOpen() {
-		return <Text> Open price : ${parseFloat(stockInfo[5]).toFixed(2)} </Text>
-	}
-	renderClosed() {
-		return <Text> Closed price: ${parseFloat(stockInfo[6]).toFixed(2) + "\n"} Pre-Closed price: ${parseFloat(stockInfo[7]).toFixed(2)} </Text>
-	}
-	renderHighLow() {
-		return <Text> High price: ${parseFloat(stockInfo[3]).toFixed(2) + "\n"} Low price: ${parseFloat(stockInfo[4]).toFixed(2)} </Text>
+		return <Text style={{fontSize: 20}}> Current Price: ${parseFloat(stockInfo[2]).toFixed(2)} </Text>
 	}
 	incr(select) {
 		if(select && gen_ammount > (testShare*parseFloat(stockInfo[2])))
@@ -75,51 +68,65 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 		this.forceUpdate();
 	}
 	renderPrice() {
-		return (<Text>-${(testShare*parseFloat(stockInfo[2])).toFixed(2)}</Text>)
+		return (<Text style={{color: "lightgreen",fontSize: 25}}>${(testShare*parseFloat(stockInfo[2])).toFixed(2)}</Text>)
 	}
 	renderPlus() {
-		return <Button onPress={() => this.incr(true)}><Text>+</Text></Button>
+		return <Button success onPress={() => this.incr(true)}><Text style={{fontSize: 20}}>+</Text></Button>
 	}
 	renderMinus() {
-		return <Button onPress={() => this.incr(false)}><Text>-</Text></Button>
+		return <Button success onPress={() => this.incr(false)}><Text style={{fontSize: 20}}>-</Text></Button>
 	}
 	renderMonitor() {
-		return <Button disabled transparent ><Text>{testShare}</Text></Button>
-	}
-	renderConfirm() {
-		return <Button onPress={() => this.goBackUpdate()}><Text>Confirm</Text></Button>
+		return <Button success disabled transparent><Text style={{fontSize: 20}}>{testShare}</Text></Button>
 	}
 	renderDisplay() {
 		return (
-			<Content>
-				{this.renderTitle()}
-				{this.renderCurrent()}
-				{this.renderOpen()}
-				{this.renderClosed()}
-				{this.renderHighLow()}
+			<Content padder style={{backgroundColor: "black"}}>
+				<Card>
+				<CardItem>
+					{this.renderTitle()}
+				</CardItem>
+				<CardItem>
+					{this.renderCurrent()}
+				</CardItem>
+				</Card>
+				{this.renderLower()}
+			<Button success full block onPress={() => this.goBackUpdate()}><Text>Confirm</Text></Button>
 			</Content>
 		)
+
 	}
-	renderButton() {
+	renderPriceMon(){
 		return (
-			<Content>
-				{this.renderPrice()}
-				<Left>
-				{this.renderPlus()}
-				</Left>
-				<Body>
-				{this.renderMonitor()}
-				</Body>
-				<Right>
+		<CardItem style={{backgroundColor: "black"}}>
+		<Left />
+			{this.renderPrice()}
+		<Right />
+		</CardItem>)
+	}
+	renderButtons() {
+		return (
+			<CardItem style={{backgroundColor: "black"}}>
+				<Left />
 				{this.renderMinus()}
-				</Right>
-				{this.renderConfirm()}
-			</Content>
+				<Left />
+				{this.renderMonitor()}
+				<Right />
+				{this.renderPlus()}
+				<Right />
+			</CardItem>
+		)
+	}
+	renderLower() {
+		return (
+			<Card style={{backgroundColor: "black"}}>
+			{this.renderPriceMon()}
+			{this.renderButtons()}
+			</Card>
 		)
 	}
 	render() {
 		const form1 = this.renderDisplay()
-		const form2 = this.renderButton()
-		return <BuyPage displayForm={form1} controlForm={form2} navigation={this.props.navigation} />;
+		return <BuyPage displayForm={form1} navigation={this.props.navigation} />;
 	}
 }
