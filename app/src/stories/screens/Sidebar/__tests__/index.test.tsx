@@ -5,8 +5,9 @@ import renderer from "react-test-renderer";
 
 const navigation = { navigate: jest.fn() };
 const userStuff = jest.fn();
+const clear = jest.fn();
 
 it("renders correctly", () => {
-	const tree = renderer.create(<Sidebar userStuff={userStuff} navigation={navigation} />).toJSON();
+	const tree = renderer.create(<Sidebar userStuff={userStuff} clear={clear} navigation={navigation} />).toJSON();
 	expect(tree).toMatchSnapshot();
 });

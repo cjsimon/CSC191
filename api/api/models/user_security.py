@@ -6,7 +6,7 @@ from api.serializer import Serializer
 def init(Base):
     class User_Security(Base):
         __tablename__ = 'User_Security'
-        uid      = Column(Integer, ForeignKey('Users.uid'))
+        uid      = Column(Integer, ForeignKey('User.uid'))
         password = Column(String(120), unique=False)
         q1       = Column(String(120), unique=False)
         q2       = Column(String(120), unique=False)

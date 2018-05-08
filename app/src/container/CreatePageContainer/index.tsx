@@ -16,28 +16,18 @@ class CreatePageForm extends React.Component<Props, State> {
 		const {navigate} = this.props.navigation;
 		// needs to send front end data validated and sent to fetch for determined to be entered or error
 		// post user/pass return json string
+
+		// PUT BACK LATER localhost:5000
 		fetch("http://162.229.170.225:13337/api/v1/UserAccountApplicationVerification", {
-			body: JSON.stringify({email: userInfo[1]}),
+			method: 'POST',
 			headers: {
 				'content-type': 'application/json'
 			},
-			method: 'POST'
+			body: JSON.stringify({username: userInfo[0],email: userInfo[1]}),
 		}).then(function(response) {
 			return response.json();
-		})/*.then(function(data) {
-			for(var i=0; i<data.length; i++)
-			{
-				if(userInfo[0] == data[i].username)
-				{
-					ans += "This User Exists. Please Enter a Valid Username\n"
-				}
-				if(userInfo[1] == data[i].email)
-				{
-					ans += "This Email Exists. Please Enter a Valid Email\n"
-				}
-			}
-		})*/.then(function(data) {
-			ans = data[0].response;
+		}).then(function(data) {
+			ans += data.message
 			if(ans == "")
 			{
 				navigate("SecurityQ")
@@ -234,7 +224,7 @@ class CreatePageForm extends React.Component<Props, State> {
 			</Item>
 		)
 	}
-	
+
 	render() {
 		this.initalUser();
 		const form = (

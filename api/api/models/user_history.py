@@ -5,8 +5,8 @@ from api.serializer import Serializer
 
 def init(Base):
     class User_History(Base):
-        __tablename__  = 'User_Histories'
-        uid            = Column(Integer, ForeignKey('Users.uid'))
+        __tablename__  = 'User_Historie'
+        uid            = Column(Integer, ForeignKey('User.uid'))
         stock          = Column(String(6))
         time           = Column(DateTime, default=datetime.utcnow)
         amount         = Column(Integer, unique=False)

@@ -4,6 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import Login from "../../stories/screens/Login";
 import {userInfo} from "../../container/CreatePageContainer";
 import {accountCreate} from "../../container/SecurityQContainer";
+import {setStock} from "../../container/PortfolioContainer";
 
 
 export interface Props {
@@ -16,55 +17,6 @@ var passable = false;
 export interface State {}
 class LoginForm extends React.Component<Props, State> {
 	textInput: any;
-
-	// THIS IS HOW YOU NOT LOGIN BUT THIS IS FOR TEMPORARY ADMIN ACCOUNT FOR WES TO GET IN
-	debugAdminFunction(){
-	const {navigate} = this.props.navigation
-	fetch("http://localhost:5000/api/v1/user/")
-	.then(function(response) {
-		return response.json();
-	}).then(function(data) {
-		for(var i=0; i<data.length; i++) // MIGHT NEED TO CHANGE WITH THE BACKEND
-		{
-			if(userInfo[0] == data[i].username && userInfo[2] == data[i].password)
-			{
-				userStuff = data[i];
-				passable = true;
-			}
-		}
-	}).then( () => {
-			if(passable)
-			{
-				navigate("AskQV");
-				// MAGIC HAND WAVE MIGHT NOT BE THERE
-				// RETURNS LIST OF STOCKS AND AMMOUNTS
-				/*fetch("http://localhost:5000/api/v1/stock/").then(function(response) {
-					return response.json();
-				}).then(function(data) {
-					var i=0;
-					var tmp;
-					for(i=0; i<data.length; i++)
-					{
-						tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + ""]
-						setStock(tmp)
-					}
-					navigate("AskQV");
-					passable = false;
-				})
-			}
-			else
-			{
-				Toast.show({
-					text: "Enter Valid Username and/or Password!",
-					duration: 2000,
-					position: "top",
-					textStyle: { textAlign: "center" },
-				});
-			}*/
-		}
-	});
-	}
-
 
   accountCreate() {
 			this.props.navigation.navigate("CreatePage");
@@ -110,10 +62,10 @@ class LoginForm extends React.Component<Props, State> {
 	}
 
 	login() {
-		this.debugAdminFunction()
+		//this.debugAdminFunction()
 		// JUST READ FROM THE DATABASE POST REQUEST TO THE BACKEND TO DETERMINE TRUE OR FALSE IF VALID LOGIN
 		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
-		/*
+		// CHANGE LATER localhost:5000
 		const {navigate} = this.props.navigation;
 		fetch("http://162.229.170.225:13337/api/v1/Login", {
 			method: 'POST',
@@ -121,30 +73,31 @@ class LoginForm extends React.Component<Props, State> {
 			{
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({email: userInfo[1],
+			body: JSON.stringify({username: userInfo[0],
 				password: userInfo[2]})
 		})
 		.then(function(response) {
 			return response.json();
 	  }).then(function(data){
-				passable = data[0].response;
+				passText = data[0].resp;
+				if(passText == "True")
+					passable = true;
+				else
+					passable = false;
 				if(passable)
 				{
-					// MAGIC HAND WAVE MIGHT NOT BE THERE
-					// RETURNS LIST OF STOCKS AND AMMOUNTS
-					fetch("http://localhost:5000/api/v1/stock/").then(function(response) {
+					// REMOVE THIS IF NEEDED.... OR AT LEAST MODIFIED
+					/*fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
 						return response.json();
 				  }).then(function(data) {
-						var i=0;
-						var tmp;
-						for(i=0; i<data.length; i++)
-						{
-							tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + ""]
-							setStock(tmp)
-						}
+						var tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + ""]
+						setStock(tmp)
 						navigate("AskQV");
 						passable = false;
-					})
+					})*/
+					userStuff = data[0]
+					navigate("AskQV");
+					passable = false;
 				}
 				else
 				{
@@ -155,7 +108,7 @@ class LoginForm extends React.Component<Props, State> {
 						textStyle: { textAlign: "center" },
 					});
 				}
-    });*/
+    });
 	}
 
 	renderUsername(){

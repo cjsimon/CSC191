@@ -18,6 +18,10 @@ var stockHist = []
 var textInput = "";
 export var gen_ammount = 10000.00;
 
+export function clearAllStocks() {
+	stockInfo = []
+	stockHist = []
+}
 export function setStock(newname) {
 	stockInfo.push(newname);
 }

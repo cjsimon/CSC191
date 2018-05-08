@@ -12,7 +12,8 @@ class Routes:
         global db # self cannot be passed in blueprint route definitions
         db = database
 
-    @api.route('/users', methods=['GET', 'POST'])
+
+    @api.route('/users/', methods=['GET', 'POST'])
     def users():
         if request.method == 'POST':
             if request.headers['Content-Type'] == 'application/json':
@@ -35,11 +36,11 @@ class Routes:
                         text( # Prepare the raw sql statement
                             """
                             SELECT COUNT(*), Users.uid
-                            FROM `Users`, `User_Security`
-                            INNER JOIN Users AS U
+                            FROM `User`, `User_Security`
+                            INNER JOIN User AS U
                                 ON U.uid = User_Security.uid
                             WHERE
-                                Users.username         = :username AND
+                                User.username         = :username AND
                                 User_Security.password = :password
                             GROUP BY Users.uid
                             """
@@ -59,29 +60,51 @@ class Routes:
     @api.route('/api/v1/UserAccountApplicationVerification', methods = ['POST'])
     def process_user_account_request():
         data = request.get_json()
-        email = data['email']
+        email = data["email"]
+        username = data["username"]
         #SQL QUERY HERE EMAIL
         #SELECT email, username FROM users WHERE users.email = [email] AND users.username = email
         #save the amount of results into rows
+        print (email+" "+username)
+        checkUsername = 0
+        checkEmail = 0
+        with db.engine.connect() as connection:
 
-<<<<<<< Updated upstream
-        res = ""
-        if rows != 0:
-            response = [{
-                'status': 'error',
-                'message': 'That email\'s already taken.\nPlease use another email.'
-            }]
-=======
+            # Prepare and execute the sql with the the provided repalcement paramaters
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select count(email) from User where User.email = :email;"
+                ),
+                email = email,
+            )
+            for row in results:
+                checkEmail = row["count(email)"]
 
-        resp = ""
-        if rows != 0:
-            resp = "This Email Exists. Please Enter a Valid Email\n"
+            # Prepare and execute the sql with the the provided repalcement paramaters
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select count(username) from User where User.username = :username;"
+                ),
+                username = username,
+            )
+            for row in results:
+                checkUsername = row["count(username)"]
+        rows = 1
+        status = "sucess"
+        message = ""
+        if checkEmail != 0:
+            status = 'error',
+            message +=  'That email\'s already taken.\nPlease use another email.'
 
-        response = [{
-            'response': resp
-        }]
->>>>>>> Stashed changes
-        return jsonify(response=response), 200
+        if checkUsername != 0:
+            status = 'error',
+            message +=  'That username\'s already taken.\nPlease use another username.'
+
+        response = {
+            'status': status,
+            'message': message,
+        }
+        return jsonify(response), 200
 
     @api.route('/api/v1/AccountCreation', methods = ['POST'])
     def process_account_creation():
@@ -102,24 +125,61 @@ class Routes:
         #INSERT INTO users info from data
         return jsonify(response=response), 204
 
-    @api.route('/api/v1/Login')
+    @api.route('/api/v1/Login',methods = ['POST'])
     def process_login():
         data = request.get_json()
+        uid = 0
         username = data['username']
         password = data['password']
-
+        email = ""
+        q = ["","",""]
+        a = ["","",""]
+        phone = ""
+        bday = ""
         #SQL QUERY HERE
         #SELECT username FROM users WHERE users.username=username AND users.password=password
         #save the amount of results into rows
+        with db.engine.connect() as connection:
 
+            # Prepare and execute the sql with the the provided repalcement paramaters
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select * from User, User_Security where User.username = :username AND User.uid = User_Security.uid AND User_Security.password = :password;"
+                ),
+                username = username,
+                password = password
+            )
+            for row in results:
+                uid = row["uid"]
+                username = row["username"]
+                email = row["email"]
+                password = row["password"]
+                q[0] = row["q1"]
+                a[0] = row["a1"]
+                q[1] = row["q2"]
+                a[1] = row["a2"]
+                q[2] = row["q3"]
+                a[2] = row["a3"]
+                phone = row["phone"]
+                bday = row["birthday"]
 
         resp = False
-        if rows != 0:
+        if uid != 0:
             resp = True
-        response = [{
-            'response': resp
-        }]
-        return jsonify(response=response), 200
+
+        return jsonify([{"resp":str(resp),
+        'username': username,
+        "email": email,
+        "password": password,
+        "phone": phone,
+        "bday": bday,
+        "q1":q[0],
+        "a1":a[0],
+        "q2":q[1],
+        "a2":a[1],
+        "q3":q[2],
+        "a3":a[2],
+        "balance":10000}]), 200
 
     @api.route('/api/v1/Update')
     def process_update_request():
@@ -146,14 +206,11 @@ class Routes:
             print("SOMETHING ")
             #SQL QUERY HERE
             #replace email and password where the entery.email=email
-<<<<<<< Updated upstream
             response = [{
                 'response': resp
             }]
-=======
 
         response = [{'response': resp}]
->>>>>>> Stashed changes
         return jsonify(response=response), 200
 
     @api.route('/api/v1/')
@@ -184,48 +241,6 @@ class Routes:
         server.login(pEmail, pPass)
         server.sendmail(pEmail, targete["email"], "HEY YOUR FRIEND WANTED THIS!!!")
         return jsonify(""), 200
-
-
-    # TODO
-    @api.route('/api/v1/user/')
-    def userAdmin():
-        # Inputs:
-        # {
-        #   'username':
-        #   'password':
-        # }
-        # Output
-        # {
-		# 	'username': 'Admin',
-		# 	'email': 'Admin12345@gmail.com',
-		# 	'password': '12345',
-		# 	'phone': '911',
-		# 	'bday': '01/01/2000',
-		# 	'q1': 'N/A',
-		# 	'a1': 'N/A',
-		# 	'q2': 'N/A',
-		# 	'a2': 'N/A',
-		# 	'q3': 'N/A',
-		# 	'a3': 'N/A',
-		# 	'balance': 10000}]), 200
-		# },
-        return jsonify([
-            {
-                'id': 1,
-                'username': 'Admin',
-                'email': 'Admin12345@gmail.com',
-                'password': '12345',
-                'phone': '911',
-                'bday': '01/01/2000',
-                'q1': 'N/A',
-                'a1': 'N/A',
-                'q2': 'N/A',
-                'a2': 'N/A',
-                'q3': 'N/A',
-                'a3': 'N/A',
-                'balance': 10000
-            }
-        ]), 200
 
     @api.route('/api/v1/stock/',methods=['GET','POST'])
     def get_stocks():
@@ -275,7 +290,6 @@ class Routes:
             codes += cs[i] + ","
             i += 1
         codes += cs[len(cs) - 1]
-
         connection = http.client.HTTPSConnection('sandbox.tradier.com')
         headers = {
             "Accept"        : "application/json",
@@ -288,7 +302,7 @@ class Routes:
 
         tmp = []
         i = 0
-        rand = random.randint(1,1000)
+        rand = 1
         if len(cs) > 1:
             while i < len(cs):
                     tmp.append({

@@ -19,15 +19,12 @@ const routes = [
 		route: "BlankPage",
 		caption: "Terms And Conditions",
 	},
-	{
-		route: "Login",
-		caption: "Logout",
-	},
 ];
 
 export interface Props {
 	navigation: any;
 	userStuff: any;
+	clear: any;
 }
 export interface State {}
 const resetAction = NavigationActions.reset({
@@ -35,6 +32,11 @@ const resetAction = NavigationActions.reset({
 	actions: [NavigationActions.navigate({ routeName: "Login" })],
 });
 export default class Sidebar extends React.Component<Props, State> {
+	logOut(){
+		this.props.clear();
+		this.props.navigation.navigate("Login")
+	}
+
 	render() {
 		return (
 			<Container>
@@ -58,6 +60,7 @@ export default class Sidebar extends React.Component<Props, State> {
 							);
 						}}
 					/>
+					<ListItem onPress={() => this.logOut()}><Text style={{color: "lightgreen"}}>Logout</Text></ListItem>
 				</Content>
 			</Container>
 		);

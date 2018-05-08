@@ -5,8 +5,8 @@ from api.serializer import Serializer
 
 def init(Base):
     class User_Stock(Base):
-        __tablename__ = 'User_Stocks'
-        uid    = Column(Integer, ForeignKey('Users.uid'))
+        __tablename__ = 'User_Stock'
+        uid    = Column(Integer, ForeignKey('User.uid'))
         name   = Column(String(10), unique=False)
         amount = Column(Integer, unique=False)
         PrimaryKeyConstraint(uid, name)

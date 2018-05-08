@@ -4,7 +4,7 @@ from api.serializer import Serializer
 
 def init(Base):
     class User(Base):
-        __tablename__ = 'Users'
+        __tablename__ = 'User'
         uid      = Column(Integer)
         username = Column(String(120), unique=True)
         email    = Column(String(120), unique=True)
