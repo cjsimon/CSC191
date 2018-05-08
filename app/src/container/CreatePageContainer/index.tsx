@@ -17,8 +17,8 @@ class CreatePageForm extends React.Component<Props, State> {
 		// needs to send front end data validated and sent to fetch for determined to be entered or error
 		// post user/pass return json string
 
-		// PUT BACK LATER localhost:5000
-		fetch("http://162.229.170.225:13337/api/v1/UserAccountApplicationVerification", {
+		// PUT BACK LATER 162.229.170.225:13337
+		fetch("http://localhost:5000/api/v1/UserAccountApplicationVerification", {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json'

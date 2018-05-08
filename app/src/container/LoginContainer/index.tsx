@@ -4,7 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import Login from "../../stories/screens/Login";
 import {userInfo} from "../../container/CreatePageContainer";
 import {accountCreate} from "../../container/SecurityQContainer";
-import {setStock} from "../../container/PortfolioContainer";
+//import {setStock} from "../../container/PortfolioContainer";
 
 
 export interface Props {
@@ -65,9 +65,9 @@ class LoginForm extends React.Component<Props, State> {
 		//this.debugAdminFunction()
 		// JUST READ FROM THE DATABASE POST REQUEST TO THE BACKEND TO DETERMINE TRUE OR FALSE IF VALID LOGIN
 		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
-		// CHANGE LATER localhost:5000
+		// CHANGE LATER 162.229.170.225:13337
 		const {navigate} = this.props.navigation;
-		fetch("http://162.229.170.225:13337/api/v1/Login", {
+		fetch("http://localhost:5000/api/v1/Login", {
 			method: 'POST',
 			headers :
 			{
@@ -79,7 +79,7 @@ class LoginForm extends React.Component<Props, State> {
 		.then(function(response) {
 			return response.json();
 	  }).then(function(data){
-				passText = data[0].resp;
+				var passText = data[0].resp;
 				if(passText == "True")
 					passable = true;
 				else
