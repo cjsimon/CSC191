@@ -3,6 +3,7 @@ import smtplib
 import http.client
 import random
 import requests
+import datetime
 from flask import Blueprint, url_for, request, jsonify, abort
 from sqlalchemy import text
 class Routes:
@@ -12,6 +13,10 @@ class Routes:
         global db # self cannot be passed in blueprint route definitions
         db = database
 
+    @api.route('/demo')
+    def demoThings():
+        showtime = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
+        return jsonify({"value":showtime}), 200
 
     @api.route('/users/', methods=['GET', 'POST'])
     def users():
@@ -109,21 +114,48 @@ class Routes:
     @api.route('/api/v1/AccountCreation', methods = ['POST'])
     def process_account_creation():
         data = request.get_json() #stores all relevant info
-        #username
-        #email
-        #password
-        #phone
-        #bday
-        #q1
-        #a1
-        #q2
-        #a2
-        #q3
-        #a3
 
-        #SQL QUERY HERE
-        #INSERT INTO users info from data
-        return jsonify(response=response), 204
+        maxIndex = 0
+        with db.engine.connect() as connection:
+
+            # Prepare and execute the sql with the the provided repalcement paramaters
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select count(uid) from User;"
+                )
+            )
+            for row in results:
+                maxIndex = row["count(uid)"]
+            maxIndex += 1
+            tmpBday = ""
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "insert into User(uid,username,email,birthday,phone) values (:uid,:username,:email,:birthday,:phone);"),
+                uid=maxIndex,
+                username=data["username"],
+                email=data["email"],
+                birthday=data["bday"],
+                phone=data["phone"]
+                )
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "insert into User_Security(uid,q1,a1,q2,a2,q3,a3,password) values (:uid,:q1,:a1,:q2,:a2,:q3,:a3,:password);"),
+                uid=maxIndex,
+                password=data["password"],
+                q1=data["q1"],
+                a1=data["a1"],
+                q2=data["q2"],
+                a2=data["a2"],
+                q3=data["q3"],
+                a3=data["a3"]
+                )
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "insert into User_Balance(uid,balance) values (:uid,:balance);"),
+                uid=maxIndex,
+                balance=10000
+                )
+        return '', 200
 
     @api.route('/api/v1/Login',methods = ['POST'])
     def process_login():
@@ -136,6 +168,7 @@ class Routes:
         a = ["","",""]
         phone = ""
         bday = ""
+        balance = ""
         #SQL QUERY HERE
         #SELECT username FROM users WHERE users.username=username AND users.password=password
         #save the amount of results into rows
@@ -162,6 +195,14 @@ class Routes:
                 a[2] = row["a3"]
                 phone = row["phone"]
                 bday = row["birthday"]
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select User_Balance.balance from User, User_Balance where User.uid = User_Balance.uid AND User.uid = :uid;"
+                ),
+                uid = uid
+            )
+            for row in results:
+                balance = row["balance"];
 
         resp = False
         if uid != 0:
@@ -179,7 +220,7 @@ class Routes:
         "a2":a[1],
         "q3":q[2],
         "a3":a[2],
-        "balance":10000}]), 200
+        "balance":balance}]), 200
 
     @api.route('/api/v1/Update')
     def process_update_request():
@@ -241,6 +282,129 @@ class Routes:
         server.login(pEmail, pPass)
         server.sendmail(pEmail, targete["email"], "HEY YOUR FRIEND WANTED THIS!!!")
         return jsonify(""), 200
+
+    @api.route('/api/v1/sellStocks', methods=['GET', 'POST'])
+    def sellStocks():
+        targ = request.get_json()
+        uid = 0
+        needUpdate = 0
+        with db.engine.connect() as connection:
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "select User.uid from User, User_Security where User.username = :username and User_Security.password = :password and User.uid = User_Security.uid;"
+                ),
+                username = targ["username"],
+                password = targ["password"]
+            )
+            for row in results:
+                uid = row["uid"]
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "select User_Stock.amount from User_Stock where User_Stock.uid = :uid and User_Stock.name = :name;"
+                ),
+                uid = uid,
+                name = targ["name"],
+            )
+            for row in results:
+                needUpdate= row["amount"]
+            if needUpdate - targ["amount"] <= 0:
+                results = connection.execute(
+                    text( # Prepare the raw sql statement
+                    "delete from User_Stock where User_Stock.uid = :uid and User_Stock.name = :name;"
+                    ),
+                    uid = uid,
+                    name = targ["name"],
+                )
+            else:
+                results = connection.execute(
+                    text( # Prepare the raw sql statement
+                    "update User_Stock set User_Stock.amount = User_Stock.amount - :amount where User_Stock.uid = :uid and User_Stock.name = :name;"
+                    ),
+                    uid = uid,
+                    amount = targ["amount"],
+                    name = targ["name"],
+                )
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "insert into User_Historie(uid,stock,time,amount,bought_or_sold) values (:uid,:stock,:time,:amount,:bought_or_sold);"
+                ),
+                uid = uid,
+                stock = targ["name"],
+                time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                amount = targ["amount"],
+                bought_or_sold = targ["type"]
+
+            )
+
+        return jsonify({ 'Sell': "Stocks" }), 200
+
+
+    @api.route('/api/v1/buyStocks', methods=['GET', 'POST'])
+    def buyStockS():
+        targ = request.get_json()
+        #print(targ["name"]+" "+str(targ["amount"])+" "+targ["type"]+" "+targ["username"]+" "+targ["password"])
+        uid = 0
+        needUpdate = 0
+        with db.engine.connect() as connection:
+
+            # Prepare and execute the sql with the the provided repalcement paramaters
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "select User.uid from User, User_Security where User.username = :username and User_Security.password = :password and User.uid = User_Security.uid;"
+                ),
+                username = targ["username"],
+                password = targ["password"]
+            )
+            for row in results:
+                uid = row["uid"]
+            #print (str(uid) +" "+targ["username"])
+
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "select count(*) from User_Stock where User_Stock.uid = :uid and User_Stock.name = :name;"
+                ),
+                uid = uid,
+                name = targ["name"],
+            )
+            for row in results:
+                needUpdate= row["count(*)"]
+            if needUpdate <= 0:
+                results = connection.execute(
+                    text( # Prepare the raw sql statement
+                    "insert into User_Stock(uid,name,amount) values (:uid,:name,:amount);"
+                    ),
+                    uid = uid,
+                    name = targ["name"],
+                    amount = targ["amount"]
+                )
+            else:
+                results = connection.execute(
+                    text( # Prepare the raw sql statement
+                    "update User_Stock set User_Stock.amount = User_Stock.amount + :amount where User_Stock.uid = :uid and User_Stock.name = :name;"
+                    ),
+                    uid = uid,
+                    name = targ["name"],
+                    amount = targ["amount"]
+                )
+
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "insert into User_Historie(uid,stock,time,amount,bought_or_sold) values (:uid,:stock,:time,:amount,:bought_or_sold);"
+                ),
+                uid = uid,
+                stock = targ["name"],
+                time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                amount = targ["amount"],
+                bought_or_sold = targ["type"]
+
+            )
+
+
+
+        return jsonify({ 'Buy': "Stocks" }), 200
+
+
+
 
     @api.route('/api/v1/stock/',methods=['GET','POST'])
     def get_stocks():

@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Float
 from sqlalchemy import ForeignKey, PrimaryKeyConstraint, ForeignKeyConstraint
 from api.serializer import Serializer
 
@@ -8,6 +8,7 @@ def init(Base):
         __tablename__ = 'User_Security'
         uid      = Column(Integer, ForeignKey('User.uid'))
         password = Column(String(120), unique=False)
+        balance = Column(Float, unique=False)
         q1       = Column(String(120), unique=False)
         q2       = Column(String(120), unique=False)
         q3       = Column(String(120), unique=False)
@@ -16,11 +17,12 @@ def init(Base):
         a3       = Column(String(120), unique=False)
         PrimaryKeyConstraint(uid)
 
-        def __init__(self, uid=None, password=None,
+        def __init__(self, uid=None, password=None,balance=None,
                      q1=None, q2=None, q3=None,
                      a1=None, a2=None, a3=None):
-            self.uid      = uid
+            self.uid = uid
             self.password = password
+            self.balance = balance
             self.q1       = q1
             self.q2       = q2
             self.q3       = q3

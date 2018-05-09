@@ -107,6 +107,17 @@ class CreatePageForm extends React.Component<Props, State> {
 		}
 		if(!/\d\d\/\d\d\/\d\d\d\d/.test(userInfo[4]) && !/\d\d\d\d\d\d\d\d/.test(userInfo[4]))
 			ans += "Please Enter a valid Digit and/or mm/dd/yyyy format\n"
+		else if(/\d\d\/\d\d\/\d\d\d\d/.test(userInfo[4]))
+			userInfo[4] =
+			userInfo[4].charAt(0)
+			+userInfo[4].charAt(1)
+			+userInfo[4].charAt(3)
+			+userInfo[4].charAt(4)
+			+userInfo[4].charAt(6)
+			+userInfo[4].charAt(7)
+			+userInfo[4].charAt(8)
+			+userInfo[4].charAt(9)
+			+userInfo[4].charAt(10)
 		return ans;
 	}
 

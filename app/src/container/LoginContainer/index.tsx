@@ -4,7 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import Login from "../../stories/screens/Login";
 import {userInfo} from "../../container/CreatePageContainer";
 import {accountCreate} from "../../container/SecurityQContainer";
-//import {setStock} from "../../container/PortfolioContainer";
+import {setStock} from "../../container/PortfolioContainer";
 
 
 export interface Props {
@@ -62,7 +62,6 @@ class LoginForm extends React.Component<Props, State> {
 	}
 
 	login() {
-		//this.debugAdminFunction()
 		// JUST READ FROM THE DATABASE POST REQUEST TO THE BACKEND TO DETERMINE TRUE OR FALSE IF VALID LOGIN
 		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
 		// CHANGE LATER 162.229.170.225:13337
@@ -87,14 +86,13 @@ class LoginForm extends React.Component<Props, State> {
 				if(passable)
 				{
 					// REMOVE THIS IF NEEDED.... OR AT LEAST MODIFIED
-					/*fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
+					fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
 						return response.json();
 				  }).then(function(data) {
-						var tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + ""]
+						var tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + "",data[0].TodayPrice,1+""]
 						setStock(tmp)
-						navigate("AskQV");
 						passable = false;
-					})*/
+					})
 					userStuff = data[0]
 					navigate("AskQV");
 					passable = false;

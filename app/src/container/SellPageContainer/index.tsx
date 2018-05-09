@@ -2,6 +2,7 @@ import * as React from "react";
 import SellPage from "../../stories/screens/SellPage";
 import {Text, Button,Content, Left, Right, Toast, Card, CardItem} from "native-base"
 import {updateStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
+import {userStuff} from "../../container/LoginContainer";
 export interface Props {
 	navigation: any;
 }
@@ -24,6 +25,20 @@ export default class SellPageContainer extends React.Component<Props, State> {
 			//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
 		var tmp = (testShare*parseFloat(stockInfo[2])).toFixed(2)
 		updateGenAmm(tmp,false)
+		fetch("http://localhost:5000/api/v1/sellStocks",{
+		method: 'POST',
+		headers :
+		{
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			name: stockInfo[0],
+			amount: testShare,
+			type: 0,
+			username: userStuff.username,
+			password: userStuff.password
+		})
+		})
 		this.props.navigation.navigate("Portfolio")
 		testShare = 0
 	}
