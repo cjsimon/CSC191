@@ -8,7 +8,7 @@ def init(Base):
         __tablename__ = 'User_Security'
         uid      = Column(Integer, ForeignKey('User.uid'))
         password = Column(String(120), unique=False)
-        balance = Column(Float, unique=False)
+        balance  = Column(Float, unique=False)
         q1       = Column(String(120), unique=False)
         q2       = Column(String(120), unique=False)
         q3       = Column(String(120), unique=False)
@@ -22,7 +22,7 @@ def init(Base):
                      a1=None, a2=None, a3=None):
             self.uid = uid
             self.password = password
-            self.balance = balance
+            self.balance  = balance
             self.q1       = q1
             self.q2       = q2
             self.q3       = q3
