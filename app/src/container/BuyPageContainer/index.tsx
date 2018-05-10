@@ -1,7 +1,7 @@
 import * as React from "react";
 import BuyPage from "../../stories/screens/BuyPage";
 import {Text, Button,Content, Left, Right, Toast, Card, CardItem} from "native-base"
-import {updateStock,setStock,updateGenAmm,setHistory,gen_ammount} from "../../container/PortfolioContainer"
+import {updateStock,setStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
 import {userStuff} from "../../container/LoginContainer";
 export interface Props {
 	navigation: any;
@@ -47,10 +47,11 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 			amount: testShare,
 			type: 1,
 			username: userStuff.username,
-			password: userStuff.password
+			password: userStuff.password,
+			balance: userStuff.balance
 		})
 		})
-		this.props.navigation.navigate("Portfolio")
+		this.props.navigation.navigate("PortfolioDrawer")
 		testShare = 0
 		index = -1
 	}
@@ -61,9 +62,9 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 		return <Text style={{fontSize: 20}}> Current Price: ${parseFloat(stockInfo[2]).toFixed(2)} </Text>
 	}
 	incr(select) {
-		if(select && gen_ammount > (testShare*parseFloat(stockInfo[2])))
+		if(select && userStuff.balance > (testShare*parseFloat(stockInfo[2])))
 		{
-			if(gen_ammount < ((testShare+1)*(parseFloat(stockInfo[2]))))
+			if(userStuff.balance < ((testShare+1)*(parseFloat(stockInfo[2]))))
 			{
 				Toast.show({
 					text: "Balance has reached it's limit.",

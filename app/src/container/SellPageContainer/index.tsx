@@ -36,10 +36,11 @@ export default class SellPageContainer extends React.Component<Props, State> {
 			amount: testShare,
 			type: 0,
 			username: userStuff.username,
-			password: userStuff.password
+			password: userStuff.password,
+			balance: userStuff.balance
 		})
 		})
-		this.props.navigation.navigate("Portfolio")
+		this.props.navigation.navigate("PortfolioDrawer")
 		testShare = 0
 	}
 	renderTitle() {

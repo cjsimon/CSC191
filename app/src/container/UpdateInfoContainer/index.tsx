@@ -65,109 +65,42 @@ class UpdateInfoForm extends React.Component<Props, State> {
 
 	onCreate() {
 		var ans = this.isValid();
-		//var tmpId = -1
-		var ans = this.isValid();
 		//const {navigate} = this.props.navigation;
+
 		// KILL IT WITH FIRE aka
 		// POST EVERYTHING REPLACE IN DB AND RETURN STRING IN JSON WITH RESULTS
-		fetch("http://162.229.170.225:13337/api/v1/Update", {
-			method: 'POST',
-			headers :
-			{
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				username: userInfo[0],
-				email: userInfo[1],
-				oldemail: userStuff.email,
-				password: userInfo[2]})
-		}).then(function(response){
-			return response.json();
-		})/*.then(function(data) {
-			for(var i=0; i<data.length; i++)
-			{
-				if(userInfo[0] == data[i].username && userStuff.username != data[i].username)
-				{
-					ans += "This User Exists. Please Enter a Valid Username\n"
-				}
+		//162.229.170.225:13337
 
-				if(userInfo[1] == data[i].email && userStuff.username != data[i].username)
-				{
-					ans += "This Email Exists. Please Enter a Valid Email\n"
-				}
-			}
-		})*/.then(function(data) {
-			ans = data[0].response;
-			if(ans == ""){
-				userStuff.username = userInfo[0];
-				userStuff.email = userInfo[1];
-				userStuff.password = userInfo[2];
-				/*
-				fetch("http://162.229.170.225:13337/api/v1/Update")
-			  .then(function(response) {
-					return response.json();
-			  }).then(function(data) {
-					for(var i=0; i<data.length; i++)
+		fetch("http://localhost:5000/api/v1/UserAccountApplicationVerification", {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json'
+			},
+			body: JSON.stringify({username: userInfo[0],email: userInfo[1]}),
+		}).then(function(response) {
+			return response.json();
+		}).then(function(data) {
+			ans += data.message
+			if(ans == "")
+			{
+				fetch("http://localhost:5000/api/v1/Update", {
+					method: 'POST',
+					headers :
 					{
-						if(userStuff.username == data[i].username && userStuff.password == data[i].password
-							&& userStuff.email == data[i].email)
-						{
-							tmpId = data[i].id;
-							passable = true;
-							fetch("http://localhost:3000/users/" + tmpId, {
-								method: 'delete'
-							}).then(response =>
-								response.json().then(json => {
-									return json;
-								})
-							)
-						}
-					}
-				}).then( () => {
-						if(passable){
-							passable = false;
-							userStuff.username = userInfo[0];
-							userStuff.email = userInfo[1];
-							userStuff.password = userInfo[2];
-							navigate("Drawer");
-							fetch("http://localhost:3000/users/", {
-								method: 'POST',
-								headers :
-								{
-								'Accept': 'application/json',
-								'Content-Type': 'application/json',
-								},
-								body: JSON.stringify({
-									username: userInfo[0],
-									email: userInfo[1],
-									password: userInfo[2],
-									phone: userStuff.phone,
-									bday: userStuff.bday,
-									q1: userStuff.q1,
-									a1: userStuff.a1,
-									q2: userStuff.q2,
-									a2: userStuff.a2,
-									q3: userStuff.q3,
-									a3: userStuff.a3,
-									id: tmpId})
-							})
-							Toast.show({
-								text: "Thank you for updating "+userStuff.username,
-								duration: 2000,
-								position: "top",
-								textStyle: { textAlign: "center" },
-							});
-						}else{
-							Toast.show({
-								text: "Enter Valid Username and/or Password!",
-								duration: 2000,
-								position: "top",
-								textStyle: { textAlign: "center" },
-							});
-						}
-		    });
-				*/
-			}else{
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						username: userInfo[0],
+						email: userInfo[1],
+						oldemail: userStuff.email,
+						password: userInfo[2]})
+				}).then(function(response){
+					return response.json();
+				})
+
+			}
+			else
+			{
 				Toast.show({
 					text: ans,
 					duration: 2000,

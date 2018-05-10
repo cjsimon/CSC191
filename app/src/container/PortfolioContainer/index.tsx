@@ -5,6 +5,7 @@ import {StatusBar} from 'react-native';
 import {setStockCode,setSellShare,TruSetIndex,setExists} from "../../container/TruChartContainer"
 import {setStockInfo,setIndex} from "../../container/BuyPageContainer"
 import {setSellStockInfo,setSellIndex} from "../../container/SellPageContainer"
+import {userStuff} from "../../container/LoginContainer";
 //import {userStuff} from "../../container/LoginContainer"asdfasdf
 
 export interface Props {
@@ -16,7 +17,6 @@ var stockInfo = []
 var stockHist = []
 
 var textInput = "";
-export var gen_ammount = 10000.00;
 
 export function clearAllStocks() {
 	stockInfo = []
@@ -42,7 +42,7 @@ export function updateStock(share,index,bors) {
 	}
 }
 export function updateGenAmm(targ,bo) {
-	var tmp = gen_ammount
+	var tmp = userStuff.balance
 	if(bo)
 	{
 		tmp -= parseFloat(targ)
@@ -51,7 +51,19 @@ export function updateGenAmm(targ,bo) {
 	{
 		tmp += parseFloat(targ)
 	}
-	gen_ammount = tmp
+	userStuff.balance = tmp
+	fetch('http://localhost:5000/api/v1/updateBalance/',{
+	method: 'POST',
+	headers :
+	{
+		'Content-Type': 'application/json'
+	},
+	body: JSON.stringify({
+		username: userStuff.username,
+		password: userStuff.password,
+		balance: userStuff.balance
+	})
+	})
 }
 
 
@@ -320,7 +332,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 					<Left />
 				</CardItem>
 					<Body>
-					<Text> ${gen_ammount.toFixed(2)} </Text>
+					<Text> ${userStuff.balance.toFixed(2)} </Text>
 					</Body>
 				<CardItem style={{ backgroundColor:"grey"}}>
 					<Right />
@@ -402,7 +414,6 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 		}
 	}
 	render() {
-
 		var form = this.renderButton();
 		var form2 = this.renderPort();
 		var form3 = this.renderHist();

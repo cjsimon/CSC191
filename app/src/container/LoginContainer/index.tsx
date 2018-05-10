@@ -4,7 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import Login from "../../stories/screens/Login";
 import {userInfo} from "../../container/CreatePageContainer";
 import {accountCreate} from "../../container/SecurityQContainer";
-import {setStock} from "../../container/PortfolioContainer";
+import {setStock,setHistory} from "../../container/PortfolioContainer";
 
 
 export interface Props {
@@ -86,13 +86,46 @@ class LoginForm extends React.Component<Props, State> {
 				if(passable)
 				{
 					// REMOVE THIS IF NEEDED.... OR AT LEAST MODIFIED
-					fetch("http://localhost:5000/api/v1/stocks/").then(function(response) {
+					fetch("http://localhost:5000/api/v1/stocks/",{
+						method: 'POST',
+						headers :
+						{
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({username: userInfo[0],
+							password: userInfo[2]})
+					}).then(function(response) {
 						return response.json();
 				  }).then(function(data) {
-						var tmp = [data[0].code+"",data[0].name + "",data[0].change + "",data[0].changeP + "",data[0].TodayPrice,1+""]
-						setStock(tmp)
-						passable = false;
+						var tmp;
+						for(var i=0; i<data.length; i++) {
+							tmp = [data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice,data[i].shares]
+							if(tmp.shares != -1)
+								setStock(tmp)
+						}
 					})
+
+					fetch("http://localhost:5000/api/v1/stocksHistory/",{
+						method: 'POST',
+						headers :
+						{
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({username: userInfo[0],
+							password: userInfo[2]})
+					}).then(function(response) {
+						return response.json();
+				  }).then(function(data) {
+						var tmp;
+						for(var i=0; i<data.length; i++) {
+							tmp = [data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice,data[i].shares]
+							if(tmp.shares != -1) {
+								setHistory(tmp)
+							}
+						}
+					})
+
+
 					userStuff = data[0]
 					navigate("AskQV");
 					passable = false;

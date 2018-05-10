@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Home from "../../stories/screens/Home";
-import { Text , Button, Icon, Item, Input} from "native-base";
+import { Text , Button, Icon, Item, Input, Toast} from "native-base";
 import datas from "./data";
 import { fetchList } from "./actions";
 import { WebView, Image} from 'react-native';
@@ -44,8 +44,32 @@ class HomeContainer extends React.Component<Props, State> {
 
 	}
 	update() {
-		url = "https://www.tradingview.com/symbols/"+textHolder;
-		this.forceUpdate();
+		fetch("http://localhost:5000/api/v1/stock/", {
+			method: 'POST',
+			headers :
+			{
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({"code":textHolder})
+		}).then(function(response) {
+			return response.json();
+		}).then(function(data) {
+			var tmp = data
+			if(tmp.valid == "True")
+			{
+				url = "https://www.tradingview.com/symbols/"+textHolder;
+				this.forceUpdate();
+			}
+			else {
+				Toast.show({
+					text: "Enter in a valid Stock Code",
+					duration: 2000,
+					position: "top",
+					textStyle: { textAlign: "center" },
+				});
+			}
+		})
 	}
 	render() {
 		var form = (
