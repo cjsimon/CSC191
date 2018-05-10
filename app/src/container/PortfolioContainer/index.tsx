@@ -289,7 +289,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			<Button onPress={() => this.goTruChartPort(stockInfo[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
 				<Left>
-					<Text> {stockInfo[num-1][0] + "\n$"+ stockInfo[num-1][4].toFixed(2)} </Text>
+					<Text> {stockInfo[num-1][0] + "\n$"+ stockInfo[num-1][4]} </Text>
 				</Left>
 				<Title>
 					<Text> {stockInfo[num-1][5]} </Text>
@@ -313,7 +313,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			<Button onPress={() => this.goTruChartHist(stockHist[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
 				<Left>
-					<Text> {stockHist[num-1][0]  +"\n$"+ stockHist[num-1][4].toFixed(2)} </Text>
+					<Text> {stockHist[num-1][0]  +"\n$"+ stockHist[num-1][4]} </Text>
 				</Left>
 				<Title>
 					<Text> {stockHist[num-1][5] + " "+ this.boughtOrSold(stockHist[num-1][6])} </Text>
