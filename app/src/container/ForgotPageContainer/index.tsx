@@ -1,6 +1,7 @@
 import * as React from "react";
 import ForgotPage from "../../stories/screens/ForgotPage";
 import { Toast, Content, Item, Label, Input, View, Button, Text } from "native-base";
+import {fetchUrl} from "../../container/LoginContainer";
 export interface Props {
 	navigation: any;
 }
@@ -14,7 +15,7 @@ export default class ForgotPageContainer extends React.Component<Props, State> {
 			position: "top",
 			textStyle: { textAlign: "center" },
 		});
-		fetch("http://localhost:5000/api/v1/email1", {
+		fetch("http://"+fetchUrl+"/api/v1/email1", {
 			method: "POST",
 			headers: {
 				"Accept": "application/json",

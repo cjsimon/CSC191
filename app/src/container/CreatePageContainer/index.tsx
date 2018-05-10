@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Form, Item, Input, Toast, Label } from "native-base";
 import { Field, reduxForm} from "redux-form";
+import {fetchUrl} from "../../container/LoginContainer";
 import CreatePage from "../../stories/screens/CreatePage";
 export interface Props {
 	valid: boolean;
@@ -18,7 +19,7 @@ class CreatePageForm extends React.Component<Props, State> {
 		// post user/pass return json string
 
 		// PUT BACK LATER 162.229.170.225:13337
-		fetch("http://localhost:5000/api/v1/UserAccountApplicationVerification", {
+		fetch("http://"+fetchUrl+"/api/v1/UserAccountApplicationVerification", {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json'

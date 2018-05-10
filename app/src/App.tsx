@@ -16,15 +16,7 @@ import SecurityQ from "./container/SecurityQContainer";
 import AskQV from "./container/AskQVContainer";
 import AccountSetting from "./container/AccountSettingContainer";
 import Portfolio from "./container/PortfolioContainer";
-import Messager from "./container/MessagerContainer";
-import Share from "./container/ShareContainer"
-import History from "./container/HistoryContainer"
-import Purchase from "./container/PurchaseContainer"
-import LeaderBoard from "./container/LeaderBoardContainer"
 import Notification from "./container/NotificationContainer"
-import ManageAccount from "./container/ManageAccountContainer"
-import ProfileVis from "./container/ProfileVisContainer"
-import ManageBlock from "./container/ManageBlockContainer"
 import AskQV2 from "./container/AskQV2Container";
 import UpdateInfo from "./container/UpdateInfoContainer";
 import ReferPage from "./container/ReferPageContainer";
@@ -47,17 +39,6 @@ const Drawer = DrawerNavigator(
 		contentComponent: props => <Sidebar {...props} />,
 	},
 );
-/*const TruDrawer = DrawerNavigator(
-	{
-		TruChart: {screen: TruChart},
-	},
-	{
-		drawerWidth: deviceWidth - 50,
-		drawerPosition: "right",
-		// NEED TO COMMENT IT OUT BEFORE BUILD UP
-		contentComponent: props => <TruFilter {...props} />,
-	}
-)*/
 const PortfolioDrawer = DrawerNavigator(
 	{
 		Portfolio: {screen: Portfolio}
@@ -97,15 +78,7 @@ const App = StackNavigator(
 		AskQV: {screen: AskQV},
 		AccountSetting: {screen: AccountSetting},
 		Portfolio: {screen: Portfolio},
-		Messager: {screen: Messager},
-		Share: {screen: Share},
-		History: {screen: History},
-		Purchase: {screen: Purchase},
-		LeaderBoard: {screen: LeaderBoard},
 		Notification: {screen: Notification},
-		ManageAccount: {screen: ManageAccount},
-		ProfileVis: {screen: ProfileVis},
-		ManageBlock: {screen: ManageBlock},
 		AskQV2: {screen: AskQV2},
 		ReferPage: {screen: ReferPage},
 		UpdateInfo: {screen: UpdateInfo},

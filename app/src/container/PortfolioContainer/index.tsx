@@ -5,8 +5,7 @@ import {StatusBar} from 'react-native';
 import {setStockCode,setSellShare,TruSetIndex,setExists} from "../../container/TruChartContainer"
 import {setStockInfo,setIndex} from "../../container/BuyPageContainer"
 import {setSellStockInfo,setSellIndex} from "../../container/SellPageContainer"
-import {userStuff} from "../../container/LoginContainer";
-//import {userStuff} from "../../container/LoginContainer"asdfasdf
+import {userStuff,fetchUrl} from "../../container/LoginContainer";
 
 export interface Props {
 	navigation: any;
@@ -52,7 +51,7 @@ export function updateGenAmm(targ,bo) {
 		tmp += parseFloat(targ)
 	}
 	userStuff.balance = tmp
-	fetch('http://localhost:5000/api/v1/updateBalance/',{
+	fetch("http://"+fetchUrl+"/api/v1/updateBalance/",{
 	method: 'POST',
 	headers :
 	{
@@ -69,7 +68,14 @@ export function updateGenAmm(targ,bo) {
 
 export default class PortfolioContainer extends React.Component<Props, State> {
 
-
+	boughtOrSold(num) {
+		if(num == 1)
+			return "Bought"
+		else if(num == 0)
+			return "Sold"
+		else
+			return "NaN"
+	}
 	validBuy() {
 		var doesExist = false;
 		var index = 0;
@@ -84,7 +90,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 		if(textInput != "")
 		{
 			const {navigate} = this.props.navigation;
-			fetch("http://localhost:5000/api/v1/stock/", {
+			fetch("http://"+fetchUrl+"/api/v1/stock/", {
 				method: 'POST',
 				headers :
 				{
@@ -142,7 +148,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 		{
 
 			const {navigate} = this.props.navigation;
-			fetch("http://localhost:5000/api/v1/stock/", {
+			fetch("http://"+fetchUrl+"/api/v1/stock/", {
 				method: 'POST',
 				headers :
 				{
@@ -283,7 +289,7 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			<Button onPress={() => this.goTruChartPort(stockInfo[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
 				<Left>
-					<Text> {stockInfo[num-1][0] + "\n$"+ stockInfo[num-1][4]} </Text>
+					<Text> {stockInfo[num-1][0] + "\n$"+ stockInfo[num-1][4].toFixed(2)} </Text>
 				</Left>
 				<Title>
 					<Text> {stockInfo[num-1][5]} </Text>
@@ -307,10 +313,10 @@ export default class PortfolioContainer extends React.Component<Props, State> {
 			<Button onPress={() => this.goTruChartHist(stockHist[num-1][0])} style={{height: 75, margin: 5, backgroundColor:"grey"}}>
 			<CardItem style={{backgroundColor:"grey"}}>
 				<Left>
-					<Text> {stockHist[num-1][0]  +"\n$"+ stockHist[num-1][4]} </Text>
+					<Text> {stockHist[num-1][0]  +"\n$"+ stockHist[num-1][4].toFixed(2)} </Text>
 				</Left>
 				<Title>
-					<Text> {stockHist[num-1][5] + " "+ stockHist[num-1][6]} </Text>
+					<Text> {stockHist[num-1][5] + " "+ this.boughtOrSold(stockHist[num-1][6])} </Text>
 				</Title>
 				<Right>
 					<Text> {parseFloat(stockHist[num-1][2]).toFixed(2)} </Text>

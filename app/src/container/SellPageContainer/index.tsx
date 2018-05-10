@@ -2,7 +2,7 @@ import * as React from "react";
 import SellPage from "../../stories/screens/SellPage";
 import {Text, Button,Content, Left, Right, Toast, Card, CardItem} from "native-base"
 import {updateStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
-import {userStuff} from "../../container/LoginContainer";
+import {userStuff,fetchUrl} from "../../container/LoginContainer";
 export interface Props {
 	navigation: any;
 }
@@ -21,11 +21,11 @@ export function setSellIndex(targ) {
 export default class SellPageContainer extends React.Component<Props, State> {
 	goBackUpdate() {
 		updateStock(testShare,index,true)
-		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare,"Sold\n"])
+		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare,0])
 			//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
 		var tmp = (testShare*parseFloat(stockInfo[2])).toFixed(2)
 		updateGenAmm(tmp,false)
-		fetch("http://localhost:5000/api/v1/sellStocks",{
+		fetch("http://"+fetchUrl+"/api/v1/sellStocks",{
 		method: 'POST',
 		headers :
 		{

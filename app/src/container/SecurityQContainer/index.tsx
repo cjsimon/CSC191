@@ -1,6 +1,7 @@
 import * as React from "react";
 import SecurityQ, {userQ, answersSQ} from "../../stories/screens/SecurityQ";
 import {userInfo} from "../../container/CreatePageContainer";
+import {fetchUrl} from "../../container/LoginContainer";
 
 export interface Props {
 	navigation: any;
@@ -17,7 +18,7 @@ export default class SecurityQContainer extends React.Component<Props, State> {
 		// POST EVERY MOTHER FUCKING THING INTO THE DATABASE!!!!
 		// aka POST EVERYTHING AND ENTER IN DATABASE
 		// 162.229.170.225:13337 DO IT LATER
-		fetch("http://localhost:5000/api/v1/AccountCreation", {
+		fetch("http://"+fetchUrl+"/api/v1/AccountCreation", {
 			method: 'POST',
 			headers :
 			{

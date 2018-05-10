@@ -13,12 +13,6 @@ class Routes:
         global db # self cannot be passed in blueprint route definitions
         db = database
 
-    @api.route('/demo')
-    def demoThings():
-        showtime = datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")
-        return jsonify({"value":showtime}), 200
-
-
     @api.route('/api/v1/updateBalance/', methods = ['GET','POST'])
     def updateBalance():
         data = request.get_json();
@@ -43,16 +37,105 @@ class Routes:
                 balance = balance,
                 uid = uid
             )
-        return '', 200
+        return jsonify(""), 200
+
+    @api.route('/api/v1/Update',methods = ['POST'])
+    def process_update_request():
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
+        username = data['username']
+        oldname = data["oldname"]
+        oldpass = data["oldpass"]
+        uid = 0;
+        with db.engine.connect() as connection:
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select * from User, User_Security where User.username = :oldname AND User.uid = User_Security.uid AND User_Security.password = :oldpass;"
+                ),
+                oldname = oldname,
+                oldpass = oldpass,
+            )
+            for row in results:
+                uid = row["uid"]
+            print (uid)
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                "update User set User.email = :email, User.username = :name where User.uid = :uid;"
+                ),
+                uid = uid,
+                email = email,
+                name = username,
+            )
+
+        return jsonify(""), 200
+
+    @api.route('/api/v1/UserUpdateVerification', methods = ['POST'])
+    def process_user_verification():
+        data = request.get_json()
+        email = data["email"]
+        username = data["username"]
+        oldname = data["oldname"]
+        oldmail = data["oldmail"]
+        oldpass = data["oldpass"]
+        checkUsername = 0
+        checkEmail = 0
+        uid = 0
+        status = "sucess"
+        message = ""
+        with db.engine.connect() as connection:
+            results = connection.execute(
+                text( # Prepare the raw sql statement
+                " select User.uid from User, User_Security where User.username = :oldname AND User.uid = User_Security.uid AND User.email = :oldemail AND User_Security.password = :oldpass;"
+                ),
+                oldname = oldname,
+                oldemail = oldmail,
+                oldpass = oldpass
+            )
+            for row in results:
+                uid = row["uid"]
+            print (uid)
+            if uid > 0:
+                results = connection.execute(
+                    text( # Prepare the raw sql statement
+                    " select count(email) from User where User.email = :email and not User.uid = :uid;"
+                    ),
+                    email = email,
+                    uid = uid
+                )
+                for row in results:
+                    checkEmail = row["count(email)"]
+
+                # Prepare and execute the sql with the the provided repalcement paramaters
+                results = connection.execute(
+                    text( # Prepare the raw sql statement
+                    " select count(username) from User where User.username = :username and not User.uid = :uid;"
+                    ),
+                    username = username,
+                    uid = uid,
+                )
+                for row in results:
+                    checkUsername = row["count(username)"]
+                if checkEmail != 0:
+                    status = 'error',
+                    message +=  'That email\'s already taken.\nPlease use another email.'
+
+                if checkUsername != 0:
+                    status = 'error',
+                    message +=  'That username\'s already taken.\nPlease use another username.'
+
+        response = {
+            'status': status,
+            'message': message,
+        }
+        return jsonify(response), 200
+
 
     @api.route('/api/v1/UserAccountApplicationVerification', methods = ['POST'])
     def process_user_account_request():
         data = request.get_json()
         email = data["email"]
         username = data["username"]
-        #SQL QUERY HERE EMAIL
-        #SELECT email, username FROM users WHERE users.email = [email] AND users.username = email
-        #save the amount of results into rows
         checkUsername = 0
         checkEmail = 0
         with db.engine.connect() as connection:
@@ -76,7 +159,6 @@ class Routes:
             )
             for row in results:
                 checkUsername = row["count(username)"]
-        rows = 1
         status = "sucess"
         message = ""
         if checkEmail != 0:
@@ -137,7 +219,7 @@ class Routes:
                 uid=maxIndex,
                 balance=10000
                 )
-        return '', 200
+        return jsonify(""), 200
 
     @api.route('/api/v1/Login',methods = ['POST'])
     def process_login():
@@ -204,35 +286,6 @@ class Routes:
         "a3":a[2],
         "balance":balance}]), 200
 
-    @api.route('/api/v1/Update')
-    def process_update_request():
-        data = request.get_json()
-        oldemail = data['oldemail']
-        email = data['email']
-        password = data['password']
-        username = data['username']
-
-        uid = 0;
-        with db.engine.connect() as connection:
-            results = connection.execute(
-                text( # Prepare the raw sql statement
-                " select * from User, User_Security where User.username = :username AND User.uid = User_Security.uid AND User_Security.password = :password;"
-                ),
-                username = username,
-                password = password
-            )
-            for row in results:
-                uid = row["uid"]
-            results = connection.execute(
-                text( # Prepare the raw sql statement
-                "update User set User.username = :name, User.password = :password where User.uid = :uid;"
-                ),
-                uid = uid,
-                name = targ["name"],
-                password = targ["password"]
-            )
-
-        return "", 200
 
     @api.route('/api/v1/')
     def process_request():
@@ -316,7 +369,7 @@ class Routes:
 
             )
 
-        return jsonify({ 'Sell': "Stocks" }), 200
+        return jsonify(""), 200
 
 
     @api.route('/api/v1/buyStocks', methods=['GET', 'POST'])
@@ -381,7 +434,7 @@ class Routes:
 
 
 
-        return jsonify({ 'Buy': "Stocks" }), 200
+        return jsonify(""), 200
 
 
 
@@ -492,7 +545,6 @@ class Routes:
                             'TodayPrice':   str(stuff["quotes"]["quote"][i]["open"]),
                             'shares':       share
                         })
-                        print (share)
                         i += 1
             else:
                 with db.engine.connect() as connection:
@@ -577,6 +629,7 @@ class Routes:
             tmp = []
             i = 0
             share = 0
+            bought_or_sold = 0;
             print(cs)
             if len(cs) > 1:
                 while i < len(cs):
@@ -584,40 +637,44 @@ class Routes:
 
                         results = connection.execute(
                             text( # Prepare the raw sql statement
-                            "select User_Histories.amount from User_Histories where User_Histories.uid = :uid and User_Histories.stock = :name;"
+                            "select User_Histories.amount, User_Histories.bought_or_sold from User_Histories where User_Histories.uid = :uid and User_Histories.stock = :name;"
                             ),
                             uid = uid,
                             name = cs[i]
                         )
                         for row in results:
                             share = row["amount"]
+                            bought_or_sold = row["bought_or_sold"]
                         tmp.append({
                             'name':         str(stuff["quotes"]["quote"][i]["description"]),
                             'change':       str(stuff["quotes"]["quote"][i]["change"]),
                             'changeP':      str(stuff["quotes"]["quote"][i]["change_percentage"]),
                             'code':         str(stuff["quotes"]["quote"][i]["symbol"]),
                             'TodayPrice':   str(stuff["quotes"]["quote"][i]["open"]),
-                            'shares':       share
+                            'shares':       share,
+                            'bought_or_sold': bought_or_sold
                         })
                         i += 1
             else:
                 with db.engine.connect() as connection:
                     results = connection.execute(
                         text( # Prepare the raw sql statement
-                        "select User_Histories.amount from User_Histories where User_Histories.uid = :uid and User_Histories.name = :name;"
+                        "select User_Histories.amount, User_Histories.bought_or_sold from User_Histories where User_Histories.uid = :uid and User_Histories.stock = :name;"
                         ),
                         uid = uid,
                         name = cs[i]
                     )
                     for row in results:
                         share = row["amount"]
+                        bought_or_sold = row["bought_or_sold"]
                 tmp.append({
                     'name':         str(stuff["quotes"]["quote"]["description"]),
                     'change':       str(stuff["quotes"]["quote"]["change"]),
                     'changeP':      str(stuff["quotes"]["quote"]["change_percentage"]),
                     'code':         str(stuff["quotes"]["quote"]["symbol"]),
                     'TodayPrice':   str(stuff["quotes"]["quote"]["open"]),
-                    'shares':       share
+                    'shares':       share,
+                    'bought_or_sold': bought_or_sold
                 })
         else:
             tmp = {
@@ -626,7 +683,7 @@ class Routes:
                 'changeP':      "NAN",
                 'code':         "NAN",
                 'TodayPrice':   "NAN",
-                'shares':       -1
+                'shares':       -1,
+                'bought_or_sold': -1
             }
-        print ("WORKS ")
         return jsonify(tmp), 200

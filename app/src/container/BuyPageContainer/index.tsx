@@ -2,7 +2,7 @@ import * as React from "react";
 import BuyPage from "../../stories/screens/BuyPage";
 import {Text, Button,Content, Left, Right, Toast, Card, CardItem} from "native-base"
 import {updateStock,setStock,updateGenAmm,setHistory} from "../../container/PortfolioContainer"
-import {userStuff} from "../../container/LoginContainer";
+import {userStuff,fetchUrl} from "../../container/LoginContainer";
 export interface Props {
 	navigation: any;
 }
@@ -34,9 +34,9 @@ export default class BuyPageContainer extends React.Component<Props, State> {
 				setStock([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+""])
 			//[data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice+"",data[i].shares]
 		}
-		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+"","Bought\n"])
+		setHistory([stockInfo[0],stockInfo[1],stockInfo[8],stockInfo[9],stockInfo[2],testShare+"",1])
 		updateGenAmm((testShare*parseFloat(stockInfo[2])).toFixed(2),true)
-		fetch("http://localhost:5000/api/v1/buyStocks",{
+		fetch("http://"+fetchUrl+"/api/v1/buyStocks",{
 		method: 'POST',
 		headers :
 		{

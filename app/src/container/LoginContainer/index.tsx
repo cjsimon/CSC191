@@ -13,6 +13,8 @@ export interface Props {
 }
 
 export var userStuff;
+//export var fetchUrl = "162.229.170.225:13337"
+export var fetchUrl = "localhost:5000"
 var passable = false;
 export interface State {}
 class LoginForm extends React.Component<Props, State> {
@@ -66,7 +68,7 @@ class LoginForm extends React.Component<Props, State> {
 		// POST USER/PASS RETURN VALID T/F AND ROW WITHOUT SECURITY PLUS ONE Q
 		// CHANGE LATER 162.229.170.225:13337
 		const {navigate} = this.props.navigation;
-		fetch("http://localhost:5000/api/v1/Login", {
+		fetch("http://"+fetchUrl+"/api/v1/Login", {
 			method: 'POST',
 			headers :
 			{
@@ -86,7 +88,7 @@ class LoginForm extends React.Component<Props, State> {
 				if(passable)
 				{
 					// REMOVE THIS IF NEEDED.... OR AT LEAST MODIFIED
-					fetch("http://localhost:5000/api/v1/stocks/",{
+					fetch("http://"+fetchUrl+"/api/v1/stocks/",{
 						method: 'POST',
 						headers :
 						{
@@ -105,7 +107,7 @@ class LoginForm extends React.Component<Props, State> {
 						}
 					})
 
-					fetch("http://localhost:5000/api/v1/stocksHistory/",{
+					fetch("http://"+fetchUrl+"/api/v1/stocksHistory/",{
 						method: 'POST',
 						headers :
 						{
@@ -118,7 +120,7 @@ class LoginForm extends React.Component<Props, State> {
 				  }).then(function(data) {
 						var tmp;
 						for(var i=0; i<data.length; i++) {
-							tmp = [data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice,data[i].shares]
+							tmp = [data[i].code+"",data[i].name + "",data[i].change + "",data[i].changeP + "",data[i].TodayPrice,data[i].shares,data[i].bought_or_sold]
 							if(tmp.shares != -1) {
 								setHistory(tmp)
 							}

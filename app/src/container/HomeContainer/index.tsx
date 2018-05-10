@@ -5,7 +5,7 @@ import { Text , Button, Icon, Item, Input, Toast} from "native-base";
 import datas from "./data";
 import { fetchList } from "./actions";
 import { WebView, Image} from 'react-native';
-//import {userStuff} from "../../container/LoginContainer";
+import {fetchUrl} from "../../container/LoginContainer";
 
 export interface Props {
 	navigation: any;
@@ -44,7 +44,7 @@ class HomeContainer extends React.Component<Props, State> {
 
 	}
 	update() {
-		fetch("http://localhost:5000/api/v1/stock/", {
+		fetch("http://"+fetchUrl+"/api/v1/stock/", {
 			method: 'POST',
 			headers :
 			{

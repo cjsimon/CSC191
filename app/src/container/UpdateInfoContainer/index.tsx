@@ -1,6 +1,6 @@
 import * as React from "react";
 import UpdateInfo from "../../stories/screens/UpdateInfo";
-import {userStuff} from "../../container/LoginContainer";
+import {userStuff,fetchUrl} from "../../container/LoginContainer";
 import { Form, Item, Input, Toast, Label } from "native-base";
 import { Field, reduxForm} from "redux-form";
 
@@ -65,39 +65,46 @@ class UpdateInfoForm extends React.Component<Props, State> {
 
 	onCreate() {
 		var ans = this.isValid();
-		//const {navigate} = this.props.navigation;
+		const {navigate} = this.props.navigation;
 
 		// KILL IT WITH FIRE aka
 		// POST EVERYTHING REPLACE IN DB AND RETURN STRING IN JSON WITH RESULTS
 		//162.229.170.225:13337
 
-		fetch("http://localhost:5000/api/v1/UserAccountApplicationVerification", {
+		fetch("http://"+fetchUrl+"/api/v1/UserUpdateVerification", {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json'
 			},
-			body: JSON.stringify({username: userInfo[0],email: userInfo[1]}),
+			body: JSON.stringify({
+				username: userInfo[0],
+				email: userInfo[1],
+				oldname: userStuff.username,
+				oldmail: userStuff.email,
+				oldpass: userStuff.password,
+			}),
 		}).then(function(response) {
 			return response.json();
 		}).then(function(data) {
 			ans += data.message
 			if(ans == "")
 			{
-				fetch("http://localhost:5000/api/v1/Update", {
+				fetch("http://"+fetchUrl+"/api/v1/Update", {
 					method: 'POST',
 					headers :
 					{
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify({
+						oldname: userStuff.username,
+						oldpass: userStuff.password,
 						username: userInfo[0],
 						email: userInfo[1],
-						oldemail: userStuff.email,
 						password: userInfo[2]})
 				}).then(function(response){
 					return response.json();
 				})
-
+				navigate("Drawer")
 			}
 			else
 			{

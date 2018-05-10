@@ -5,6 +5,7 @@ import {Title, Text, Button, FooterTab, Toast } from "native-base";
 import {stockCode,setCode,typeGraph,startDate,endDate,areaSI,cycle} from "../../container/TruFilterContainer"
 import {setStockInfo,setIndex} from "../../container/BuyPageContainer"
 import {setSellStockInfo,setSellIndex} from "../../container/SellPageContainer"
+import {fetchUrl} from "../../container/LoginContainer";
 export interface Props {
 	navigation: any;
 }
@@ -32,7 +33,7 @@ export default class TruChartContainer extends React.Component<Props, State> {
 
 	goBuy() {
 		const {navigate} = this.props.navigation;
-		fetch("http://localhost:5000/api/v1/stock/", {
+		fetch("http://"+fetchUrl+"/api/v1/stock/", {
 			method: 'POST',
 			headers :
 			{
@@ -63,7 +64,7 @@ export default class TruChartContainer extends React.Component<Props, State> {
 	}
 	goSell(){
 		const {navigate} = this.props.navigation;
-		fetch("http://localhost:5000/api/v1/stock/", {
+		fetch("http://"+fetchUrl+"/api/v1/stock/", {
 			method: 'POST',
 			headers :
 			{
